@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.linghe.shiliao.mapper.CasesMapper">
+
+<!--    查询总条数total-->
+    <select id="getList" resultType="com.linghe.shiliao.entity.dto.CasesDto">
+        select t1.user_id, t1.name, t1.age, t1.gender, t1.phone, t1.email, t1.health, t1.user_name, t1.password,
+        t1.status, t1.cases_id, t1.rule_id, t1.remark, t1.create_time, t1.update_time, t2.diagnosis, t2.feedback,
+        t2.cases_url, t2.cases_img_url
+        from user_message as t1
+        left join cases as t2 on t1.cases_id = t2.cases_id
+        <where>
+            <if test="'name' != null and name != ''">and t1.name like concat('%',#{name},'%')</if>
+            <if test="'phone' != null and phone != ''">and t1.phone like concat('%',#{phone},'%')</if>
+            <if test="'health' != null and health != ''">and t1.health = #{health}</if>
+        </where>
+        <if test="startSize != null and startSize != '' and pageSize != null and pageSize != ''">
+            limit #{startSize}, #{pageSize}
+        </if>
+    </select>
+
+<!--    分页查询病历信息-->
+    <select id="getTotal" resultType="java.lang.Long">
+        select count(case_id) from case
+    </select>
+</mapper>

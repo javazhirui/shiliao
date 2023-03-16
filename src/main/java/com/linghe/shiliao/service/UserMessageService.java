@@ -2,8 +2,8 @@ package com.linghe.shiliao.service;
 
 import com.linghe.shiliao.entity.UserMessage;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.linghe.shiliao.entity.dto.ResponseResult;
 import com.linghe.shiliao.entity.vo.UserMessageVo;
+import com.linghe.shiliao.utils.Page;
 
 /**
  * <p>
@@ -20,5 +20,5 @@ public interface UserMessageService extends IService<UserMessage> {
      * @param userVo
      * @return
      */
-    ResponseResult getList(UserMessageVo userVo);
+    Page<UserMessage> getList(UserMessageVo userVo);
 }

@@ -4,10 +4,10 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/shiliao?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
     username: root
-    password: root
+    password: 123456
 mybatis:
   config-location: classpath:mybatis/mybatis.xml
-  mapper-locations: classpath:mybatis/mapper/*.xml
+#  mapper-locations: classpath:mapper/*Mapper.xml
 
 mybatis-plus:
   configuration:

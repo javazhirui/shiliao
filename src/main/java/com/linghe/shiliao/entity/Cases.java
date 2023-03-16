@@ -18,15 +18,15 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class Case implements Serializable {
+public class Cases implements Serializable {
 
     private static final long serialVersionUID=1L;
 
     /**
      * 病例id
      */
-    @TableId(value = "case_id", type = IdType.ASSIGN_ID)
-    private Integer caseId;
+    @TableId(value = "cases_id", type = IdType.ASSIGN_ID)
+    private Integer casesId;
 
     /**
      * 诊断结果
@@ -41,12 +41,12 @@ public class Case implements Serializable {
     /**
      * 食疗视频路径
      */
-    private String caseUrl;
+    private String casesUrl;
 
     /**
      * 病例图片路径
      */
-    private String caseImgUrl;
+    private String casesImgUrl;
 
 
 }

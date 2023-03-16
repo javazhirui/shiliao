@@ -104,6 +104,13 @@
             <artifactId>mybatis-plus-extension</artifactId>
             <version>3.5.1</version>
         </dependency>
+
+        <!--        简单导入导出excel-->
+        <dependency>
+            <groupId>com.xuxueli</groupId>
+            <artifactId>xxl-tool</artifactId>
+            <version>1.2.0</version>
+        </dependency>
     </dependencies>
 
     <build>

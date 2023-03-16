@@ -3,19 +3,22 @@ package com.linghe.shiliao.entity.dto;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.Serializable;
+
 @Data
 @Slf4j
-public class PageRequestDto {
+public class PageRequestDto implements Serializable {
 
-    protected Integer size;
-    protected Integer currentPage;
+    private Integer pageSize;
+    private Integer currentPage;
+    private Integer startSize = (currentPage - 1) * pageSize;
 
     public void checkParam() {
         if (this.currentPage == null || this.currentPage < 0) {
             setCurrentPage(1);
         }
-        if (this.size == null || this.size < 0 || this.size > 100) {
-            setSize(10);
+        if (this.pageSize == null || this.pageSize < 0 || this.pageSize > 100) {
+            setPageSize(10);
         }
     }
 }

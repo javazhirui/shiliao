@@ -1,11 +1,10 @@
 package com.linghe.shiliao.controller;
 
 
-import com.linghe.shiliao.entity.Rule;
-import com.linghe.shiliao.entity.dto.ResponseResult;
+import com.linghe.shiliao.entity.UserMessage;
 import com.linghe.shiliao.entity.vo.UserMessageVo;
-import com.linghe.shiliao.service.RuleService;
 import com.linghe.shiliao.service.UserMessageService;
+import com.linghe.shiliao.utils.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,7 +33,7 @@ public class UserMessageController {
      * @return
      */
     @PostMapping("/getList")
-    public ResponseResult getList(@RequestBody UserMessageVo userVo) {
+    public Page<UserMessage> getList(@RequestBody UserMessageVo userVo) {
         return userMessageService.getList(userVo);
     }
 
