@@ -42,7 +42,10 @@ public class CasesServiceImpl extends ServiceImpl<CasesMapper, Cases> implements
     @Override
     public Page<CasesDto> getCaseList(String phone, String name, String health, Integer currentPage,
                                       Integer pageSize) {
-        Integer startSize = (currentPage - 1) * pageSize;
+        Integer startSize = null;
+        if (null != currentPage && null != pageSize) {
+            startSize = (currentPage - 1) * pageSize;
+        }
         Page<CasesDto> pageDto = new Page<>();
         pageDto.setTotal(casesMapper.getTotal());
         pageDto.setList(casesMapper.getList(phone, name, health, startSize, pageSize));

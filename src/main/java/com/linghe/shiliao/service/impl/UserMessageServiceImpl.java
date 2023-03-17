@@ -1,7 +1,7 @@
 package com.linghe.shiliao.service.impl;
 
 import com.linghe.shiliao.entity.UserMessage;
-import com.linghe.shiliao.entity.vo.UserMessageVo;
+import com.linghe.shiliao.entity.dto.UserMessageDto;
 import com.linghe.shiliao.mapper.UserMessageMapper;
 import com.linghe.shiliao.service.UserMessageService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -26,16 +26,16 @@ public class UserMessageServiceImpl extends ServiceImpl<UserMessageMapper, UserM
     /**
      * 查询用户信息
      *
-     * @param userVo
+     * @param userMessageDto
      * @return
      */
     @Override
-    public Page<UserMessage> getList(UserMessageVo userVo) {
+    public Page<UserMessage> getList(UserMessageDto userMessageDto) {
         Page<UserMessage> page = new Page<>();
         page.setTotal(userMessageMapper.getTotal());
-        page.setList(userMessageMapper.getList(userVo));
-        page.setCurrentPage(userVo.getCurrentPage());
-        page.setPageSize(userVo.getPageSize());
+        page.setList(userMessageMapper.getList(userMessageDto));
+        page.setCurrentPage(userMessageDto.getCurrentPage());
+        page.setPageSize(userMessageDto.getPageSize());
         return page;
     }
 }

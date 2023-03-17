@@ -5,9 +5,32 @@ spring:
     url: jdbc:mysql://localhost:3306/shiliao?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
     username: root
     password: 123456
+  #email
+  mail:
+    # 配置 SMTP 服务器地址
+    host: smtp.163.com
+    # 发送者邮箱，已开通POP3/SMTP服务的邮箱，也就是你自己的
+    username: javazhirui@163.com
+    # 配置密码，注意不是真正的密码，而是刚刚申请到的授权码
+    password: OPHSYBOMRTMQOUNR
+
+    port: 587
+    # 默认的邮件编码为UTF-8
+    default-encoding: UTF-8
+    # 配置SSL 加密工厂
+    properties:
+      mail:
+        smtp:
+          socketFactoryClass: javax.net.ssl.SSLSocketFactory
+        #表示开启 DEBUG 模式，这样，邮件发送过程的日志会在控制台打印出来，方便排查错误
+        debug: true
+#----------------------------------------------------------------------------------
+
 mybatis:
   config-location: classpath:mybatis/mybatis.xml
 #  mapper-locations: classpath:mapper/*Mapper.xml
+
+
 
 mybatis-plus:
   configuration:

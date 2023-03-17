@@ -21,6 +21,6 @@
 
 <!--    分页查询病历信息-->
     <select id="getTotal" resultType="java.lang.Long">
-        select count(case_id) from case
+        select count(*) from cases
     </select>
 </mapper>

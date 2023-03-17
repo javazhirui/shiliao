@@ -55,6 +55,12 @@
             <artifactId>spring-boot-starter-jdbc</artifactId>
         </dependency>
 
+<!--        email-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
@@ -105,11 +111,18 @@
             <version>3.5.1</version>
         </dependency>
 
-        <!--        简单导入导出excel-->
+<!--        简单导入导出excel-->
         <dependency>
             <groupId>com.xuxueli</groupId>
             <artifactId>xxl-tool</artifactId>
             <version>1.2.0</version>
+        </dependency>
+
+<!--        工具类依赖,如判断非空:isBlank(判断为空(null,'',空格均判断为空)),isEmpty(判断null,''为空)
+            -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
         </dependency>
     </dependencies>
 

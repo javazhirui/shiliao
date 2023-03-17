@@ -40,8 +40,7 @@ public class CasesController {
      * @return
      */
     @PostMapping("/getCaseList")
-    public Page<CasesDto> getCaseList(@RequestBody String phone, @RequestBody String name, @RequestBody String health,
-                                      @RequestBody Integer currentPage, @RequestBody Integer pageSize) {
+    public Page<CasesDto> getCaseList(String phone, String name, String health, Integer currentPage, Integer pageSize) {
         return casesService.getCaseList(phone, name, health, currentPage, pageSize);
     }
 
@@ -70,5 +69,8 @@ public class CasesController {
         casesService.ceshi();
         return "测试";
     }
+
+//    @PostMapping("/outputExcel")
+//    public R<String> outputExcel()
 }
 

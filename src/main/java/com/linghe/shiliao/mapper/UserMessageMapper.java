@@ -1,8 +1,8 @@
 package com.linghe.shiliao.mapper;
 
-import com.linghe.shiliao.entity.UserMessage;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.linghe.shiliao.entity.vo.UserMessageVo;
+import com.linghe.shiliao.entity.UserMessage;
+import com.linghe.shiliao.entity.dto.UserMessageDto;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -18,7 +18,7 @@ import java.util.List;
 @Mapper
 public interface UserMessageMapper extends BaseMapper<UserMessage> {
 
-    List<UserMessage> getList(UserMessageVo userVo);
+    List<UserMessage> getList(UserMessageDto userVo);
 
     long getTotal();
 }

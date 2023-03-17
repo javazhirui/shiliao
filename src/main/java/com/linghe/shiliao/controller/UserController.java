@@ -1,41 +1,32 @@
 package com.linghe.shiliao.controller;
 
-
+import com.linghe.shiliao.common.R;
 import com.linghe.shiliao.entity.UserMessage;
 import com.linghe.shiliao.entity.dto.UserMessageDto;
-import com.linghe.shiliao.service.UserMessageService;
-import com.linghe.shiliao.utils.Page;
+import com.linghe.shiliao.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * <p>
- * 前端控制器
- * </p>
- *
- * @author zhao_qin
- * @since 2023-03-14
+ * 用户注册登录等
  */
 @RestController
-@RequestMapping("/userMessage")
-public class UserMessageController {
+@RequestMapping("/user")
+public class UserController {
 
     @Autowired
-    private UserMessageService userMessageService;
+    private UserService userService;
 
     /**
-     * 查询用户信息
+     * 注册
      * @param userMessageDto
      * @return
      */
-    @PostMapping("/getList")
-    public Page<UserMessage> getList(@RequestBody UserMessageDto userMessageDto) {
-        return userMessageService.getList(userMessageDto);
+    @PostMapping("/register")
+    public R<String> register(@RequestBody UserMessageDto userMessageDto) {
+        return userService.register(userMessageDto);
     }
-
 }
-
