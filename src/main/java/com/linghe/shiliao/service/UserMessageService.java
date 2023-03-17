@@ -21,4 +21,8 @@ public interface UserMessageService extends IService<UserMessage> {
      * @return
      */
     Page<UserMessage> getList(UserMessageDto userMessageDto);
+
+    void editUserMessageBean(UserMessage userMessageDto);
+
+    void delUserMessage(UserMessage userMessage);
 }

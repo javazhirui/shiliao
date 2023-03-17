@@ -6,11 +6,8 @@ import com.linghe.shiliao.entity.dto.UserMessageDto;
 import com.linghe.shiliao.service.UserMessageService;
 import com.linghe.shiliao.utils.Page;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -35,6 +32,16 @@ public class UserMessageController {
     @PostMapping("/getList")
     public Page<UserMessage> getList(@RequestBody UserMessageDto userMessageDto) {
         return userMessageService.getList(userMessageDto);
+    }
+
+    @PostMapping("/editUserMessageBean")
+    public void editUserMessageBean(@RequestBody UserMessage userMessage){
+        userMessageService.editUserMessageBean(userMessage);
+    }
+
+    @PostMapping("/delUserMessage")
+    public void delUserMessage(@RequestBody UserMessage userMessage){
+        userMessageService.delUserMessage(userMessage);
     }
 
 }

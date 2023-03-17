@@ -3,10 +3,11 @@
 <mapper namespace="com.linghe.shiliao.mapper.UserMessageMapper">
 
     <select id="getList" resultType="com.linghe.shiliao.entity.UserMessage">
-        select 'user_id', 'name', 'age', 'gender', 'phone', 'email', 'health', 'user_name', 'password', 'status',
-        'case_id', 'rule_id', 'remark', 'create_time', 'update_time'
+        select user_id, name, age, gender, phone, email, health, user_name, password,
+        status, rule_id, remark, create_time, update_time
         from user_message
         <where>
+        and status = 1
             <if test="name != null and name != ''">and name like concat('%',#{name},'%'}</if>
             <if test="phone != null and phone != ''">and phone like concat('%',#{phone},'%')</if>
             <if test="email != null and email != ''">and email like concat('%',#{email},'%')</if>
@@ -19,10 +20,10 @@
                 and date_format(#{maxCreatetime},'%y%m%d%h%i%s')
             </if>
         </where>
-        limit #{startSize}, #{pageSize}
+        limit #{currentPage}, #{pageSize}
     </select>
 
     <select id="getTotal" resultType="java.lang.Long">
-        select count(user_id) from user_message
+        select count(*) from user_message where status =1
     </select>
 </mapper>
