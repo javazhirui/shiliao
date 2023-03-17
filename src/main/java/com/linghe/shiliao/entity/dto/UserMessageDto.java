@@ -22,11 +22,11 @@ public class UserMessageDto extends UserMessage implements Serializable {
     private Integer maxAge;
 
     //时间范围
-    private String minCreatetime;
-    private String maxCreatetime;
+    private String minCreateTime;
+    private String maxCreateTime;
 
     private Integer pageSize;
     private Integer currentPage;
-    private Integer startSize = (currentPage - 1) * pageSize;
+//    private Integer startSize = (currentPage - 1) * pageSize;
 
 }
