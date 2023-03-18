@@ -10,9 +10,9 @@ public class LoginDto implements Serializable {
     private static final long serialVersionUID = 3306579745488982863L;
 
     /**
-     * 账号
+     * 账号(暂定邮箱作为账号)
      */
-    private String username;
+    private String email;
 
     /**
      * 密码
@@ -23,4 +23,10 @@ public class LoginDto implements Serializable {
      * 验证码
      */
     private String code;
+
+    /**
+     * 前端唯一uuid
+     */
+    private String uuid;
+
 }

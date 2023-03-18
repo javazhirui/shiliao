@@ -13,6 +13,7 @@ import java.io.Serializable;
 public class UserMessageDto extends UserMessage implements Serializable {
 
     //图片验证码
+    private String uuid;
     private String code;
     //邮箱验证码
     private String emailCode;

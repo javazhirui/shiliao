@@ -105,6 +105,7 @@
             <artifactId>velocity-engine-core</artifactId>
             <version>2.2</version>
         </dependency>
+<!--        -->
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-extension</artifactId>
@@ -118,8 +119,9 @@
             <version>1.2.0</version>
         </dependency>
 
-<!--        工具类依赖,如判断非空:isBlank(判断为空(null,'',空格均判断为空)),isEmpty(判断null,''为空)
-            -->
+
+        <!--        工具类依赖,如判断非空:isBlank(判断为空(null,'',空格均判断为空)),isEmpty(判断null,''为空)
+                    -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
@@ -139,6 +141,14 @@
                         </exclude>
                     </excludes>
 
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>11</source>
+                    <target>11</target>
                 </configuration>
             </plugin>
         </plugins>

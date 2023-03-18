@@ -1,5 +1,7 @@
 package com.linghe.shiliao.service;
 
+import com.linghe.shiliao.common.R;
+
 import java.util.List;
 
 
@@ -32,4 +34,12 @@ public interface MailService {
      * @param filePathList 附件（文件路径集合）
      */
     void sendAppendixMail(String mailRecipient , String subject , String messageText , List<String> filePathList);
+
+    /**
+     * 获取邮箱验证码
+     * @param uuid
+     * @param email
+     * @return
+     */
+    R<String> getEmailCode(String uuid, String email);
 }
