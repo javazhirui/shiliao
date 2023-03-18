@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 
 /**
- * 用户注册登录等
+ * 用户注册、登录、修改权限
  */
 @RestController
 @RequestMapping("/user")
