@@ -8,6 +8,7 @@ import com.linghe.shiliao.entity.dto.UserMessageDto;
 import com.linghe.shiliao.mapper.CodesMapper;
 import com.linghe.shiliao.mapper.UserMessageMapper;
 import com.linghe.shiliao.service.UserService;
+import com.linghe.shiliao.utils.JwtUtils;
 import com.linghe.shiliao.utils.Md5Utils;
 import com.linghe.shiliao.utils.RedisCache;
 import com.linghe.shiliao.utils.VerifyCodeUtils;
@@ -86,9 +87,8 @@ public class UserServiceImpl implements UserService {
         if (userMessage.getStatus() == 0) {
             return R.error("账号已停用,请联系管理员");
         }
-
-
-        return null;
+        String token = JwtUtils.getJwtToken(loginDto.getUsername());
+        return R.success(token);
     }
 
     /**
