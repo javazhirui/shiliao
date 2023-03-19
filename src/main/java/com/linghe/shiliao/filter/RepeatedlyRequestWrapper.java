@@ -1,6 +1,7 @@
 package com.linghe.shiliao.filter;
 
-import com.huike.common.utils.http.HttpHelper;
+
+import com.linghe.shiliao.utils.HttpHelper;
 
 import javax.servlet.ReadListener;
 import javax.servlet.ServletInputStream;

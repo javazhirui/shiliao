@@ -1,6 +1,6 @@
 package com.linghe.shiliao.filter;
 
-import com.huike.common.utils.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.MediaType;
 
 import javax.servlet.*;
@@ -28,7 +28,7 @@ public class RepeatableFilter implements Filter
         if (request instanceof HttpServletRequest
                 && StringUtils.equalsAnyIgnoreCase(request.getContentType(), MediaType.APPLICATION_JSON_VALUE))
         {
-            requestWrapper = new com.huike.common.filter.RepeatedlyRequestWrapper((HttpServletRequest) request, response);
+            requestWrapper = new RepeatedlyRequestWrapper((HttpServletRequest) request, response);
         }
         if (null == requestWrapper)
         {
