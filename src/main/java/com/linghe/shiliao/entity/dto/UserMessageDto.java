@@ -28,6 +28,5 @@ public class UserMessageDto extends UserMessage implements Serializable {
 
     private Integer pageSize;
     private Integer currentPage;
-//    private Integer startSize = (currentPage - 1) * pageSize;
 
 }

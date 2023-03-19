@@ -35,7 +35,7 @@ public class UserController {
     }
 
     /**
-     * 登录方法
+     * 登录方法 jwt
      * @param loginDto
      * @return 返回一个token
      */

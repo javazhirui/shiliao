@@ -20,7 +20,6 @@ public class R<T> {
 
     private Map map = new HashMap(); //动态数据
 
-    //R.success(返回数据)
     public static <T> R<T> success(T object) {
         R<T> r = new R<T>();
         r.data = object;
@@ -28,11 +27,15 @@ public class R<T> {
         return r;
     }
 
-    //R.error("失败解释")
     public static <T> R<T> error(String msg) {
         R r = new R();
         r.msg = msg;
         r.code = 0;
         return r;
+    }
+
+    public R<T> add(String key, Object value) {
+        this.map.put(key, value);
+        return this;
     }
 }

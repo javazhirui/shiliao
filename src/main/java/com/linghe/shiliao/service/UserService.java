@@ -24,5 +24,10 @@ public interface UserService {
      */
     R<String> getCode(String uuid) throws IOException;
 
+    /**
+     * 登录方法 jwt
+     * @param loginDto
+     * @return
+     */
     R<String> login(LoginDto loginDto);
 }

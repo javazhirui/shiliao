@@ -12,8 +12,10 @@ import com.xxl.tool.excel.ExcelTool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * <p>
@@ -32,6 +34,7 @@ public class CasesServiceImpl extends ServiceImpl<CasesMapper, Cases> implements
     /**
      * 获取客户及病历信息
      *
+     * @param status
      * @param phone
      * @param name
      * @param health
@@ -40,7 +43,7 @@ public class CasesServiceImpl extends ServiceImpl<CasesMapper, Cases> implements
      * @return
      */
     @Override
-    public Page<CasesDto> getCaseList(String phone, String name, String health, Integer currentPage,
+    public Page<CasesDto> getCaseList(String status, String phone, String name, String health, Integer currentPage,
                                       Integer pageSize) {
         Integer startSize = null;
         if (null != currentPage && null != pageSize) {
@@ -48,7 +51,7 @@ public class CasesServiceImpl extends ServiceImpl<CasesMapper, Cases> implements
         }
         Page<CasesDto> pageDto = new Page<>();
         pageDto.setTotal(casesMapper.getTotal());
-        pageDto.setList(casesMapper.getList(phone, name, health, startSize, pageSize));
+        pageDto.setList(casesMapper.getList(status, phone, name, health, startSize, pageSize));
         pageDto.setPageSize(pageSize);
         pageDto.setCurrentPage(currentPage);
         return pageDto;
@@ -78,6 +81,7 @@ public class CasesServiceImpl extends ServiceImpl<CasesMapper, Cases> implements
 
     /**
      * 编辑修改客户/病历信息
+     *
      * @param cases
      * @return
      */
@@ -97,12 +101,22 @@ public class CasesServiceImpl extends ServiceImpl<CasesMapper, Cases> implements
         return R.success("修改成功");
     }
 
+    /**
+     * 根据id数组导出excel
+     *
+     * @param ids
+     * @return
+     */
     @Override
-    public void ceshi() {
-        LambdaQueryWrapper<Cases> lqw = new LambdaQueryWrapper<>();
-//        lqw.orderByAsc(Cases::getCasesId);
-//        List<Cases> list = this.list(lqw);
-        List<CasesDto> list = casesMapper.getList("", "", "", 2, 100);
-        ExcelTool.exportToFile(Collections.singletonList(list),"C:/Users/17966/Desktop/ceshi.xlsx");
+    public R<String> outputExcelByIds(String[] ids) {
+        List<CasesDto> list = casesMapper.getByIds(ids);
+        String fileName = UUID.randomUUID().toString() + ".xlsx";
+        String excelPath = "D:/shiliaoexcel/" + fileName;//后期可换minio地址
+        File file = new File(excelPath);
+        if (!file.getParentFile().exists()) { // 此时文件有父目录
+            file.getParentFile().mkdirs(); // 创建父目录
+        }
+        ExcelTool.exportToFile(Collections.singletonList(list), excelPath);
+        return null;
     }
 }

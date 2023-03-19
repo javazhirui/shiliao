@@ -1,6 +1,7 @@
 package com.linghe.shiliao.controller;
 
 
+import com.linghe.shiliao.common.R;
 import com.linghe.shiliao.entity.UserMessage;
 import com.linghe.shiliao.entity.dto.UserMessageDto;
 import com.linghe.shiliao.service.UserMessageService;
@@ -8,6 +9,8 @@ import com.linghe.shiliao.utils.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * <p>

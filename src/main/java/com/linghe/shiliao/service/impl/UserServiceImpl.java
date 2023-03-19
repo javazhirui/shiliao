@@ -77,7 +77,7 @@ public class UserServiceImpl implements UserService {
             return R.error("验证码输入错误");
         }
         LambdaQueryWrapper<UserMessage> lqw = new LambdaQueryWrapper<>();
-        lqw.eq(UserMessage::getEmail, loginDto.getEmail());
+        lqw.eq(UserMessage::getEmail, loginDto.getUsername());
         lqw.eq(UserMessage::getPassword, Md5Utils.hash(loginDto.getPassword()));
         UserMessage userMessage = userMessageMapper.selectOne(lqw);
         if (ObjectUtils.isEmpty(userMessage)) {
@@ -86,6 +86,7 @@ public class UserServiceImpl implements UserService {
         if (userMessage.getStatus() == 0) {
             return R.error("账号已停用,请联系管理员");
         }
+
 
         return null;
     }

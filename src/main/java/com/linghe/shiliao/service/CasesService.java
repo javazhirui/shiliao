@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.linghe.shiliao.entity.dto.CasesDto;
 import com.linghe.shiliao.utils.Page;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类
@@ -18,6 +20,7 @@ public interface CasesService extends IService<Cases> {
 
     /**
      * 获取客户及病历信息
+     * @param status
      * @param phone
      * @param name
      * @param health
@@ -25,7 +28,7 @@ public interface CasesService extends IService<Cases> {
      * @param pageSize
      * @return
      */
-    Page<CasesDto> getCaseList(String phone, String name, String health, Integer currentPage, Integer pageSize);
+    Page<CasesDto> getCaseList(String status, String phone, String name, String health, Integer currentPage, Integer pageSize);
 
     /**
      * 新增病历信息
@@ -41,6 +44,10 @@ public interface CasesService extends IService<Cases> {
      */
     R<String> updateCases(Cases cases);
 
-    void ceshi();
-
+    /**
+     * 根据id数组导出excel
+     * @param ids
+     * @return
+     */
+    R<String> outputExcelByIds(String[] ids);
 }

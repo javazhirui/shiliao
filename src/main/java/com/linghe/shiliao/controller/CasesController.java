@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
+import java.util.List;
 
 /**
  * <p>
@@ -32,6 +33,7 @@ public class CasesController {
 
     /**
      * 获取客户及病历信息
+     * @param status
      * @param phone
      * @param name
      * @param health
@@ -40,8 +42,8 @@ public class CasesController {
      * @return
      */
     @PostMapping("/getCaseList")
-    public Page<CasesDto> getCaseList(String phone, String name, String health, Integer currentPage, Integer pageSize) {
-        return casesService.getCaseList(phone, name, health, currentPage, pageSize);
+    public Page<CasesDto> getCaseList(String status, String phone, String name, String health, Integer currentPage, Integer pageSize) {
+        return casesService.getCaseList(status,phone, name, health, currentPage, pageSize);
     }
 
     /**
@@ -64,10 +66,14 @@ public class CasesController {
         return casesService.updateCases(cases);
     }
 
-    @GetMapping("/ceshi")
-    public String ceshi(){
-        casesService.ceshi();
-        return "测试";
+    /**
+     * 根据id数组导出excel
+     * @param ids
+     * @return
+     */
+    @PostMapping("/outputExcelByIds")
+    public R<String> outputExcelByIds(@RequestBody String[] ids) {
+        return casesService.outputExcelByIds(ids);
     }
 
 //    @PostMapping("/outputExcel")
