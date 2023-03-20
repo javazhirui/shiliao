@@ -69,8 +69,9 @@ public class ChecksServiceImpl extends ServiceImpl<ChecksMapper, Checks> impleme
         Page<ChecksDto> pageDto = new Page<>();
         checksDto.setStartSize((checksDto.getCurrentPage() - 1) * checksDto.getPageSize());
         pageDto.setList(checksMapper.getCheckList(checksDto));
-        pageDto.setTotal(checksMapper.getTotal());
+        pageDto.setCurrentPage(checksDto.getCurrentPage());
         pageDto.setPageSize(checksDto.getPageSize());
+        pageDto.setTotal(checksMapper.getTotal());
         return R.success(pageDto);
     }
 }
