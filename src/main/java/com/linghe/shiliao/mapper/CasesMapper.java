@@ -20,11 +20,13 @@ import java.util.List;
 public interface CasesMapper extends BaseMapper<Cases> {
 
     //获取总条数
-    long getTotal();
+    long getTotal(@Param("status") Integer status, @Param("phone") String phone, @Param("name") String name, @Param("health") String health, @Param("startSize") Integer startSize, @Param("pageSize") Integer pageSize);
 
     //多条件分页查询
-    List<CasesDto> getList(@Param("status") String status, @Param("phone") String phone, @Param("name") String name, @Param("health") String health, @Param("startSize") Integer startSize, @Param("pageSize") Integer pageSize);
+    List<CasesDto> getList(@Param("status") Integer status, @Param("phone") String phone, @Param("name") String name, @Param("health") String health, @Param("startSize") Integer startSize, @Param("pageSize") Integer pageSize);
 
     //根据ids数组查询病例详细信息
-    List<CasesDto> getByIds(String[] ids);
+    List<CasesDto> getByIds(Integer[] ids);
+
+
 }

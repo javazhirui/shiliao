@@ -20,5 +20,5 @@ public interface UserMessageMapper extends BaseMapper<UserMessage> {
 
     List<UserMessage> getList(UserMessageDto userVo);
 
-    long getTotal();
+    long getTotal(UserMessageDto userVo);
 }

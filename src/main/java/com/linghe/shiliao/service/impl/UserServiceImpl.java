@@ -105,7 +105,7 @@ public class UserServiceImpl implements UserService {
             if (ObjectUtils.isEmpty(userMessageDto)) {
                 return R.error("数据为空,请检查");
             }
-            if (userMessageDto.getEmail().isBlank()) {
+            if (userMessageDto.getEmail().isEmpty()) {
                 return R.error("邮箱为空");
             }
             //查询构造器
@@ -128,7 +128,7 @@ public class UserServiceImpl implements UserService {
             if (!StringUtils.equals(code, codeRedis)) {
                 return R.error("验证码输入有误,请重新输入");
             }
-            if (userMessageDto.getEmailCode().isBlank()) {
+            if (userMessageDto.getEmailCode().isEmpty()) {
                 return R.error("邮箱验证码为空,请检查");
             }
             String emailCode = userMessageDto.getEmailCode();
@@ -138,7 +138,7 @@ public class UserServiceImpl implements UserService {
             if (!StringUtils.equals(emailCode, emailCodeRedis)) {
                 return R.error("邮箱验证码输入有误");
             }
-            if (userMessageDto.getPassword().isBlank()) {
+            if (userMessageDto.getPassword().isEmpty()) {
                 return R.error("密码不可为空");
             }
             //对密码进行MD5加密后替换password

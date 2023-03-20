@@ -43,17 +43,18 @@ public class CasesServiceImpl extends ServiceImpl<CasesMapper, Cases> implements
      * @return
      */
     @Override
-    public Page<CasesDto> getCaseList(String status, String phone, String name, String health, Integer currentPage,
+    public Page<CasesDto> getCaseList(Integer status, String phone, String name, String health, Integer currentPage,
                                       Integer pageSize) {
         Integer startSize = null;
         if (null != currentPage && null != pageSize) {
             startSize = (currentPage - 1) * pageSize;
         }
         Page<CasesDto> pageDto = new Page<>();
-        pageDto.setTotal(casesMapper.getTotal());
-        pageDto.setList(casesMapper.getList(status, phone, name, health, startSize, pageSize));
-        pageDto.setPageSize(pageSize);
         pageDto.setCurrentPage(currentPage);
+        pageDto.setPageSize(pageSize);
+        pageDto.setTotal(casesMapper.getTotal(status, phone, name, health, startSize, pageSize));
+
+        pageDto.setList(casesMapper.getList(status, phone, name, health, startSize, pageSize));
         return pageDto;
     }
 
@@ -108,7 +109,7 @@ public class CasesServiceImpl extends ServiceImpl<CasesMapper, Cases> implements
      * @return
      */
     @Override
-    public R<String> outputExcelByIds(String[] ids) {
+    public R<String> outputExcelByIds(Integer[] ids) {
         List<CasesDto> list = casesMapper.getByIds(ids);
         String fileName = UUID.randomUUID().toString() + ".xlsx";
         String excelPath = "D:/shiliaoexcel/" + fileName;//后期可换minio地址

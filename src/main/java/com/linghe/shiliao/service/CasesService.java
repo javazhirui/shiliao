@@ -28,7 +28,7 @@ public interface CasesService extends IService<Cases> {
      * @param pageSize
      * @return
      */
-    Page<CasesDto> getCaseList(String status, String phone, String name, String health, Integer currentPage, Integer pageSize);
+    Page<CasesDto> getCaseList(Integer status, String phone, String name, String health, Integer currentPage, Integer pageSize);
 
     /**
      * 新增病历信息
@@ -49,5 +49,5 @@ public interface CasesService extends IService<Cases> {
      * @param ids
      * @return
      */
-    R<String> outputExcelByIds(String[] ids);
+    R<String> outputExcelByIds(Integer[] ids);
 }
