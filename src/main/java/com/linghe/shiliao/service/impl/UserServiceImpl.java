@@ -78,18 +78,23 @@ public class UserServiceImpl implements UserService {
             return R.error("验证码输入错误");
         }
         LambdaQueryWrapper<UserMessage> lqw = new LambdaQueryWrapper<>();
-        lqw.eq(UserMessage::getEmail, loginDto.getUsername());
-        lqw.eq(UserMessage::getPassword, Md5Utils.hash(loginDto.getPassword()));
+        lqw.eq(UserMessage::getEmail, loginDto.getUsername()).eq(UserMessage::getPassword, Md5Utils.hash(loginDto.getPassword()));
         UserMessage userMessage = userMessageMapper.selectOne(lqw);
         if (ObjectUtils.isEmpty(userMessage)) {
-            return R.error("账号或密码错误");
+            LambdaQueryWrapper<UserMessage> lqw1 = new LambdaQueryWrapper<>();
+            lqw1.eq(UserMessage::getUserName, loginDto.getUsername());
+            lqw1.eq(UserMessage::getPassword, Md5Utils.hash(loginDto.getPassword()));
+            UserMessage userMessage1 = userMessageMapper.selectOne(lqw1);
+            if (ObjectUtils.isEmpty(userMessage1)) {
+                return R.error("账号或密码错误");
+            }
         }
         if (userMessage.getStatus() == 0) {
             return R.error("账号已停用,请联系管理员");
         }
         String token = JwtUtils.getJwtToken(loginDto.getUsername());
         R<String> R = new R<>();
-        R.add("token",token);
+        R.add("token", token);
         return R;
     }
 
@@ -113,9 +118,15 @@ public class UserServiceImpl implements UserService {
             //查询email
             lqw.eq(UserMessage::getEmail, userMessageDto.getEmail());
             //获取第一个查询结果
-            UserMessage user = userMessageMapper.selectOne(lqw);
-            if (!ObjectUtils.isEmpty(user) && !ObjectUtils.isEmpty(user.getEmail())) {
+            UserMessage userMessage = userMessageMapper.selectOne(lqw);
+            if (!ObjectUtils.isEmpty(userMessage)) {
                 return R.error("邮箱已注册,请更换邮箱或重新登陆");
+            }
+            LambdaQueryWrapper<UserMessage> lqw1 = new LambdaQueryWrapper<>();
+            lqw1.eq(UserMessage::getUserName, userMessageDto.getUserName());
+            UserMessage userMessage1 = userMessageMapper.selectOne(lqw1);
+            if (!ObjectUtils.isEmpty(userMessage1)){
+                return R.error("用户名已存在");
             }
             if (StringUtils.isBlank(userMessageDto.getCode())) {
                 return R.error("验证码为空,请检查");
@@ -143,10 +154,10 @@ public class UserServiceImpl implements UserService {
             }
             //对密码进行MD5加密后替换password
             userMessageDto.setPassword(Md5Utils.hash(userMessageDto.getPassword()));
-            UserMessage userMessage = new UserMessage();
-            //将userMessageDto中数据拷贝到userMessage
-            BeanUtils.copyProperties(userMessageDto, userMessage);
-            userMessageMapper.insert(userMessage);
+            UserMessage user = new UserMessage();
+            //将userMessageDto中数据拷贝到user
+            BeanUtils.copyProperties(userMessageDto, user);
+            userMessageMapper.insert(user);
         } catch (Exception e) {
             return R.error(e.toString());
         }

@@ -167,10 +167,10 @@ public class MailServiceImpl implements MailService {
      */
     @Override
     public R<String> getEmailCode(String uuid, String email) {
-        if (uuid.isBlank()) {
+        if (uuid.isEmpty()) {
             return R.error("uuId为空,请检查");
         }
-        if (email.isBlank()) {
+        if (email.isEmpty()) {
             return R.error("邮箱为空,请输入邮箱");
         }
         String emailCode = VerifyCodeUtils.generateVerifyCode(6);
