@@ -88,7 +88,9 @@ public class UserServiceImpl implements UserService {
             return R.error("账号已停用,请联系管理员");
         }
         String token = JwtUtils.getJwtToken(loginDto.getUsername());
-        return R.success(token);
+        R<String> R = new R<>();
+        R.add("token",token);
+        return R;
     }
 
     /**
