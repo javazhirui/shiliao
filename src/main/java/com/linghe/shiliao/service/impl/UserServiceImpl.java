@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService {
         //构造输出流
         OutputStream os = new FileOutputStream(file);
         //生成验证码图片  参数(验证码长,高,字节输出流,验证码)
-        VerifyCodeUtils.outputImage(30, 15, os, code);
+        VerifyCodeUtils.outputImage(600, 150, os, code);
         os.close();
         String url = "Code.jpg";
         return R.success(url);
