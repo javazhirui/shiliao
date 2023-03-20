@@ -10,7 +10,9 @@
         right join checks as t2 on t1.user_id = t2.user_id
         where t2.status = '0'
         and t1.status = '1'
-        limit #{startSize}, #{pageSize}
+        <if test="startSize != null and startSize != '' and pageSize != null and pageSize != ''">
+            limit #{startSize}, #{pageSize}
+        </if>
     </select>
 
 <!--    待处理预约信息-总条数-->

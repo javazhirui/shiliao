@@ -48,7 +48,7 @@ public class ChecksController {
      * @param checksDto
      * @return
      */
-    @GetMapping("/getChecklist")
+    @PostMapping("/getChecklist")
     public R<Page<ChecksDto>> getChecklist(@RequestBody ChecksDto checksDto) {
         return checksService.getChecklist(checksDto);
     }

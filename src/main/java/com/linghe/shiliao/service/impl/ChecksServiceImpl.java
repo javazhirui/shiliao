@@ -70,6 +70,7 @@ public class ChecksServiceImpl extends ServiceImpl<ChecksMapper, Checks> impleme
         checksDto.setStartSize((checksDto.getCurrentPage() - 1) * checksDto.getPageSize());
         pageDto.setList(checksMapper.getCheckList(checksDto));
         pageDto.setTotal(checksMapper.getTotal());
-        return null;
+        pageDto.setPageSize(checksDto.getPageSize());
+        return R.success(pageDto);
     }
 }
