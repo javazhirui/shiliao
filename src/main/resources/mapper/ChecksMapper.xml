@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.linghe.shiliao.mapper.ChecksMapper">
+
+<!--    获取待处理预约信息-->
+    <select id="getCheckList" resultType="com.linghe.shiliao.entity.dto.ChecksDto">
+        select t1.user_id, t1.name, t1.age, t1.gender, t1.phone, t1.email, t1.health, t1.user_name, t1.password,
+        t1.rule_id, t1.remark, t2.checks_id, t2.sympyom, t2.create_time, t2.update_time
+        from user_message as t1
+        right join checks as t2 on t1.user_id = t2.user_id
+        where t2.status = '0'
+        and t1.status = '1'
+        limit #{startSize}, #{pageSize}
+    </select>
+
+<!--    待处理预约信息-总条数-->
+    <select id="getTotal" resultType="java.lang.Long">
+        select count(*)
+        from user_message as t1
+        right join checks as t2 on t1.user_id = t2.user_id
+        where t2.status = '0'
+        and t1.status = '1'
+    </select>
+</mapper>

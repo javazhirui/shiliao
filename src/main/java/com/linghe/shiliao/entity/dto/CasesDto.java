@@ -11,6 +11,10 @@ import java.time.LocalDateTime;
 @ExcelSheet(name = "测试")
 public class CasesDto implements Serializable {
     private static final long serialVersionUID = 7715737320790709138L;
+
+    private Integer pageSize;
+    private Integer currentPage;
+
     /**
      * 用户id
      */

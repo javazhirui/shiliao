@@ -75,11 +75,6 @@ public class UserMessage implements Serializable {
     private Integer status;
 
     /**
-     * 病例id
-     */
-    private String caseId;
-
-    /**
      * 权限id
      */
     private Integer ruleId;

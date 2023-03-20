@@ -19,15 +19,15 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class Check implements Serializable {
+public class Checks implements Serializable {
 
     private static final long serialVersionUID=1L;
 
     /**
      * 审核id
      */
-    @TableId(value = "check_id", type = IdType.ASSIGN_ID)
-    private Integer checkId;
+    @TableId(value = "checks_id", type = IdType.ASSIGN_ID)
+    private Integer checksId;
 
     /**
      * 用户id
@@ -42,12 +42,17 @@ public class Check implements Serializable {
     /**
      * 创建时间
      */
-    private LocalDateTime createTime;
+    private String createTime;
 
     /**
      * 处理时间
      */
-    private LocalDateTime updateTime;
+    private String updateTime;
+
+    /**
+     * 处理状态,默认未处理-0 已处理-1
+     */
+    private Integer status;
 
 
 }

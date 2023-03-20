@@ -22,7 +22,18 @@
 
     <!--    获取总条数-->
     <select id="getTotal" resultType="java.lang.Long">
-        select count(*) from cases
+        select count(*) as total
+        from user_message as t1
+        right join cases as t2 on t1.user_id = t2.user_id
+        <where>
+            <if test="status != null and status != ''">and status = #{status}</if>
+            <if test="name != null and name != ''">and t1.name like concat('%',#{name},'%')</if>
+            <if test="phone != null and phone != ''">and t1.phone like concat('%',#{phone},'%')</if>
+            <if test="health != null and health != ''">and t1.health = #{health}</if>
+        </where>
+        <if test="startSize != null and startSize != '' and pageSize != null and pageSize != ''">
+            limit #{startSize}, #{pageSize}
+        </if>
     </select>
 
     <!--    根据数组ids获取详细信息-->

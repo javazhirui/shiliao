@@ -52,8 +52,6 @@ public class CasesServiceImpl extends ServiceImpl<CasesMapper, Cases> implements
         Page<CasesDto> pageDto = new Page<>();
         pageDto.setTotal(casesMapper.getTotal());
         pageDto.setList(casesMapper.getList(status, phone, name, health, startSize, pageSize));
-        pageDto.setPageSize(pageSize);
-        pageDto.setCurrentPage(currentPage);
         return pageDto;
     }
 
