@@ -18,7 +18,13 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.imageio.ImageIO;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.awt.image.BufferedImage;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -42,7 +48,7 @@ public class UserServiceImpl implements UserService {
      * @throws IOException
      */
     @Override
-    public R<OutputStream> getCode(String uuid) throws IOException {
+    public R<String> getCode(String uuid, HttpServletResponse response) throws IOException {
         if (StringUtils.isBlank(uuid)) {
             return R.error("页面uuid不可为空");
         }
@@ -60,7 +66,13 @@ public class UserServiceImpl implements UserService {
         OutputStream os = new FileOutputStream(file);
         //生成验证码图片  参数(验证码长,高,字节输出流,验证码)
         VerifyCodeUtils.outputImage(600, 150, os, code);
-        return R.success(os);
+        os.close();
+        BufferedImage codeImg = ImageIO.read(Files.newInputStream(Paths.get(CodeImgPath)));
+        response.setHeader("Cache-Control","no-store,noche");
+        response.setContentType("image/jpeg");
+        ServletOutputStream sos = response.getOutputStream();
+        ImageIO.write(codeImg,"jpg",sos);
+        return R.success("生成验证码成功");
     }
 
     /**
