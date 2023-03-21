@@ -7,6 +7,7 @@ import com.linghe.shiliao.utils.Md5Utils;
 import com.linghe.shiliao.utils.RedisCache;
 import com.linghe.shiliao.utils.VerifyCodeUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
@@ -166,12 +167,19 @@ public class MailServiceImpl implements MailService {
      * @return
      */
     @Override
-    public R<String> getEmailCode(String uuid, String email) {
+    public R<String> getEmailCode(String uuid, String email, String code) {
         if (uuid.isEmpty()) {
-            return R.error("uuId为空,请检查");
+            return R.error("uuId为空");
         }
         if (email.isEmpty()) {
-            return R.error("邮箱为空,请输入邮箱");
+            return R.error("邮箱为空");
+        }
+        if (code.isEmpty()) {
+            return R.error("验证码为空");
+        }
+        String codeRides = redisCache.getCacheObject(uuid);
+        if (!StringUtils.equals(code,codeRides)) {
+            return R.error("图片验证码输入有误");
         }
         String emailCode = VerifyCodeUtils.generateVerifyCode(6);
         String emailMessage = "您的验证码为:" + emailCode + ",有效期5分钟,如非本人操作,请勿泄露!";

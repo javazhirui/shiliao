@@ -62,11 +62,12 @@ public class UserController {
      *
      * @param uuid
      * @param email
+     * @param code
      * @return
      */
     @GetMapping("/getEmailCode")
-    public R<String> getEmailCode(@RequestParam String uuid, @RequestParam String email) {
-        return mailService.getEmailCode(uuid, email);
+    public R<String> getEmailCode(@RequestParam String uuid, @RequestParam String email, @RequestParam String code) {
+        return mailService.getEmailCode(uuid, email, code);
     }
 
 

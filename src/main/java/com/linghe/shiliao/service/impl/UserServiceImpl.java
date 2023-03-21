@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public R<String> getCode(String uuid) throws IOException {
         if (StringUtils.isBlank(uuid)) {
-            return R.error("页面uuId不可为空");
+            return R.error("页面uuid不可为空");
         }
         String code = VerifyCodeUtils.generateVerifyCode(6);
         String codeRedis = Md5Utils.hash(code);

@@ -39,7 +39,8 @@ public interface MailService {
      * 获取邮箱验证码
      * @param uuid
      * @param email
+     * @param code
      * @return
      */
-    R<String> getEmailCode(String uuid, String email);
+    R<String> getEmailCode(String uuid, String email, String code);
 }
