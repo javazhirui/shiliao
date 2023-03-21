@@ -89,7 +89,7 @@ public class UserServiceImpl implements UserService {
                 return R.error("账号或密码错误");
             }
         }
-        if (userMessage.getStatus() == 0) {
+        if (userMessage.getStatus() != 1) {
             return R.error("账号已停用,请联系管理员");
         }
         String token = JwtUtils.getJwtToken("" + userMessage.getUserId());
