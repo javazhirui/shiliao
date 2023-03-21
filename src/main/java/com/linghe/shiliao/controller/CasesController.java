@@ -70,20 +70,17 @@ public class CasesController {
     }
 
     /**
+     * 病例信息导出
      * 根据id数组导出excel
-     * @param ids
+     * @param excel
      * @return
      */
-    @PostMapping("/outputExcelByIds")
-    public R<String> outputExcelByIds(Integer [] ids) {
-        System.err.println("进来了");
+    @GetMapping("/outputExcelByIds")
+    public R<String> outputExcelByIds(@RequestParam String excel) {
+        System.err.println(excel);
+        String[] split = excel.split(",");
+        return casesService.outputExcelByIds(split);
 
-        if(ids == null){
-            System.err.println("123");
-        }
-
-//        return casesService.outputExcelByIds(ids);
-        return  null;
     }
 
 //    @PostMapping("/outputExcel")

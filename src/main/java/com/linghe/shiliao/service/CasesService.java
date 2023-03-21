@@ -49,5 +49,5 @@ public interface CasesService extends IService<Cases> {
      * @param ids
      * @return
      */
-    R<String> outputExcelByIds(Integer[] ids);
+    R<String> outputExcelByIds(String[] ids);
 }

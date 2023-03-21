@@ -9,6 +9,8 @@ import com.linghe.shiliao.service.CasesService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.linghe.shiliao.utils.Page;
 import com.xxl.tool.excel.ExcelTool;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -109,7 +111,11 @@ public class CasesServiceImpl extends ServiceImpl<CasesMapper, Cases> implements
      * @return
      */
     @Override
-    public R<String> outputExcelByIds(Integer[] ids) {
+    public R<String> outputExcelByIds(String[] ids) {
+
+        if(ObjectUtils.isEmpty(ids)){
+            return  R.error("数据为空");
+        }
         List<CasesDto> list = casesMapper.getByIds(ids);
         String fileName = UUID.randomUUID().toString() + ".xlsx";
         String excelPath = "D:/shiliaoexcel/" + fileName;//后期可换minio地址
@@ -118,6 +124,7 @@ public class CasesServiceImpl extends ServiceImpl<CasesMapper, Cases> implements
             file.getParentFile().mkdirs(); // 创建父目录
         }
         ExcelTool.exportToFile(Collections.singletonList(list), excelPath);
-        return null;
+
+        return R.success("导出成功");
     }
 }
