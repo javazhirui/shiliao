@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
      * @throws IOException
      */
     @Override
-    public R<String> getCode(String uuid) throws IOException {
+    public R<OutputStream> getCode(String uuid) throws IOException {
         if (StringUtils.isBlank(uuid)) {
             return R.error("页面uuid不可为空");
         }
@@ -60,8 +60,7 @@ public class UserServiceImpl implements UserService {
         OutputStream os = new FileOutputStream(file);
         //生成验证码图片  参数(验证码长,高,字节输出流,验证码)
         VerifyCodeUtils.outputImage(600, 150, os, code);
-        os.close();
-        return R.success("生成验证码成功");
+        return R.success(os);
     }
 
     /**

@@ -31,7 +31,7 @@ public class UserController {
      * @return
      */
     @PostMapping("/register")
-    public R<String> register(UserMessageDto userMessageDto) {
+    public R<String> register(@RequestBody UserMessageDto userMessageDto) {
         return userService.register(userMessageDto);
     }
 
@@ -41,7 +41,7 @@ public class UserController {
      * @return 返回一个token
      */
     @PostMapping("/login")
-    public R<String> login(LoginDto loginDto) {
+    public R<String> login(@RequestBody LoginDto loginDto) {
         return userService.login(loginDto);
     }
 
@@ -54,7 +54,7 @@ public class UserController {
      * @throws IOException
      */
     @GetMapping("/getCode")
-    public R<String> getCode(String uuid) throws IOException {
+    public R<OutputStream> getCode(String uuid) throws IOException {
         return userService.getCode(uuid);
     }
 
