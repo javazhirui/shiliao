@@ -41,7 +41,7 @@ public class UserController {
      * @return 返回一个token
      */
     @PostMapping("/login")
-    public R<String> login(@RequestBody LoginDto loginDto) {
+    public R<String> login(LoginDto loginDto) {
         return userService.login(loginDto);
     }
 
