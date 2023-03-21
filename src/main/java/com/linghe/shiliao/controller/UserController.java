@@ -56,8 +56,8 @@ public class UserController {
      * @throws IOException
      */
     @GetMapping("/getCode")
-    public R<String> getCode(String uuid, HttpServletResponse response) throws IOException {
-        return userService.getCode(uuid, response);
+    public R<byte[]> getCode(String uuid) throws IOException {
+        return userService.getCode(uuid);
     }
 
     /**

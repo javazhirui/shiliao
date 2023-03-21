@@ -24,7 +24,7 @@ public interface UserService {
      * @return
      * @throws IOException
      */
-    R<String> getCode(String uuid, HttpServletResponse response) throws IOException;
+    R<byte[]> getCode(String uuid) throws IOException;
 
     /**
      * 登录方法 jwt
