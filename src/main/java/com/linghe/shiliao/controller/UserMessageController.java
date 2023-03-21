@@ -47,5 +47,16 @@ public class UserMessageController {
         userMessageService.delUserMessage(userMessage);
     }
 
+    /**
+     * 导出用户信息Excel
+     * @param excel
+     * @return
+     */
+    @GetMapping("/outputExcelByIds")
+    public R<String> outputExcelByIds(@RequestParam String excel) {
+        System.err.println(excel);
+        String[] ids = excel.split(",");
+        return userMessageService.outputExcelByIds(ids);
+    }
 }
 

@@ -28,4 +28,11 @@ public interface UserMessageService extends IService<UserMessage> {
     void editUserMessageBean(UserMessage userMessageDto);
 
     void delUserMessage(UserMessage userMessage);
+
+    /**
+     * 导出用户信息Excel
+     * @param split
+     * @return
+     */
+    R<String> outputExcelByIds(String[] split);
 }

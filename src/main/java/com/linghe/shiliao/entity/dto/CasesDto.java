@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
-@ExcelSheet(name = "测试")
+@ExcelSheet(name = "病例")
 public class CasesDto implements Serializable {
     private static final long serialVersionUID = 7715737320790709138L;
 

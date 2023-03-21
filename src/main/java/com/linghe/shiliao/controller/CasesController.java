@@ -78,9 +78,8 @@ public class CasesController {
     @GetMapping("/outputExcelByIds")
     public R<String> outputExcelByIds(@RequestParam String excel) {
         System.err.println(excel);
-        String[] split = excel.split(",");
-        return casesService.outputExcelByIds(split);
-
+        String[] ids = excel.split(",");
+        return casesService.outputExcelByIds(ids);
     }
 
 //    @PostMapping("/outputExcel")
