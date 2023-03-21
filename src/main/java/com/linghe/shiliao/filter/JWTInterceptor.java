@@ -27,7 +27,7 @@ public class JWTInterceptor implements HandlerInterceptor {
             try {
                 // 获取 解析器parser; 验证token
                 JwtParser parser = Jwts.parser();
-                parser.setSigningKey("QIANfeng6666"); // 解析token 的 SigningKey 必须和生成的token时设置的密码一致
+                parser.setSigningKey("ukc8BDbRigUDaY6pZFfWus2jZWLPHO"); // 解析token 的 SigningKey 必须和生成的token时设置的密码一致
                 // 如果 token正确(密码正确, 有效期内) 则正常执行, 否则抛出 异常
                 Jws<Claims> claimsJws = parser.parseClaimsJws(token);
                 return true; // 放行; 去访问接口吧
