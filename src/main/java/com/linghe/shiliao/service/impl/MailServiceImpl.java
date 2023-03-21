@@ -181,7 +181,7 @@ public class MailServiceImpl implements MailService {
         if (!StringUtils.equals(code,codeRides)) {
             return R.error("图片验证码输入有误");
         }
-        String emailCode = Md5Utils.hash(VerifyCodeUtils.generateVerifyCode(6));
+        String emailCode = VerifyCodeUtils.generateVerifyCode(6);
         String emailMessage = "您的验证码为:" + emailCode + ",有效期5分钟,如非本人操作,请勿泄露!";
         this.sendSimpleMail(email, "您的食疗小助手", emailMessage);
         emailCode = Md5Utils.hash(emailCode);
