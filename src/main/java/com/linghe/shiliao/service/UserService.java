@@ -5,6 +5,7 @@ import com.linghe.shiliao.common.R;
 import com.linghe.shiliao.entity.dto.LoginDto;
 import com.linghe.shiliao.entity.dto.UserMessageDto;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -23,7 +24,7 @@ public interface UserService {
      * @return
      * @throws IOException
      */
-    R<OutputStream> getCode(String uuid) throws IOException;
+    R<String> getCode(String uuid, HttpServletResponse response) throws IOException;
 
     /**
      * 登录方法 jwt

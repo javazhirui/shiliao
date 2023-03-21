@@ -8,6 +8,7 @@ import com.linghe.shiliao.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -37,6 +38,7 @@ public class UserController {
 
     /**
      * 登录方法 jwt
+     *
      * @param loginDto
      * @return 返回一个token
      */
@@ -54,8 +56,8 @@ public class UserController {
      * @throws IOException
      */
     @GetMapping("/getCode")
-    public R<OutputStream> getCode(String uuid) throws IOException {
-        return userService.getCode(uuid);
+    public R<String> getCode(String uuid, HttpServletResponse response) throws IOException {
+        return userService.getCode(uuid, response);
     }
 
     /**
