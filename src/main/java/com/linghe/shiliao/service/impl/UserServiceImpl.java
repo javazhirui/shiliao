@@ -106,61 +106,59 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public R<String> register(UserMessageDto userMessageDto) {
-        try {
-            if (ObjectUtils.isEmpty(userMessageDto)) {
-                return R.error("数据为空,请检查");
-            }
-            if (userMessageDto.getEmail().isEmpty()) {
-                return R.error("邮箱为空");
-            }
-            //查询构造器
-            LambdaQueryWrapper<UserMessage> lqw = new LambdaQueryWrapper<>();
-            //查询email
-            lqw.eq(UserMessage::getEmail, userMessageDto.getEmail());
-            //获取第一个查询结果
-            UserMessage userMessage = userMessageMapper.selectOne(lqw);
-            if (!ObjectUtils.isEmpty(userMessage)) {
-                return R.error("邮箱已注册,请更换邮箱或重新登陆");
-            }
-            LambdaQueryWrapper<UserMessage> lqw1 = new LambdaQueryWrapper<>();
-            lqw1.eq(UserMessage::getUserName, userMessageDto.getUserName());
-            UserMessage userMessage1 = userMessageMapper.selectOne(lqw1);
-            if (!ObjectUtils.isEmpty(userMessage1)) {
-                return R.error("用户名已存在");
-            }
-            if (StringUtils.isBlank(userMessageDto.getCode())) {
-                return R.error("验证码为空,请检查");
-            }
-            //根据页面唯一uuId获取缓存code(md5加密后)
-            String codeRedis = redisCache.getCacheObject(userMessageDto.getUuid());
-            //前端用户输入的验证码
-            String code = userMessageDto.getCode();
-            code = Md5Utils.hash(code);
-            if (!StringUtils.equals(code, codeRedis)) {
-                return R.error("验证码输入有误,请重新输入");
-            }
-            if (userMessageDto.getEmailCode().isEmpty()) {
-                return R.error("邮箱验证码为空,请检查");
-            }
-            String emailCode = userMessageDto.getEmailCode();
-            emailCode = Md5Utils.hash(emailCode);
-            //获取缓存的邮箱验证码(md5加密后的)
-            String emailCodeRedis = redisCache.getCacheObject(userMessageDto.getEmail() + "_" + userMessageDto.getUuid());
-            if (!StringUtils.equals(emailCode, emailCodeRedis)) {
-                return R.error("邮箱验证码输入有误");
-            }
-            if (userMessageDto.getPassword().isEmpty()) {
-                return R.error("密码不可为空");
-            }
-            //对密码进行MD5加密后替换password
-            userMessageDto.setPassword(Md5Utils.hash(userMessageDto.getPassword()));
-            UserMessage user = new UserMessage();
-            //将userMessageDto中数据拷贝到user
-            BeanUtils.copyProperties(userMessageDto, user);
-            userMessageMapper.insert(user);
-        } catch (Exception e) {
-            return R.error(e.toString());
+
+        if (ObjectUtils.isEmpty(userMessageDto)) {
+            return R.error("数据为空,请检查");
         }
+        if (userMessageDto.getEmail().isEmpty()) {
+            return R.error("邮箱为空");
+        }
+        //查询构造器
+        LambdaQueryWrapper<UserMessage> lqw = new LambdaQueryWrapper<>();
+        //查询email
+        lqw.eq(UserMessage::getEmail, userMessageDto.getEmail());
+        //获取第一个查询结果
+        UserMessage userMessage = userMessageMapper.selectOne(lqw);
+        if (!ObjectUtils.isEmpty(userMessage)) {
+            return R.error("邮箱已注册,请更换邮箱或重新登陆");
+        }
+        LambdaQueryWrapper<UserMessage> lqw1 = new LambdaQueryWrapper<>();
+        lqw1.eq(UserMessage::getUserName, userMessageDto.getUserName());
+        UserMessage userMessage1 = userMessageMapper.selectOne(lqw1);
+        if (!ObjectUtils.isEmpty(userMessage1)) {
+            return R.error("用户名已存在");
+        }
+        if (StringUtils.isBlank(userMessageDto.getCode())) {
+            return R.error("验证码为空,请检查");
+        }
+        //根据页面唯一uuId获取缓存code(md5加密后)
+        String codeRedis = redisCache.getCacheObject(userMessageDto.getUuid());
+        //前端用户输入的验证码
+        String code = userMessageDto.getCode();
+        code = Md5Utils.hash(code);
+        if (!StringUtils.equals(code, codeRedis)) {
+            return R.error("验证码输入有误,请重新输入");
+        }
+        if (userMessageDto.getEmailCode().isEmpty()) {
+            return R.error("邮箱验证码为空,请检查");
+        }
+        String emailCode = userMessageDto.getEmailCode();
+        emailCode = Md5Utils.hash(emailCode);
+        //获取缓存的邮箱验证码(md5加密后的)
+        String emailCodeRedis = redisCache.getCacheObject(userMessageDto.getEmail() + "_" + userMessageDto.getUuid());
+        if (!StringUtils.equals(emailCode, emailCodeRedis)) {
+            return R.error("邮箱验证码输入有误");
+        }
+        if (userMessageDto.getPassword().isEmpty()) {
+            return R.error("密码不可为空");
+        }
+        //对密码进行MD5加密后替换password
+        userMessageDto.setPassword(Md5Utils.hash(userMessageDto.getPassword()));
+        UserMessage user = new UserMessage();
+        //将userMessageDto中数据拷贝到user
+        BeanUtils.copyProperties(userMessageDto, user);
+        userMessageMapper.insert(user);
+
         return R.success("注册成功");
     }
 }
