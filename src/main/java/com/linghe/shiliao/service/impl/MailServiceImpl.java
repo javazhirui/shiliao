@@ -182,11 +182,11 @@ public class MailServiceImpl implements MailService {
             return R.error("图片验证码输入有误");
         }
         String emailCode = Md5Utils.hash(VerifyCodeUtils.generateVerifyCode(6));
-        String emailMessage = "您的验证码为:" + emailCode + ",有效期5分钟,如非本人操作,请勿泄露!";
-        this.sendSimpleMail(email, "您的食疗小助手", emailMessage);
-        emailCode = Md5Utils.hash(emailCode);
         String emailKey = email + "_" + uuid;
         redisCache.setCacheObject(emailKey, emailCode, 50, TimeUnit.MINUTES);
+        emailCode = Md5Utils.hash(emailCode);
+        String emailMessage = "您的验证码为:" + emailCode + ",有效期5分钟,如非本人操作,请勿泄露!";
+        this.sendSimpleMail(email, "您的食疗小助手", emailMessage);
         return R.success("邮箱验证已发送");
     }
 }
