@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.io.OutputStream;
 
 /**
  * 用户注册、登录、修改权限
@@ -49,7 +50,7 @@ public class UserController {
      * 获取验证码
      *
      * @param uuid //前端页面返回唯一的uuId
-     * @return //返回验证码路径
+     * @return //返回验证码输出字节流
      * @throws IOException
      */
     @GetMapping("/getCode")

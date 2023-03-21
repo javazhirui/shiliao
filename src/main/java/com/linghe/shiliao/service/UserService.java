@@ -6,6 +6,7 @@ import com.linghe.shiliao.entity.dto.LoginDto;
 import com.linghe.shiliao.entity.dto.UserMessageDto;
 
 import java.io.IOException;
+import java.io.OutputStream;
 
 public interface UserService {
 

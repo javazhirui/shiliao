@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService {
         //code缓存到Redis
         redisCache.setCacheObject(uuid, codeRedis, 30, TimeUnit.SECONDS);
 
-        String CodeImgPath = "D:/CodeImg/Code.jpg";//后期可换minio地址
+        String CodeImgPath = "D:/CodeImg/" + uuid + ".jpg";//后期可换minio地址
         File file = new File(CodeImgPath);
         if (!file.getParentFile().exists()) { // 此时文件有父目录
             file.getParentFile().mkdirs(); // 创建父目录
@@ -61,8 +61,7 @@ public class UserServiceImpl implements UserService {
         //生成验证码图片  参数(验证码长,高,字节输出流,验证码)
         VerifyCodeUtils.outputImage(600, 150, os, code);
         os.close();
-        String url = "Code.jpg";
-        return R.success(url);
+        return R.success("生成验证码成功");
     }
 
     /**
@@ -93,7 +92,7 @@ public class UserServiceImpl implements UserService {
         if (userMessage.getStatus() == 0) {
             return R.error("账号已停用,请联系管理员");
         }
-        String token = JwtUtils.getJwtToken(""+userMessage.getUserId());
+        String token = JwtUtils.getJwtToken("" + userMessage.getUserId());
         R<String> R = new R<>();
         R.add("token", token);
         return R;
@@ -126,7 +125,7 @@ public class UserServiceImpl implements UserService {
             LambdaQueryWrapper<UserMessage> lqw1 = new LambdaQueryWrapper<>();
             lqw1.eq(UserMessage::getUserName, userMessageDto.getUserName());
             UserMessage userMessage1 = userMessageMapper.selectOne(lqw1);
-            if (!ObjectUtils.isEmpty(userMessage1)){
+            if (!ObjectUtils.isEmpty(userMessage1)) {
                 return R.error("用户名已存在");
             }
             if (StringUtils.isBlank(userMessageDto.getCode())) {
