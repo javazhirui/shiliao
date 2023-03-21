@@ -73,7 +73,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public R<String> login(LoginDto loginDto) {
-        String code = loginDto.getCode();
+        String code = Md5Utils.hash(loginDto.getCode());
         String codeRedis = redisCache.getCacheObject(loginDto.getUuid());
         if (!StringUtils.equals(code, codeRedis)) {
             return R.error("验证码输入错误");
@@ -93,7 +93,7 @@ public class UserServiceImpl implements UserService {
         if (userMessage.getStatus() == 0) {
             return R.error("账号已停用,请联系管理员");
         }
-        String token = JwtUtils.getJwtToken(loginDto.getUsername());
+        String token = JwtUtils.getJwtToken(""+userMessage.getUserId());
         R<String> R = new R<>();
         R.add("token", token);
         return R;
