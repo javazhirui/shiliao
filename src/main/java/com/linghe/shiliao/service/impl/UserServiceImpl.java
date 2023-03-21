@@ -78,11 +78,11 @@ public class UserServiceImpl implements UserService {
             return R.error("验证码输入错误");
         }
         LambdaQueryWrapper<UserMessage> lqw = new LambdaQueryWrapper<>();
-        lqw.eq(UserMessage::getEmail, loginDto.getUsername()).eq(UserMessage::getPassword, Md5Utils.hash(loginDto.getPassword()));
+        lqw.eq(UserMessage::getEmail, loginDto.getUserName()).eq(UserMessage::getPassword, Md5Utils.hash(loginDto.getPassword()));
         UserMessage userMessage = userMessageMapper.selectOne(lqw);
         if (ObjectUtils.isEmpty(userMessage)) {
             LambdaQueryWrapper<UserMessage> lqw1 = new LambdaQueryWrapper<>();
-            lqw1.eq(UserMessage::getUserName, loginDto.getUsername());
+            lqw1.eq(UserMessage::getUserName, loginDto.getUserName());
             lqw1.eq(UserMessage::getPassword, Md5Utils.hash(loginDto.getPassword()));
             UserMessage userMessage1 = userMessageMapper.selectOne(lqw1);
             if (ObjectUtils.isEmpty(userMessage1)) {
