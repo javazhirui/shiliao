@@ -12,7 +12,7 @@ public class LoginDto implements Serializable {
     /**
      * 账号(暂定邮箱作为账号)
      */
-    private String username;
+    private String userName;
 
     /**
      * 密码
