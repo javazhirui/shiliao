@@ -6,13 +6,20 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.linghe.shiliao.common.R;
 import com.linghe.shiliao.entity.Cases;
 import com.linghe.shiliao.entity.dto.CasesDto;
+import com.linghe.shiliao.entity.dto.UserMessageDto;
 import com.linghe.shiliao.mapper.CasesMapper;
 import com.linghe.shiliao.service.CasesService;
 import com.linghe.shiliao.utils.Page;
 import com.xxl.tool.excel.ExcelTool;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.support.HttpRequestHandlerServlet;
 
+import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -32,18 +39,14 @@ public class CasesController {
     private CasesService casesService;
 
     /**
-     * 获取客户及病历信息
-     * @param status
-     * @param phone
-     * @param name
-     * @param health
-     * @param currentPage
-     * @param pageSize
+     *
+     * @param userMessageDto
      * @return
      */
     @PostMapping("/getCaseList")
-    public Page<CasesDto> getCaseList(String status, String phone, String name, String health, Integer currentPage, Integer pageSize) {
-        return casesService.getCaseList(status,phone, name, health, currentPage, pageSize);
+    public Page<CasesDto> getCaseList(@RequestBody UserMessageDto userMessageDto) {
+        Page<CasesDto> page = casesService.getCaseList(userMessageDto.getStatus(), userMessageDto.getPhone(), userMessageDto.getName(), userMessageDto.getHealth(), userMessageDto.getCurrentPage(), userMessageDto.getPageSize());
+        return page;
     }
 
     /**
@@ -72,8 +75,15 @@ public class CasesController {
      * @return
      */
     @PostMapping("/outputExcelByIds")
-    public R<String> outputExcelByIds(@RequestBody String[] ids) {
-        return casesService.outputExcelByIds(ids);
+    public R<String> outputExcelByIds(Integer [] ids) {
+        System.err.println("进来了");
+
+        if(ids == null){
+            System.err.println("123");
+        }
+
+//        return casesService.outputExcelByIds(ids);
+        return  null;
     }
 
 //    @PostMapping("/outputExcel")

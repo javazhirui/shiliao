@@ -39,8 +39,8 @@ public class UserMessageServiceImpl extends ServiceImpl<UserMessageMapper, UserM
         Page<UserMessage> page = new Page<>();
         page.setCurrentPage(userMessageDto.getCurrentPage());
         page.setPageSize(userMessageDto.getPageSize());
-        page.setTotal(userMessageMapper.getTotal());
         userMessageDto.setCurrentPage((userMessageDto.getCurrentPage()-1)*userMessageDto.getPageSize());
+        page.setTotal(userMessageMapper.getTotal(userMessageDto));
         page.setList(userMessageMapper.getList(userMessageDto));
         return page;
     }

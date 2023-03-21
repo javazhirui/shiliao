@@ -61,7 +61,8 @@ public class UserServiceImpl implements UserService {
         //生成验证码图片  参数(验证码长,高,字节输出流,验证码)
         VerifyCodeUtils.outputImage(600, 150, os, code);
         os.close();
-        return R.success(CodeImgPath);
+        String url = "Code.jpg";
+        return R.success(url);
     }
 
     /**
@@ -101,7 +102,7 @@ public class UserServiceImpl implements UserService {
     /**
      * 邮箱注册方法
      *
-     * @param userMessageDto
+     * @param userMessageDto UUID 账号密码 email 邮箱验证码 验证码  姓名 联系电话
      * @return
      */
     @Override
