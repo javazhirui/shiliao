@@ -54,7 +54,7 @@ public class UserController {
      * @throws IOException
      */
     @GetMapping("/getCode")
-    public R<String> getCode(String uuid) throws IOException {
+    public R<OutputStream> getCode(String uuid) throws IOException {
         return userService.getCode(uuid);
     }
 

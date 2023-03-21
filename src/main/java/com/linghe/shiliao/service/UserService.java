@@ -23,7 +23,7 @@ public interface UserService {
      * @return
      * @throws IOException
      */
-    R<String> getCode(String uuid) throws IOException;
+    R<OutputStream> getCode(String uuid) throws IOException;
 
     /**
      * 登录方法 jwt
