@@ -29,6 +29,11 @@ public class Cases implements Serializable {
     private Integer casesId;
 
     /**
+     * 关联user_id
+     */
+    private Integer userId;
+
+    /**
      * 诊断结果
      */
     private String diagnosis;
