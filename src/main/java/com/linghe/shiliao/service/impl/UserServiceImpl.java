@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
         String code = VerifyCodeUtils.generateVerifyCode(6);
         String codeRedis = Md5Utils.hash(code);
         //code缓存到Redis
-        redisCache.setCacheObject(uuid, codeRedis, 30, TimeUnit.SECONDS);
+        redisCache.setCacheObject(uuid, codeRedis, 3000, TimeUnit.SECONDS);
 
         String CodeImgPath = "D:/CodeImg/" + uuid + ".jpg";//后期可换minio地址
         File file = new File(CodeImgPath);

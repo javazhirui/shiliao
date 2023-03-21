@@ -177,6 +177,7 @@ public class MailServiceImpl implements MailService {
             return R.error("验证码为空");
         }
         String codeRides = redisCache.getCacheObject(uuid);
+        code = Md5Utils.hash(code);
         if (!StringUtils.equals(code,codeRides)) {
             return R.error("图片验证码输入有误");
         }
