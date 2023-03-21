@@ -31,7 +31,7 @@ public class UserController {
      * @return
      */
     @PostMapping("/register")
-    public R<String> register(@RequestBody UserMessageDto userMessageDto) {
+    public R<String> register(UserMessageDto userMessageDto) {
         return userService.register(userMessageDto);
     }
 
