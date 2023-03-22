@@ -68,15 +68,14 @@ public class UserController {
 
     /**
      * 发送邮箱验证码
-     *
-     * @param uuid
-     * @param email
-     * @param code
+     * @param userMessageDto
      * @return
      */
-    @GetMapping("/getEmailCode")
-    public R<String> getEmailCode(@RequestParam String uuid, @RequestParam String email, @RequestParam String code) {
-        return mailService.getEmailCode(uuid, email, code);
+    @PostMapping("/getEmailCode")
+    public R<String> getEmailCode(@RequestBody UserMessageDto userMessageDto) {
+        System.err.println("soleUUid:"+userMessageDto.getUuid());
+//        String uuid, @RequestParam String email, @RequestParam String code
+        return mailService.getEmailCode(userMessageDto.getUuid(), userMessageDto.getEmail(), userMessageDto.getCode());
     }
 
 
