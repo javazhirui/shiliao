@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
     private String codeImgPath;
 
     //图片验证码有效时长(秒)
-    @Value("{shiliaoRedisTime.codeTime}")
+    @Value("${shiliaoRedisTime.codeTime}")
     private String codeTime;
 
     /**

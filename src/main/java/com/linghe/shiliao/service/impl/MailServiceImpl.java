@@ -42,7 +42,7 @@ public class MailServiceImpl implements MailService {
     private String MailSender;
 
     //邮箱验证码有效时长(秒)
-    @Value("{shiliaoRedisTime.emailCodeTime}")
+    @Value("${shiliaoRedisTime.emailCodeTime}")
     private String emailCodeTime;
 
     /**
