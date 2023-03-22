@@ -17,7 +17,6 @@ public class DeleteCodeImgTask {
     @Value("${shiliaoFilePath.codeImgPath}")
     private String codeImgPath;
 
-
     @Autowired
     private RedisCache redisCache;
 
