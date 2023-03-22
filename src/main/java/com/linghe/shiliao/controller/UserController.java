@@ -43,10 +43,14 @@ public class UserController {
      * @param loginDto
      */
     @PostMapping("/login")
-    public void login(HttpServletResponse response, @RequestBody LoginDto loginDto) {
+    public R<String> login(HttpServletResponse response, @RequestBody LoginDto loginDto) {
         R<String> r = userService.login(loginDto);
+        if (r.getCode() != 1) {
+            return R.error(r.getMsg());
+        }
         String token = (String) r.getMap().get("token");
         response.setHeader("token",token);
+        return R.success("登陆成功");
     }
 
 
