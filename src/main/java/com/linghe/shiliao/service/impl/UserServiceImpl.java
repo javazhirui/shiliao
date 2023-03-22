@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
 
     //图片验证码有效时长(秒)
     @Value("{shiliaoRedisTime.codeTime}")
-    private Integer codeTime;
+    private String codeTime;
 
     /**
      * 获取验证码
@@ -64,7 +64,7 @@ public class UserServiceImpl implements UserService {
         String code = VerifyCodeUtils.generateVerifyCode(6);
         String codeRedis = Md5Utils.hash(code);
         //code缓存到Redis
-        redisCache.setCacheObject(uuid, codeRedis, codeTime, TimeUnit.SECONDS);
+        redisCache.setCacheObject(uuid, codeRedis, Integer.parseInt(codeTime), TimeUnit.SECONDS);
 
         String CodeImgPath = codeImgPath + uuid + ".jpg";//后期可换minio地址
         File file = new File(CodeImgPath);
