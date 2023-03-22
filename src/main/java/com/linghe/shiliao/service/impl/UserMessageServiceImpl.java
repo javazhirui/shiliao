@@ -36,7 +36,6 @@ public class UserMessageServiceImpl extends ServiceImpl<UserMessageMapper, UserM
     private UserMessageMapper userMessageMapper;
 
 
-
     /**
      * 查询用户信息
      *
@@ -48,7 +47,7 @@ public class UserMessageServiceImpl extends ServiceImpl<UserMessageMapper, UserM
         Page<UserMessage> page = new Page<>();
         page.setCurrentPage(userMessageDto.getCurrentPage());
         page.setPageSize(userMessageDto.getPageSize());
-        userMessageDto.setCurrentPage((userMessageDto.getCurrentPage()-1)*userMessageDto.getPageSize());
+        userMessageDto.setCurrentPage((userMessageDto.getCurrentPage() - 1) * userMessageDto.getPageSize());
         page.setTotal(userMessageMapper.getTotal(userMessageDto));
         page.setList(userMessageMapper.getList(userMessageDto));
         return page;
@@ -57,19 +56,20 @@ public class UserMessageServiceImpl extends ServiceImpl<UserMessageMapper, UserM
     @Override
     public void editUserMessageBean(UserMessage userMessage) {
         UserMessage userMessage2 = new UserMessage();
-        BeanUtils.copyProperties(userMessage,userMessage2);
+        BeanUtils.copyProperties(userMessage, userMessage2);
         this.updateById(userMessage2);
     }
 
     @Override
     public void delUserMessage(UserMessage userMessage) {
         UserMessage userMessage2 = new UserMessage();
-        BeanUtils.copyProperties(userMessage,userMessage2);
+        BeanUtils.copyProperties(userMessage, userMessage2);
         this.updateById(userMessage2);
     }
 
     /**
      * 导出用户信息Excel
+     *
      * @param ids
      * @return
      */
@@ -78,9 +78,9 @@ public class UserMessageServiceImpl extends ServiceImpl<UserMessageMapper, UserM
         if (ObjectUtils.isEmpty(ids)) {
             return R.error("数据为空");
         }
-        ArrayList<Integer> list = new ArrayList<>();
+        ArrayList list = new ArrayList<>();
         for (int i = 0; i < ids.length; i++) {
-            list.add(Integer.parseInt(ids[i]));
+            list.add(ids[i]);
         }
         List<UserMessage> list1 = userMessageMapper.selectBatchIds(list);
         String fileName = UUID.randomUUID().toString() + ".xlsx";
