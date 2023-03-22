@@ -83,8 +83,18 @@ xss:
 
 
 shiliaoFilePath:
+  #验证码地址
   codeImgPath: D:/ShiLiao/CodeImg/
+  #用户信息导出地址
   userMessageExcelPath: D:/ShiLiao/userMessageExcel/
+  #病历信息导出地址
   casesMessageExcelPath: D:/ShiLiao/casesMessageExcel/
+
+
+shiliaoRedisTime:
+  #图片验证码有效时长(秒)
+  codeTime: 3000
+  #邮箱验证码有效时长(秒)
+  emailCodeTime: 3000
 
 

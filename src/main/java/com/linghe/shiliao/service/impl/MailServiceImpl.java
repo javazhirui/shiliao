@@ -41,6 +41,10 @@ public class MailServiceImpl implements MailService {
     @Value("${spring.mail.username}")
     private String MailSender;
 
+    //邮箱验证码有效时长(秒)
+    @Value("{shiliaoRedisTime.emailCodeTime}")
+    private Integer emailCodeTime;
+
     /**
      * @param mailRecipient 邮件接收方
      * @param subject       邮件主题
@@ -186,7 +190,7 @@ public class MailServiceImpl implements MailService {
         this.sendSimpleMail(email, "您的食疗小助手", emailMessage);
         emailCode = Md5Utils.hash(emailCode);
         String emailKey = email + "_" + uuid;
-        redisCache.setCacheObject(emailKey, emailCode, 50, TimeUnit.MINUTES);
+        redisCache.setCacheObject(emailKey, emailCode, emailCodeTime, TimeUnit.SECONDS);
         return R.success("邮箱验证已发送");
     }
 }
