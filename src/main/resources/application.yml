@@ -83,8 +83,8 @@ xss:
 
 
 shiliaoFilePath:
-  codeImgPath: D:/CodeImg/
-  userMessageExcelPath: D:/userMessageExcel/
-  casesMessageExcelPath: D:/casesMessageExcel/
+  codeImgPath: D:/ShiLiao/CodeImg/
+  userMessageExcelPath: D:/ShiLiao/userMessageExcel/
+  casesMessageExcelPath: D:/ShiLiao/casesMessageExcel/
 
 
