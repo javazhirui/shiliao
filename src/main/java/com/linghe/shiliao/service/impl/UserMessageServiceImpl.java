@@ -90,6 +90,6 @@ public class UserMessageServiceImpl extends ServiceImpl<UserMessageMapper, UserM
             file.getParentFile().mkdirs(); // 创建父目录
         }
         ExcelTool.exportToFile(Collections.singletonList(list1), excelPath);
-        return R.success("导出成功");
+        return R.success(excelPath);
     }
 }
