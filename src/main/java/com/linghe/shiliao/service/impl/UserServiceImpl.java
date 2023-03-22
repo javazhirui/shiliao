@@ -58,6 +58,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public R<String> getCode(String uuid) throws IOException {
+
         if (StringUtils.isBlank(uuid)) {
             return R.error("页面uuid不可为空");
         }

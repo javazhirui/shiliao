@@ -173,13 +173,13 @@ public class MailServiceImpl implements MailService {
      */
     @Override
     public R<String> getEmailCode(String uuid, String email, String code) {
-        if (uuid.isEmpty()) {
+        if (uuid == null) {
             return R.error("uuId为空");
         }
-        if (email.isEmpty()) {
+        if (email == null) {
             return R.error("邮箱为空");
         }
-        if (code.isEmpty()) {
+        if (code == null) {
             return R.error("验证码为空");
         }
         String codeRides = redisCache.getCacheObject(uuid);
