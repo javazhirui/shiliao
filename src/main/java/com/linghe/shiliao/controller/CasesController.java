@@ -73,12 +73,13 @@ public class CasesController {
      * 病例信息导出
      * 根据id数组导出excel
      * @param excel
+     * @param excelName
      * @return
      */
     @GetMapping("/outputExcelByIds")
-    public R<String> outputExcelByIds(@RequestParam String excel) {
+    public R<String> outputExcelByIds(@RequestParam String excel, @RequestParam String excelName) {
         String[] ids = excel.split(",");
-        return casesService.outputExcelByIds(ids);
+        return casesService.outputExcelByIds(ids,excelName);
     }
 
 //    @PostMapping("/outputExcel")

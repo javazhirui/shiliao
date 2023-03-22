@@ -78,7 +78,7 @@ public class UserMessageServiceImpl extends ServiceImpl<UserMessageMapper, UserM
      * @return
      */
     @Override
-    public R<String> outputExcelByIds(String[] ids) {
+    public R<String> outputExcelByIds(String[] ids, String excelName) {
         if (ObjectUtils.isEmpty(ids)) {
             return R.error("数据为空");
         }
@@ -87,8 +87,7 @@ public class UserMessageServiceImpl extends ServiceImpl<UserMessageMapper, UserM
             list.add(ids[i]);
         }
         List<UserMessage> list1 = userMessageMapper.selectBatchIds(list);
-        String fileName = UUID.randomUUID().toString() + ".xlsx";
-        String excelPath = userMessageExcel + fileName;//后期可换minio地址
+        String excelPath = userMessageExcel + excelName + ".xlsx";//后期可换minio地址
         File file = new File(excelPath);
         if (!file.getParentFile().exists()) { // 此时文件有父目录
             file.getParentFile().mkdirs(); // 创建父目录

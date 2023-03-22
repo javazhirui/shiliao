@@ -112,17 +112,17 @@ public class CasesServiceImpl extends ServiceImpl<CasesMapper, Cases> implements
      * 根据id数组导出excel
      *
      * @param ids
+     * @param excelName
      * @return
      */
     @Override
-    public R<String> outputExcelByIds(String[] ids) {
+    public R<String> outputExcelByIds(String[] ids, String excelName) {
 
         if(ObjectUtils.isEmpty(ids)){
             return  R.error("数据为空");
         }
         List<CasesDto> list = casesMapper.getByIds(ids);
-        String fileName = UUID.randomUUID().toString() + ".xlsx";
-        String excelPath = casesMessageExcel + fileName;//后期可换minio地址
+        String excelPath = casesMessageExcel + excelName + ".xlsx";//后期可换minio地址
         File file = new File(excelPath);
         if (!file.getParentFile().exists()) { // 此时文件有父目录
             file.getParentFile().mkdirs(); // 创建父目录

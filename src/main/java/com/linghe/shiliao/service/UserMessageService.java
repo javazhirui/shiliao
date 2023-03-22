@@ -32,7 +32,8 @@ public interface UserMessageService extends IService<UserMessage> {
     /**
      * 导出用户信息Excel
      * @param split
+     * @param excelName
      * @return
      */
-    R<String> outputExcelByIds(String[] split);
+    R<String> outputExcelByIds(String[] split, String excelName);
 }

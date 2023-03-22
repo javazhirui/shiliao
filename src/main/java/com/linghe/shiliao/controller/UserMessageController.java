@@ -50,13 +50,14 @@ public class UserMessageController {
     /**
      * 导出用户信息Excel
      * @param excel
+     * @param excelName
      * @return
      */
     @GetMapping("/outputExcelByIds")
-    public R<String> outputExcelByIds(@RequestParam String excel) {
+    public R<String> outputExcelByIds(@RequestParam String excel, @RequestParam String excelName) {
         System.err.println(excel);
         String[] ids = excel.split(",");
-        return userMessageService.outputExcelByIds(ids);
+        return userMessageService.outputExcelByIds(ids,excelName);
     }
 }
 
