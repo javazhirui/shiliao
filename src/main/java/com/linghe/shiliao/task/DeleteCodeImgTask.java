@@ -21,12 +21,16 @@ public class DeleteCodeImgTask {
     @Autowired
     private RedisCache redisCache;
 
-    @Scheduled(cron = "0 * /1 * * * ?") //每个分钟执行一次
-    // @Scheduled(cron="0 0/5 * * * *")
+    @Scheduled(cron = "0 */1 * * * ?") //每个分钟执行一次
+//    @Scheduled(cron="*/5 * * * * ?")
     private void deleteCodeImg() {
         List<String> uuidNames = this.getFileNames(codeImgPath);
-        if (uuidNames == null && uuidNames.size() == 0) {
-
+        if (null == uuidNames || uuidNames.size() == 0) {
+            String excelPath = codeImgPath.substring(0,codeImgPath.length()-1);
+            File file = new File(excelPath);
+            if (!file.exists()) { // 此时文件有父目录
+                file.mkdirs(); // 创建父目录
+            }
         }
         for (String uuidName : uuidNames) {
             String[] split = uuidName.split(".jpg");
