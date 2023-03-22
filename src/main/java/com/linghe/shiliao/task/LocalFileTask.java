@@ -20,8 +20,8 @@ public class LocalFileTask {
     @Autowired
     private RedisCache redisCache;
 
-    @Scheduled(cron = "0 */5 * * * ?") //每5分钟执行一次
-//    @Scheduled(cron="*/5 * * * * ?")
+//    @Scheduled(cron = "0 */5 * * * ?") //每5分钟执行一次
+    @Scheduled(cron="*/5 * * * * ?")
     private void deleteCodeImg() {
         String excelPath = codeImgPath.substring(0,codeImgPath.length()-1);
         File file = new File(excelPath);

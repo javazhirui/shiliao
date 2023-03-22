@@ -7,6 +7,7 @@ import com.linghe.shiliao.utils.Md5Utils;
 import com.linghe.shiliao.utils.RedisCache;
 import com.linghe.shiliao.utils.VerifyCodeUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,6 +17,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.File;
@@ -182,15 +184,28 @@ public class MailServiceImpl implements MailService {
         }
         String codeRides = redisCache.getCacheObject(uuid);
         code = Md5Utils.hash(code);
-        if (!StringUtils.equals(code,codeRides)) {
+        if (!StringUtils.equals(code, codeRides)) {
             return R.error("图片验证码输入有误");
         }
+
+        String emailKey = email + "_" + uuid;
+
+        long thisTime = System.currentTimeMillis();
+        Long getTime = redisCache.getCacheObject(emailKey + "time");
+        if (!ObjectUtils.isEmpty(getTime)) {
+            if (thisTime - getTime < 100000) {
+                return R.error("邮箱验证码重复获取,获取太过频繁");
+            }
+        }
         String emailCode = VerifyCodeUtils.generateVerifyCode(6);
+        emailCode = Md5Utils.hash(emailCode);
+        long l = System.currentTimeMillis();
+        redisCache.setCacheObject(emailKey + "time", l, Integer.parseInt(emailCodeTime), TimeUnit.SECONDS);
+        redisCache.setCacheObject(emailKey, emailCode, Integer.parseInt(emailCodeTime), TimeUnit.SECONDS);
+
         String emailMessage = "您的验证码为:" + emailCode + ",有效期5分钟,如非本人操作,请勿泄露!";
         this.sendSimpleMail(email, "您的食疗小助手", emailMessage);
-        emailCode = Md5Utils.hash(emailCode);
-        String emailKey = email + "_" + uuid;
-        redisCache.setCacheObject(emailKey, emailCode, Integer.parseInt(emailCodeTime), TimeUnit.SECONDS);
-        return R.success("邮箱验证已发送");
+
+        return R.success("邮箱验证码已发送");
     }
 }

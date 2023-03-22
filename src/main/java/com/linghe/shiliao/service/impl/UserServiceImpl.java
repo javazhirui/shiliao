@@ -61,10 +61,21 @@ public class UserServiceImpl implements UserService {
         if (StringUtils.isBlank(uuid)) {
             return R.error("页面uuid不可为空");
         }
+        long thisTime = System.currentTimeMillis();
+        Long getTime = redisCache.getCacheObject(uuid + "time");
+        if (!ObjectUtils.isEmpty(getTime)){
+            if (thisTime - getTime < 1000) {
+                return R.error("验证码获取太过频繁");
+            }
+        }
+
         String code = VerifyCodeUtils.generateVerifyCode(6);
         String codeRedis = Md5Utils.hash(code);
         //code缓存到Redis
+        Long l = System.currentTimeMillis();
+        redisCache.setCacheObject(uuid + "time", l, Integer.parseInt(codeTime), TimeUnit.SECONDS);
         redisCache.setCacheObject(uuid, codeRedis, Integer.parseInt(codeTime), TimeUnit.SECONDS);
+
 
         String CodeImgPath = codeImgPath + uuid + ".jpg";//后期可换minio地址
         File file = new File(CodeImgPath);
