@@ -16,6 +16,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.imageio.ImageIO;
@@ -40,6 +41,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private RedisCache redisCache;
 
+    @Value("${shiliaoFilePath.codeImgPath}")
+    private String codeImgPath;
+
     /**
      * 获取验证码
      *
@@ -57,7 +61,7 @@ public class UserServiceImpl implements UserService {
         //code缓存到Redis
         redisCache.setCacheObject(uuid, codeRedis, 3000, TimeUnit.SECONDS);
 
-        String CodeImgPath = "D:/CodeImg/" + uuid + ".jpg";//后期可换minio地址
+        String CodeImgPath = codeImgPath + uuid + ".jpg";//后期可换minio地址
         File file = new File(CodeImgPath);
         if (!file.getParentFile().exists()) { // 此时文件有父目录
             file.getParentFile().mkdirs(); // 创建父目录
