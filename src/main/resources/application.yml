@@ -91,6 +91,7 @@ shiliaoFilePath:
   casesMessageExcelPath: D:/ShiLiao/casesMessageExcel/
 
 
+#redis缓存时间
 shiliaoRedisTime:
   #图片验证码有效时长(秒)
   codeTime: 3000
