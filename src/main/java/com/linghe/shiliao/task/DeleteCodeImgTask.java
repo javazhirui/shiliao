@@ -21,7 +21,7 @@ public class DeleteCodeImgTask {
     @Autowired
     private RedisCache redisCache;
 
-    @Scheduled(cron = "0 */1 * * * ?") //每个分钟执行一次
+    @Scheduled(cron = "0 */5 * * * ?") //每个分钟执行一次
 //    @Scheduled(cron="*/5 * * * * ?")
     private void deleteCodeImg() {
         List<String> uuidNames = this.getFileNames(codeImgPath);
