@@ -125,6 +125,6 @@ public class CasesServiceImpl extends ServiceImpl<CasesMapper, Cases> implements
         }
         ExcelTool.exportToFile(Collections.singletonList(list), excelPath);
 
-        return R.success("导出成功");
+        return R.success(excelPath);
     }
 }
