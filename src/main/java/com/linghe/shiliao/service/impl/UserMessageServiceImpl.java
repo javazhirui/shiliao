@@ -8,9 +8,11 @@ import com.linghe.shiliao.mapper.CasesMapper;
 import com.linghe.shiliao.mapper.UserMessageMapper;
 import com.linghe.shiliao.service.UserMessageService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.linghe.shiliao.task.LocalFileTask;
 import com.linghe.shiliao.utils.Page;
 import com.xxl.tool.excel.ExcelTool;
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -35,6 +37,9 @@ public class UserMessageServiceImpl extends ServiceImpl<UserMessageMapper, UserM
 
     @Autowired
     private UserMessageMapper userMessageMapper;
+
+    @Autowired
+    private LocalFileTask localFileTask;
 
     @Value("${shiliaoFilePath.userMessageExcelPath}")
     private String userMessageExcel;
@@ -79,15 +84,25 @@ public class UserMessageServiceImpl extends ServiceImpl<UserMessageMapper, UserM
      */
     @Override
     public R<String> outputExcelByIds(String[] ids, String excelName) {
-        if (ObjectUtils.isEmpty(ids)) {
+        if (ObjectUtils.isEmpty(ids) || StringUtils.isEmpty(excelName)) {
             return R.error("数据为空");
         }
+        String excelName1 = excelName + ".xlsx";
+        List<String> fileNames = localFileTask.getFileNames(userMessageExcel);
+        if (null != fileNames && fileNames.size() != 0) {
+            for (String fileName : fileNames) {
+                if (StringUtils.equals(fileName,excelName1)) {
+                    return R.error("文件名已存在");
+                }
+            }
+        }
+
         ArrayList list = new ArrayList<>();
         for (int i = 0; i < ids.length; i++) {
             list.add(ids[i]);
         }
         List<UserMessage> list1 = userMessageMapper.selectBatchIds(list);
-        String excelPath = userMessageExcel + excelName + ".xlsx";//后期可换minio地址
+        String excelPath = userMessageExcel + excelName1;//后期可换minio地址
         File file = new File(excelPath);
         if (!file.getParentFile().exists()) { // 此时文件有父目录
             file.getParentFile().mkdirs(); // 创建父目录

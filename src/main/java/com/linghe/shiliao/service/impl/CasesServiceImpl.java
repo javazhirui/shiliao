@@ -7,6 +7,7 @@ import com.linghe.shiliao.entity.dto.CasesDto;
 import com.linghe.shiliao.mapper.CasesMapper;
 import com.linghe.shiliao.service.CasesService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.linghe.shiliao.task.LocalFileTask;
 import com.linghe.shiliao.utils.Page;
 import com.xxl.tool.excel.ExcelTool;
 import org.apache.commons.lang3.ObjectUtils;
@@ -33,6 +34,9 @@ public class CasesServiceImpl extends ServiceImpl<CasesMapper, Cases> implements
 
     @Autowired
     private CasesMapper casesMapper;
+
+    @Autowired
+    private LocalFileTask localFileTask;
 
     @Value("${shiliaoFilePath.casesMessageExcelPath}")
     private String casesMessageExcel;
@@ -117,10 +121,19 @@ public class CasesServiceImpl extends ServiceImpl<CasesMapper, Cases> implements
      */
     @Override
     public R<String> outputExcelByIds(String[] ids, String excelName) {
-
-        if(ObjectUtils.isEmpty(ids)){
-            return  R.error("数据为空");
+        if (ObjectUtils.isEmpty(ids) || StringUtils.isEmpty(excelName)) {
+            return R.error("数据为空");
         }
+        String excelName1 = excelName + ".xlsx";
+        List<String> fileNames = localFileTask.getFileNames(casesMessageExcel);
+        if (null != fileNames && fileNames.size() != 0) {
+            for (String fileName : fileNames) {
+                if (StringUtils.equals(fileName,excelName1)) {
+                    return R.error("文件名已存在");
+                }
+            }
+        }
+
         List<CasesDto> list = casesMapper.getByIds(ids);
         String excelPath = casesMessageExcel + excelName + ".xlsx";//后期可换minio地址
         File file = new File(excelPath);
