@@ -8,6 +8,7 @@ import com.linghe.shiliao.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -40,11 +41,12 @@ public class UserController {
      * 登录方法 jwt
      *
      * @param loginDto
-     * @return 返回一个token
      */
     @PostMapping("/login")
-    public R<String> login(@RequestBody LoginDto loginDto) {
-        return userService.login(loginDto);
+    public void login(HttpServletResponse response, @RequestBody LoginDto loginDto) {
+        R<String> r = userService.login(loginDto);
+        String token = (String) r.getMap().get("token");
+        response.setHeader("token",token);
     }
 
 

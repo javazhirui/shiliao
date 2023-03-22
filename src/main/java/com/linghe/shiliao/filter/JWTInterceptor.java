@@ -18,7 +18,7 @@ public class JWTInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String token = request.getParameter("token");
+        String token = request.getHeader("token");
         if (token == null) {
             String errorMessage = "请先登录";
             // 没有传 token; 提示请先登录
