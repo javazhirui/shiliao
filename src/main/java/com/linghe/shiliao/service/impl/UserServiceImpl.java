@@ -99,7 +99,7 @@ public class UserServiceImpl implements UserService {
      * @return 返回一个token
      */
     @Override
-    public R<String> login(LoginDto loginDto) {
+    public R<String> login(HttpServletResponse response, LoginDto loginDto) {
         String code = Md5Utils.hash(loginDto.getCode());
         String codeRedis = redisCache.getCacheObject(loginDto.getUuid());
         if (!StringUtils.equals(code, codeRedis)) {
@@ -126,7 +126,8 @@ public class UserServiceImpl implements UserService {
             return R.error("账号已停用,请联系管理员");
         }
         String token = JwtUtils.getJwtToken("" + userMessage.getUserId());
-        return R.success("token已返回至响应头").add("token", token);
+        response.setHeader("token", token);
+        return R.success("登陆成功");
     }
 
     /**

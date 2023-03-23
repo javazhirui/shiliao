@@ -31,5 +31,5 @@ public interface UserService {
      * @param loginDto
      * @return
      */
-    R<String> login(LoginDto loginDto);
+    R<String> login(HttpServletResponse response, LoginDto loginDto);
 }
