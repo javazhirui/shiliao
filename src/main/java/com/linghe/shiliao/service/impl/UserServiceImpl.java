@@ -64,7 +64,7 @@ public class UserServiceImpl implements UserService {
         }
         long thisTime = System.currentTimeMillis();
         Long getTime = redisCache.getCacheObject(uuid + "time");
-        if (!ObjectUtils.isEmpty(getTime)){
+        if (!ObjectUtils.isEmpty(getTime)) {
             if (thisTime - getTime < 1000) {
                 return R.error("验证码获取太过频繁");
             }
@@ -105,7 +105,6 @@ public class UserServiceImpl implements UserService {
         if (!StringUtils.equals(code, codeRedis)) {
             return R.error("验证码输入错误");
         }
-        R<String> R = new R<>();
         LambdaQueryWrapper<UserMessage> lqw = new LambdaQueryWrapper<>();
         lqw.eq(UserMessage::getEmail, loginDto.getUserName());
         lqw.eq(UserMessage::getPassword, Md5Utils.hash(loginDto.getPassword()));
@@ -127,8 +126,7 @@ public class UserServiceImpl implements UserService {
             return R.error("账号已停用,请联系管理员");
         }
         String token = JwtUtils.getJwtToken("" + userMessage.getUserId());
-        R.add("token", token);
-        return R;
+        return R.success("token已返回至响应头").add("token", token);
     }
 
     /**
