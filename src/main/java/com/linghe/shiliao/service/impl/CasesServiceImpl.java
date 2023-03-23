@@ -191,7 +191,6 @@ public class CasesServiceImpl extends ServiceImpl<CasesMapper, Cases> implements
             dataMap.put("casesList", casesList);
             //文件生成位置
             String wordName = casesMessageWord + userMessage.getName() + "_" + userMessage.getPhone() + ".doc";
-
             File file = new File(wordName);
             if (!file.getParentFile().exists()) { // 此时文件有父目录
                 file.getParentFile().mkdirs(); // 创建父目录
