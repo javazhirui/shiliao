@@ -164,19 +164,22 @@ public class CasesServiceImpl extends ServiceImpl<CasesMapper, Cases> implements
         if (ObjectUtils.isEmpty(ids)) {
             return R.error("id为空");
         }
-        List<CasesDto> list = casesMapper.getByIds(ids);
-        for (int i = 0; i < ids.length; i++) {
+        //循环遍历id做查询导出
+        for (String id : ids) {
             Map<String, Object> dataMap = new HashMap<>();
-            UserMessage userMessage = userMessageMapper.selectById(ids[i]);
+            //获取用户基础信息
+            UserMessage userMessage = userMessageMapper.selectById(id);
             dataMap.put("name", userMessage.getName());
             dataMap.put("gender", userMessage.getGender() == 1 ? "男" : "女");
             dataMap.put("age", userMessage.getAge());
             dataMap.put("phone", userMessage.getPhone());
             dataMap.put("email", userMessage.getEmail());
+            //根据userId查询对应病例,按时间降序
             LambdaQueryWrapper<Cases> lqw = new LambdaQueryWrapper<>();
             lqw.eq(Cases::getUserId, userMessage.getUserId());
             lqw.orderByDesc(Cases::getCreateTime);
             List<Cases> cases = casesMapper.selectList(lqw);
+            //将查询到的病例信息存入表格所属集合
             List<Map<String, Object>> casesList = new LinkedList<>();
             for (Cases aCase : cases) {
                 Map<String, Object> map = new HashMap<>();
@@ -186,12 +189,15 @@ public class CasesServiceImpl extends ServiceImpl<CasesMapper, Cases> implements
                 casesList.add(map);
             }
             dataMap.put("casesList", casesList);
-            WordUtil wordUtil = new WordUtil();
+            //文件生成位置
             String wordName = casesMessageWord + userMessage.getName() + "_" + userMessage.getPhone() + ".doc";
+
             File file = new File(wordName);
             if (!file.getParentFile().exists()) { // 此时文件有父目录
                 file.getParentFile().mkdirs(); // 创建父目录
             }
+
+            WordUtil wordUtil = new WordUtil();
             wordUtil.createWord(dataMap, "casesWord.xml", wordName);
         }
         return R.success("导出结束,请前往本地查看:" + casesMessageWord);
