@@ -82,6 +82,17 @@ public class CasesController {
         return casesService.outputExcelByIds(ids,excelName);
     }
 
+    /**
+     * 根据id数组导出word
+     * @param word
+     * @return
+     */
+    @GetMapping("/outputWordByIds")
+    public R<String> outputWordByIds(@RequestParam String word) {
+        String[] ids = word.split(",");
+        return casesService.outputWordByIds(ids);
+    }
+
 //    @PostMapping("/outputExcel")
 //    public R<String> outputExcel()
 }

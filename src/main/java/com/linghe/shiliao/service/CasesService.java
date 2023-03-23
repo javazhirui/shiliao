@@ -51,4 +51,11 @@ public interface CasesService extends IService<Cases> {
      * @return
      */
     R<String> outputExcelByIds(String[] ids, String excelName);
+
+    /**
+     * 根据id数组导出word
+     * @param ids
+     * @return
+     */
+    R<String> outputWordByIds(String[] ids);
 }

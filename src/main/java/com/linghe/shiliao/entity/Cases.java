@@ -53,5 +53,9 @@ public class Cases implements Serializable {
      */
     private String casesImgUrl;
 
+    /**
+     * 创建时间
+     */
+    private String createTime;
 
 }

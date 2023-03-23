@@ -3,12 +3,15 @@ package com.linghe.shiliao.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.linghe.shiliao.common.R;
 import com.linghe.shiliao.entity.Cases;
+import com.linghe.shiliao.entity.UserMessage;
 import com.linghe.shiliao.entity.dto.CasesDto;
 import com.linghe.shiliao.mapper.CasesMapper;
+import com.linghe.shiliao.mapper.UserMessageMapper;
 import com.linghe.shiliao.service.CasesService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.linghe.shiliao.task.LocalFileTask;
 import com.linghe.shiliao.utils.Page;
+import com.linghe.shiliao.utils.WordUtil;
 import com.xxl.tool.excel.ExcelTool;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -17,9 +20,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * <p>
@@ -38,8 +39,15 @@ public class CasesServiceImpl extends ServiceImpl<CasesMapper, Cases> implements
     @Autowired
     private LocalFileTask localFileTask;
 
+    @Autowired
+    private UserMessageMapper userMessageMapper;
+
     @Value("${shiliaoFilePath.casesMessageExcelPath}")
     private String casesMessageExcel;
+
+    @Value("${shiliaoFilePath.casesMessageWordPath}")
+    private String casesMessageWord;
+
 
     /**
      * 获取客户及病历信息
@@ -128,7 +136,7 @@ public class CasesServiceImpl extends ServiceImpl<CasesMapper, Cases> implements
         List<String> fileNames = localFileTask.getFileNames(casesMessageExcel);
         if (null != fileNames && fileNames.size() != 0) {
             for (String fileName : fileNames) {
-                if (StringUtils.equals(fileName,excelName1)) {
+                if (StringUtils.equals(fileName, excelName1)) {
                     return R.error("文件名已存在");
                 }
             }
@@ -143,5 +151,48 @@ public class CasesServiceImpl extends ServiceImpl<CasesMapper, Cases> implements
         ExcelTool.exportToFile(Collections.singletonList(list), excelPath);
 
         return R.success(excelPath);
+    }
+
+    /**
+     * 根据id数组导出word
+     *
+     * @param ids
+     * @return
+     */
+    @Override
+    public R<String> outputWordByIds(String[] ids) {
+        if (ObjectUtils.isEmpty(ids)) {
+            return R.error("id为空");
+        }
+        List<CasesDto> list = casesMapper.getByIds(ids);
+        for (int i = 0; i < ids.length; i++) {
+            Map<String, Object> dataMap = new HashMap<>();
+            UserMessage userMessage = userMessageMapper.selectById(ids[i]);
+            dataMap.put("name", userMessage.getName());
+            dataMap.put("gender", userMessage.getGender() == 1 ? "男" : "女");
+            dataMap.put("age", userMessage.getAge());
+            dataMap.put("phone", userMessage.getPhone());
+            dataMap.put("email", userMessage.getEmail());
+            LambdaQueryWrapper<Cases> lqw = new LambdaQueryWrapper<>();
+            lqw.eq(Cases::getUserId, userMessage.getUserId());
+            List<Cases> cases = casesMapper.selectList(lqw);
+            List<Map<String, Object>> casesList = new LinkedList<>();
+            for (Cases aCase : cases) {
+                Map<String, Object> map = new HashMap<>();
+                map.put("creatTime", aCase.getCreateTime());
+                map.put("diagnosis", aCase.getDiagnosis());
+                map.put("feedback", aCase.getFeedback());
+                casesList.add(map);
+            }
+            dataMap.put("caseList", casesList);
+            WordUtil wordUtil = new WordUtil();
+            String wordName = casesMessageWord + userMessage.getName() + "_" + userMessage.getUserName() + ".docx";
+            File file = new File(wordName);
+            if (!file.getParentFile().exists()) { // 此时文件有父目录
+                file.getParentFile().mkdirs(); // 创建父目录
+            }
+            wordUtil.createWord(dataMap, "casesWord.xml", wordName);
+        }
+        return R.success("导出结束,请前往本地查看:" + casesMessageWord);
     }
 }

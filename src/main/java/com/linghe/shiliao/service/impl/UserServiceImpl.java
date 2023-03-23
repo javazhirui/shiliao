@@ -105,8 +105,10 @@ public class UserServiceImpl implements UserService {
         if (!StringUtils.equals(code, codeRedis)) {
             return R.error("验证码输入错误");
         }
+        R<String> R = new R<>();
         LambdaQueryWrapper<UserMessage> lqw = new LambdaQueryWrapper<>();
-        lqw.eq(UserMessage::getEmail, loginDto.getUserName()).eq(UserMessage::getPassword, Md5Utils.hash(loginDto.getPassword()));
+        lqw.eq(UserMessage::getEmail, loginDto.getUserName());
+        lqw.eq(UserMessage::getPassword, Md5Utils.hash(loginDto.getPassword()));
         UserMessage userMessage = userMessageMapper.selectOne(lqw);
         if (ObjectUtils.isEmpty(userMessage)) {
             LambdaQueryWrapper<UserMessage> lqw1 = new LambdaQueryWrapper<>();
@@ -122,7 +124,6 @@ public class UserServiceImpl implements UserService {
             userMessage = userMessage1;
         }
         String token = JwtUtils.getJwtToken("" + userMessage.getUserId());
-        R<String> R = new R<>();
         R.add("token", token);
         return R;
     }

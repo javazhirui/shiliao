@@ -77,7 +77,7 @@ xss:
   # 过滤开关
   enabled: true
   # 排除链接（多个用逗号分隔）
-  excludes: /user/**,/test111/**
+  excludes: /user/*,/test111/*
   # 匹配链接
   urlPatterns:
 
@@ -103,8 +103,10 @@ shiliaoFilePath:
   codeImgPath: D:/ShiLiao/CodeImg/
   #用户信息导出地址
   userMessageExcelPath: D:/ShiLiao/userMessageExcel/
-  #病历信息导出地址
+  #病历信息excel导出地址
   casesMessageExcelPath: D:/ShiLiao/casesMessageExcel/
+  #病历信息word导出地址
+  casesMessageWordPath: D:/ShiLiao/casesMessageWord/
 
 
 #redis缓存时间
