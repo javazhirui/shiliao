@@ -17,7 +17,7 @@ public class JwtUtils {
     /**
      * 两个常量： 过期时间；秘钥
      */
-    public static final long EXPIRE = 1000*60*60*24;
+    public static final long EXPIRE = 1000*60*60;
     public static final String SECRET = "ukc8BDbRigUDaY6pZFfWus2jZWLPHO";
 
     /**
