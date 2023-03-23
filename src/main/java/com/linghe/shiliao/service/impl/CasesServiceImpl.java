@@ -175,6 +175,7 @@ public class CasesServiceImpl extends ServiceImpl<CasesMapper, Cases> implements
             dataMap.put("email", userMessage.getEmail());
             LambdaQueryWrapper<Cases> lqw = new LambdaQueryWrapper<>();
             lqw.eq(Cases::getUserId, userMessage.getUserId());
+            lqw.orderByDesc(Cases::getCreateTime);
             List<Cases> cases = casesMapper.selectList(lqw);
             List<Map<String, Object>> casesList = new LinkedList<>();
             for (Cases aCase : cases) {
