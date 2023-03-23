@@ -187,7 +187,7 @@ public class CasesServiceImpl extends ServiceImpl<CasesMapper, Cases> implements
             }
             dataMap.put("casesList", casesList);
             WordUtil wordUtil = new WordUtil();
-            String wordName = casesMessageWord + userMessage.getName() + "_" + userMessage.getUserName() + ".doc";
+            String wordName = casesMessageWord + userMessage.getName() + "_" + userMessage.getPhone() + ".doc";
             File file = new File(wordName);
             if (!file.getParentFile().exists()) { // 此时文件有父目录
                 file.getParentFile().mkdirs(); // 创建父目录
