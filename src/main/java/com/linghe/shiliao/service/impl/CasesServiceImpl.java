@@ -179,14 +179,14 @@ public class CasesServiceImpl extends ServiceImpl<CasesMapper, Cases> implements
             List<Map<String, Object>> casesList = new LinkedList<>();
             for (Cases aCase : cases) {
                 Map<String, Object> map = new HashMap<>();
-                map.put("creatTime", aCase.getCreateTime());
+                map.put("time", aCase.getCreateTime());
                 map.put("diagnosis", aCase.getDiagnosis());
                 map.put("feedback", aCase.getFeedback());
                 casesList.add(map);
             }
-            dataMap.put("caseList", casesList);
+            dataMap.put("casesList", casesList);
             WordUtil wordUtil = new WordUtil();
-            String wordName = casesMessageWord + userMessage.getName() + "_" + userMessage.getUserName() + ".docx";
+            String wordName = casesMessageWord + userMessage.getName() + "_" + userMessage.getUserName() + ".doc";
             File file = new File(wordName);
             if (!file.getParentFile().exists()) { // 此时文件有父目录
                 file.getParentFile().mkdirs(); // 创建父目录
