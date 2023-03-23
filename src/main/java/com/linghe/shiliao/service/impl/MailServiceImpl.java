@@ -198,10 +198,10 @@ public class MailServiceImpl implements MailService {
             }
         }
         String emailCode = VerifyCodeUtils.generateVerifyCode(6);
-        emailCode = Md5Utils.hash(emailCode);
+        String emailCodeRedis = Md5Utils.hash(emailCode);
         long l = System.currentTimeMillis();
         redisCache.setCacheObject(emailKey + "time", l, Integer.parseInt(emailCodeTime), TimeUnit.SECONDS);
-        redisCache.setCacheObject(emailKey, emailCode, Integer.parseInt(emailCodeTime), TimeUnit.SECONDS);
+        redisCache.setCacheObject(emailKey, emailCodeRedis, Integer.parseInt(emailCodeTime), TimeUnit.SECONDS);
 
         String emailMessage = "您的验证码为:" + emailCode + ",有效期5分钟,如非本人操作,请勿泄露!";
         this.sendSimpleMail(email, "您的食疗小助手", emailMessage);
