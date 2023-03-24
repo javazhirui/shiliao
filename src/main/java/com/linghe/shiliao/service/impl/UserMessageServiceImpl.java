@@ -3,6 +3,7 @@ package com.linghe.shiliao.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.linghe.shiliao.common.R;
 import com.linghe.shiliao.entity.UserMessage;
+import com.linghe.shiliao.entity.dto.PasswordDto;
 import com.linghe.shiliao.entity.dto.UserMessageDto;
 import com.linghe.shiliao.mapper.CasesMapper;
 import com.linghe.shiliao.mapper.UserMessageMapper;
@@ -10,6 +11,7 @@ import com.linghe.shiliao.service.UserMessageService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.linghe.shiliao.task.LocalFileTask;
 import com.linghe.shiliao.utils.JwtUtils;
+import com.linghe.shiliao.utils.Md5Utils;
 import com.linghe.shiliao.utils.Page;
 import com.xxl.tool.excel.ExcelTool;
 import org.apache.commons.lang3.ObjectUtils;
@@ -120,9 +122,22 @@ public class UserMessageServiceImpl extends ServiceImpl<UserMessageMapper, UserM
      * @return
      */
     @Override
-    public R<String> updatePassword(HttpServletRequest request) {
+    public R<String> updatePassword(HttpServletRequest request, PasswordDto passwordDto) {
         String userId = JwtUtils.getUserIdByJwtToken(request);
+        if (ObjectUtils.isEmpty(passwordDto) || passwordDto.getNewPassword().isEmpty() || passwordDto.getOldPassword().isEmpty()) {
+            return R.error("输入信息有空,请检查");
+        }
 
-        return null;
+        UserMessage userMessage = userMessageMapper.selectById(userId);
+        if (!StringUtils.equals(userMessage.getPassword(), Md5Utils.hash(passwordDto.getOldPassword()))) {
+            return R.error("原密码错误");
+        }
+        userMessage.setPassword(passwordDto.getNewPassword());
+        int i = userMessageMapper.updateById(userMessage);
+        if (i < 1) {
+            return R.error("密码修改失败");
+        }
+
+        return R.success("密码修改成功");
     }
 }

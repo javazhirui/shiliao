@@ -3,6 +3,7 @@ package com.linghe.shiliao.controller;
 
 import com.linghe.shiliao.common.R;
 import com.linghe.shiliao.entity.UserMessage;
+import com.linghe.shiliao.entity.dto.PasswordDto;
 import com.linghe.shiliao.entity.dto.UserMessageDto;
 import com.linghe.shiliao.service.UserMessageService;
 import com.linghe.shiliao.utils.Page;
@@ -67,8 +68,8 @@ public class UserMessageController {
      * @return
      */
     @PostMapping("/updatePassword")
-    public R<String> updatePassword(HttpServletRequest request) {
-        return userMessageService.updatePassword(request);
+    public R<String> updatePassword(HttpServletRequest request, PasswordDto passwordDto) {
+        return userMessageService.updatePassword(request,passwordDto);
     }
 }
 

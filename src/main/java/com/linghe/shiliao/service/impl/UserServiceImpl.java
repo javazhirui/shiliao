@@ -225,8 +225,12 @@ public class UserServiceImpl implements UserService {
         if (userMessageDto.getPassword().isEmpty()) {
             return R.error("输入密码为空");
         }
+
         UserMessage userMessage = userMessageMapper.selectById(userId);
-        userMessage.setPassword(userMessageDto.getPassword());
+        if (StringUtils.equals(Md5Utils.hash(userMessageDto.getPassword()),userMessage.getPassword())) {
+            return R.error("新密码不可与原密码相同");
+        }
+        userMessage.setPassword(Md5Utils.hash(userMessageDto.getPassword()));
         int i = userMessageMapper.updateById(userMessage);
         if (i < 1) {
             return R.error("修改密码以外失败");
