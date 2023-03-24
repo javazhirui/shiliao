@@ -24,23 +24,45 @@ public class TestController {
     private UserMessageMapper userMessageMapper;
 
     @GetMapping("/getWord")
-    public String getWord(@RequestParam String fileName){
+    public String getWord(@RequestParam String fileName) {
         LambdaQueryWrapper<UserMessage> lqw = new LambdaQueryWrapper<>();
         List<UserMessage> userMessageList = userMessageMapper.selectList(lqw);
         List<Map<String, Object>> list = new ArrayList<>();
         for (UserMessage userMessage : userMessageList) {
             Map<String, Object> map = new HashMap<>();
-            map.put("name",userMessage.getName());
-            map.put("gender",userMessage.getGender());
-            map.put("age",userMessage.getAge());
-            map.put("phone",userMessage.getPhone());
-            map.put("email",userMessage.getEmail());
+            map.put("name", userMessage.getName());
+            map.put("gender", userMessage.getGender());
+            map.put("age", userMessage.getAge());
+            map.put("phone", userMessage.getPhone());
+            map.put("email", userMessage.getEmail());
             list.add(map);
         }
         Map<String, Object> dataMap = new HashMap<>();
-        dataMap.put("UserList",list);
+        dataMap.put("UserList", list);
         WordUtil wordUtil = new WordUtil();
-        wordUtil.createWord(dataMap,"ceshi111.xml",fileName);
+        wordUtil.createWord(dataMap, "ceshi111.xml", fileName);
+        return "测试";
+    }
+
+    @GetMapping("/getExcel")
+    public String getExcel(@RequestParam String fileName) {
+        LambdaQueryWrapper<UserMessage> lqw = new LambdaQueryWrapper<>();
+        lqw.orderByDesc(UserMessage::getName);
+        List<UserMessage> userMessageList = userMessageMapper.selectList(lqw);
+        List<Map<String, Object>> list = new ArrayList<>();
+        for (UserMessage userMessage : userMessageList) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("name", userMessage.getName());
+            map.put("gender", userMessage.getGender());
+            map.put("age", userMessage.getAge());
+            map.put("phone", userMessage.getPhone());
+            map.put("email", userMessage.getEmail());
+            list.add(map);
+        }
+        Map<String, Object> dataMap = new HashMap<>();
+        dataMap.put("userList", list);
+        WordUtil wordUtil = new WordUtil();
+        wordUtil.createWord(dataMap, "用户信息模板.ftl", fileName);
         return "测试";
     }
 }

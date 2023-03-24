@@ -23,10 +23,8 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * <p>
@@ -133,6 +131,10 @@ public class UserMessageServiceImpl extends ServiceImpl<UserMessageMapper, UserM
             return R.error("原密码错误");
         }
         userMessage.setPassword(passwordDto.getNewPassword());
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        userMessage.setUpdateTime(sdf.format(date));
+
         int i = userMessageMapper.updateById(userMessage);
         if (i < 1) {
             return R.error("密码修改失败");
