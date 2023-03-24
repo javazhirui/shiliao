@@ -198,14 +198,11 @@ public class UserServiceImpl implements UserService {
     /**
      * 忘记密码,修改密码
      *
-     * @param request token
      * @param userMessageDto password,uuid,code,email,emailCode
      * @return
      */
     @Override
-    public R<String> forgetPassword(HttpServletRequest request, UserMessageDto userMessageDto) {
-
-        String userId = JwtUtils.getUserIdByJwtToken(request);
+    public R<String> forgetPassword(UserMessageDto userMessageDto) {
 
         if (ObjectUtils.isEmpty(userMessageDto)) {
             return R.error("输入信息为空");
@@ -215,6 +212,18 @@ public class UserServiceImpl implements UserService {
         if (!StringUtils.equals(Md5Utils.hash(userMessageDto.getCode()), codeRedis)) {
             return R.error("验证码输入有误,请重新输入");
         }
+
+        if (userMessageDto.getEmail().isEmpty()) {
+            return R.error("邮箱为空");
+        }
+
+        LambdaQueryWrapper<UserMessage> lqw = new LambdaQueryWrapper<>();
+        lqw.eq(UserMessage::getEmail,userMessageDto.getEmail());
+        UserMessage userMessage = userMessageMapper.selectOne(lqw);
+        if (ObjectUtils.isEmpty(userMessage)) {
+            return R.error("邮箱不存在,请先注册");
+        }
+
 
         String emailCode = userMessageDto.getEmailCode();
         String emailCodeRedis = redisCache.getCacheObject(userMessageDto.getEmail() + "_" + userMessageDto.getUuid());
@@ -226,7 +235,7 @@ public class UserServiceImpl implements UserService {
             return R.error("输入密码为空");
         }
 
-        UserMessage userMessage = userMessageMapper.selectById(userId);
+
         if (StringUtils.equals(Md5Utils.hash(userMessageDto.getPassword()),userMessage.getPassword())) {
             return R.error("新密码不可与原密码相同");
         }

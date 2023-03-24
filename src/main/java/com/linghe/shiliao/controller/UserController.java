@@ -80,12 +80,11 @@ public class UserController {
     /**
      * 忘记密码,修改密码
      *
-     * @param request
      * @return
      */
     @PostMapping("/forgetPassword")
-    public R<String> forgetPassword(HttpServletRequest request, UserMessageDto userMessageDto) {
-        return userService.forgetPassword(request,userMessageDto);
+    public R<String> forgetPassword(UserMessageDto userMessageDto) {
+        return userService.forgetPassword(userMessageDto);
     }
 
 

@@ -36,8 +36,7 @@ public interface UserService {
 
     /**
      * 忘记密码,修改密码
-     * @param request
      * @return
      */
-    R<String> forgetPassword(HttpServletRequest request,UserMessageDto userMessageDto);
+    R<String> forgetPassword(UserMessageDto userMessageDto);
 }
