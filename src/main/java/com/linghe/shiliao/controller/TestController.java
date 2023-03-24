@@ -57,12 +57,13 @@ public class TestController {
             map.put("age", userMessage.getAge());
             map.put("phone", userMessage.getPhone());
             map.put("email", userMessage.getEmail());
+            map.put("health",userMessage.getHealth());
             list.add(map);
         }
         Map<String, Object> dataMap = new HashMap<>();
         dataMap.put("userList", list);
         WordUtil wordUtil = new WordUtil();
-        wordUtil.createWord(dataMap, "用户信息模板.ftl", fileName);
+        wordUtil.createWord(dataMap, "用户信息模板.xml", fileName);
         return "测试";
     }
 }
