@@ -242,7 +242,7 @@ public class UserServiceImpl implements UserService {
         userMessage.setPassword(Md5Utils.hash(userMessageDto.getPassword()));
         int i = userMessageMapper.updateById(userMessage);
         if (i < 1) {
-            return R.error("修改密码以外失败");
+            return R.error("修改密码意外失败");
         }
 
         return R.success("密码修改成功");
