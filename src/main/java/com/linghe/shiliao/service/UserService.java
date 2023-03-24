@@ -5,6 +5,7 @@ import com.linghe.shiliao.common.R;
 import com.linghe.shiliao.entity.dto.LoginDto;
 import com.linghe.shiliao.entity.dto.UserMessageDto;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -32,4 +33,11 @@ public interface UserService {
      * @return
      */
     R<String> login(HttpServletResponse response, LoginDto loginDto);
+
+    /**
+     * 忘记密码,修改密码
+     * @param request
+     * @return
+     */
+    R<String> forgetPassword(HttpServletRequest request,UserMessageDto userMessageDto);
 }

@@ -9,6 +9,7 @@ import com.linghe.shiliao.mapper.UserMessageMapper;
 import com.linghe.shiliao.service.UserMessageService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.linghe.shiliao.task.LocalFileTask;
+import com.linghe.shiliao.utils.JwtUtils;
 import com.linghe.shiliao.utils.Page;
 import com.xxl.tool.excel.ExcelTool;
 import org.apache.commons.lang3.ObjectUtils;
@@ -18,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -91,7 +93,7 @@ public class UserMessageServiceImpl extends ServiceImpl<UserMessageMapper, UserM
         List<String> fileNames = localFileTask.getFileNames(userMessageExcel);
         if (null != fileNames && fileNames.size() != 0) {
             for (String fileName : fileNames) {
-                if (StringUtils.equals(fileName,excelName1)) {
+                if (StringUtils.equals(fileName, excelName1)) {
                     return R.error("文件名已存在");
                 }
             }
@@ -109,5 +111,18 @@ public class UserMessageServiceImpl extends ServiceImpl<UserMessageMapper, UserM
         }
         ExcelTool.exportToFile(Collections.singletonList(list1), excelPath);
         return R.success(excelPath);
+    }
+
+    /**
+     * 已知原始密码,修改密码
+     *
+     * @param request
+     * @return
+     */
+    @Override
+    public R<String> updatePassword(HttpServletRequest request) {
+        String userId = JwtUtils.getUserIdByJwtToken(request);
+
+        return null;
     }
 }

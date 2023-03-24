@@ -35,7 +35,7 @@ public class JwtUtils {
                     .setIssuedAt(new Date())
                     .setExpiration(new Date(System.currentTimeMillis() + EXPIRE))
                     //设置token主体信息，存储用户信息
-                    .claim("id", userId)
+                    .claim("userId", userId)
                     //.signWith(SignatureAlgorithm.ES256, SECRET)
                     .signWith(SignatureAlgorithm.HS256, SECRET)
                     .compact();
@@ -79,16 +79,16 @@ public class JwtUtils {
     }
 
     /**
-     * 根据token获取会员id
+     * 根据token获取userId
      * @Param request
      */
-    public static String getMemberIdByJwtToken(HttpServletRequest request){
+    public static String getUserIdByJwtToken(HttpServletRequest request){
         String token = request.getHeader("token");
         if (StringUtils.isEmpty(token)){
             return "";
         }
         Jws<Claims> claimsJws = Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token);
         Claims body = claimsJws.getBody();
-        return (String) body.get("id");
+        return (String) body.get("userId");
     }
 }

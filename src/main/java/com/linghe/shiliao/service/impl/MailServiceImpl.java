@@ -203,7 +203,7 @@ public class MailServiceImpl implements MailService {
         redisCache.setCacheObject(emailKey + "time", l, Integer.parseInt(emailCodeTime), TimeUnit.SECONDS);
         redisCache.setCacheObject(emailKey, emailCodeRedis, Integer.parseInt(emailCodeTime), TimeUnit.SECONDS);
 
-        String emailMessage = "您的验证码为:" + emailCode + ",有效期5分钟,如非本人操作,请勿泄露!";
+        String emailMessage = "您的验证码为:" + emailCode + ",有效期5分钟,请勿泄露!";
         this.sendSimpleMail(email, "您的食疗小助手", emailMessage);
 
         return R.success("邮箱验证码已发送");

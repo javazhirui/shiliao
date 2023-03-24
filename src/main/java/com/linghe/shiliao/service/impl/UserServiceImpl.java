@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.*;
@@ -192,5 +193,45 @@ public class UserServiceImpl implements UserService {
         userMessageMapper.insert(user);
 
         return R.success("注册成功");
+    }
+
+    /**
+     * 忘记密码,修改密码
+     *
+     * @param request token
+     * @param userMessageDto password,uuid,code,email,emailCode
+     * @return
+     */
+    @Override
+    public R<String> forgetPassword(HttpServletRequest request, UserMessageDto userMessageDto) {
+
+        String userId = JwtUtils.getUserIdByJwtToken(request);
+
+        if (ObjectUtils.isEmpty(userMessageDto)) {
+            return R.error("输入信息为空");
+        }
+
+        String codeRedis = redisCache.getCacheObject(userMessageDto.getUuid());
+        if (!StringUtils.equals(Md5Utils.hash(userMessageDto.getCode()), codeRedis)) {
+            return R.error("验证码输入有误,请重新输入");
+        }
+
+        String emailCode = userMessageDto.getEmailCode();
+        String emailCodeRedis = redisCache.getCacheObject(userMessageDto.getEmail() + "_" + userMessageDto.getUuid());
+        if (!StringUtils.equals(emailCode, emailCodeRedis)) {
+            return R.error("邮箱验证码输入有误");
+        }
+
+        if (userMessageDto.getPassword().isEmpty()) {
+            return R.error("输入密码为空");
+        }
+        UserMessage userMessage = userMessageMapper.selectById(userId);
+        userMessage.setPassword(userMessageDto.getPassword());
+        int i = userMessageMapper.updateById(userMessage);
+        if (i < 1) {
+            return R.error("修改密码以外失败");
+        }
+
+        return R.success("密码修改成功");
     }
 }

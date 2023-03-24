@@ -6,6 +6,7 @@ import com.linghe.shiliao.entity.UserMessage;
 import com.linghe.shiliao.entity.dto.UserMessageDto;
 import com.linghe.shiliao.utils.Page;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -36,4 +37,11 @@ public interface UserMessageService extends IService<UserMessage> {
      * @return
      */
     R<String> outputExcelByIds(String[] split, String excelName);
+
+    /**
+     * 已知原始密码,修改密码
+     * @param request
+     * @return
+     */
+    R<String> updatePassword(HttpServletRequest request);
 }

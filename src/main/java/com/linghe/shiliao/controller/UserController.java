@@ -4,6 +4,7 @@ import com.linghe.shiliao.common.R;
 import com.linghe.shiliao.entity.dto.LoginDto;
 import com.linghe.shiliao.entity.dto.UserMessageDto;
 import com.linghe.shiliao.service.MailService;
+import com.linghe.shiliao.service.UserMessageService;
 import com.linghe.shiliao.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +27,9 @@ public class UserController {
     @Autowired
     private MailService mailService;
 
+    @Autowired
+    private UserMessageService userMessageService;
+
     /**
      * 注册
      *
@@ -44,7 +48,7 @@ public class UserController {
      */
     @PostMapping("/login")
     public R<String> login(HttpServletResponse response, @RequestBody LoginDto loginDto) {
-        return userService.login(response,loginDto);
+        return userService.login(response, loginDto);
     }
 
 
@@ -62,14 +66,26 @@ public class UserController {
 
     /**
      * 发送邮箱验证码
+     *
      * @param userMessageDto
      * @return
      */
     @PostMapping("/getEmailCode")
     public R<String> getEmailCode(@RequestBody UserMessageDto userMessageDto) {
-        System.err.println("soleUUid:"+userMessageDto.getUuid());
+        System.err.println("soleUUid:" + userMessageDto.getUuid());
 //        String uuid, @RequestParam String email, @RequestParam String code
         return mailService.getEmailCode(userMessageDto.getUuid(), userMessageDto.getEmail(), userMessageDto.getCode());
+    }
+
+    /**
+     * 忘记密码,修改密码
+     *
+     * @param request
+     * @return
+     */
+    @PostMapping("/forgetPassword")
+    public R<String> forgetPassword(HttpServletRequest request, UserMessageDto userMessageDto) {
+        return userService.forgetPassword(request,userMessageDto);
     }
 
 

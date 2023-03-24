@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -58,6 +59,16 @@ public class UserMessageController {
         System.err.println(excel);
         String[] ids = excel.split(",");
         return userMessageService.outputExcelByIds(ids,excelName);
+    }
+
+    /**
+     * 已知原始密码修改密码接口
+     * @param request
+     * @return
+     */
+    @PostMapping("/updatePassword")
+    public R<String> updatePassword(HttpServletRequest request) {
+        return userMessageService.updatePassword(request);
     }
 }
 
