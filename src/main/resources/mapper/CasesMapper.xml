@@ -15,9 +15,7 @@
             <if test="phone != null and phone != ''">and t1.phone like concat('%',#{phone},'%')</if>
             <if test="health != null and health != ''">and t1.health = #{health}</if>
         </where>
-        <if test="startSize != null and startSize != '' and pageSize != null and pageSize != ''">
             limit #{startSize}, #{pageSize}
-        </if>
     </select>
 
     <!--    获取总条数-->

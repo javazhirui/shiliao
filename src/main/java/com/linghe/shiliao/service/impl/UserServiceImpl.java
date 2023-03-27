@@ -220,7 +220,7 @@ public class UserServiceImpl implements UserService {
         }
 
         LambdaQueryWrapper<UserMessage> lqw = new LambdaQueryWrapper<>();
-        lqw.eq(UserMessage::getEmail, userMessageDto.getEmail());
+        lqw.eq(UserMessage::getEmail,userMessageDto.getEmail());
         UserMessage userMessage = userMessageMapper.selectOne(lqw);
         if (ObjectUtils.isEmpty(userMessage)) {
             return R.error("邮箱不存在,请先注册");
@@ -229,7 +229,7 @@ public class UserServiceImpl implements UserService {
 
         String emailCode = userMessageDto.getEmailCode();
         String emailCodeRedis = redisCache.getCacheObject(userMessageDto.getEmail() + "_" + userMessageDto.getUuid());
-        if (!StringUtils.equals(Md5Utils.hash(emailCode), emailCodeRedis)) {
+        if (!StringUtils.equals(emailCode, emailCodeRedis)) {
             return R.error("邮箱验证码输入有误");
         }
 
@@ -238,7 +238,7 @@ public class UserServiceImpl implements UserService {
         }
 
 
-        if (StringUtils.equals(Md5Utils.hash(userMessageDto.getPassword()), userMessage.getPassword())) {
+        if (StringUtils.equals(Md5Utils.hash(userMessageDto.getPassword()),userMessage.getPassword())) {
             return R.error("新密码不可与原密码相同");
         }
         userMessage.setPassword(Md5Utils.hash(userMessageDto.getPassword()));

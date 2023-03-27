@@ -3,6 +3,7 @@ package com.linghe.shiliao.controller;
 
 import com.linghe.shiliao.common.R;
 import com.linghe.shiliao.entity.UserMessage;
+import com.linghe.shiliao.entity.dto.LoginDto;
 import com.linghe.shiliao.entity.dto.PasswordDto;
 import com.linghe.shiliao.entity.dto.UserMessageDto;
 import com.linghe.shiliao.service.UserMessageService;
@@ -92,5 +93,18 @@ public class UserMessageController {
         }
         return R.success(userMessage);
     }
+
+    /**
+     * 普通用户登录
+     * @param loginDto
+     * @return
+     */
+    @PostMapping("/getUserBean")
+    public UserMessage getUserBean(@RequestBody LoginDto loginDto){
+        return  userMessageService.getUserBean(loginDto);
+    }
+
+
+
 }
 
