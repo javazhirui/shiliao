@@ -10,16 +10,21 @@ import com.linghe.shiliao.mapper.UserMessageMapper;
 import com.linghe.shiliao.service.CasesService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.linghe.shiliao.task.LocalFileTask;
+import com.linghe.shiliao.utils.JwtUtils;
 import com.linghe.shiliao.utils.Page;
 import com.linghe.shiliao.utils.WordUtil;
 import com.xxl.tool.excel.ExcelTool;
+import net.sf.jsqlparser.expression.DateTimeLiteralExpression;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -88,6 +93,10 @@ public class CasesServiceImpl extends ServiceImpl<CasesMapper, Cases> implements
         if (null == cases) {
             return R.error("数据无效,请重新输入");
         }
+
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        cases.setCreateTime(sdf.format(date));
 
         //mybatis-plus自带save方法,成功返回true,反之false
         boolean b = this.save(cases);
@@ -200,5 +209,23 @@ public class CasesServiceImpl extends ServiceImpl<CasesMapper, Cases> implements
             wordUtil.createWord(dataMap, "casesWord.xml", wordName);
         }
         return R.success("导出结束,请前往本地查看:" + casesMessageWord);
+    }
+
+    /**
+     * 获取登录用户自己的信息
+     *
+     * @param request
+     * @return
+     */
+    @Override
+    public R<List<Cases>> getByUserId(HttpServletRequest request) {
+        LambdaQueryWrapper<Cases> lqw = new LambdaQueryWrapper<>();
+        lqw.eq(Cases::getUserId, JwtUtils.getUserIdByJwtToken(request));
+        lqw.orderByDesc(Cases::getCreateTime);
+        List<Cases> casesList = casesMapper.selectList(lqw);
+        if (ObjectUtils.isEmpty(casesList)) {
+            return R.error("当前用户没有病例信息");
+        }
+        return R.success(casesList);
     }
 }

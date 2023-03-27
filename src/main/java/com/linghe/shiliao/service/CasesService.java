@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.linghe.shiliao.entity.dto.CasesDto;
 import com.linghe.shiliao.utils.Page;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -58,4 +59,11 @@ public interface CasesService extends IService<Cases> {
      * @return
      */
     R<String> outputWordByIds(String[] ids);
+
+    /**
+     * 获取登录用户自己的信息
+     * @param request
+     * @return
+     */
+    R<List<Cases>> getByUserId(HttpServletRequest request);
 }

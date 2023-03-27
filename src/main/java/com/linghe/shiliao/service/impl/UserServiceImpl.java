@@ -126,9 +126,10 @@ public class UserServiceImpl implements UserService {
         if (userMessage.getStatus() != 1) {
             return R.error("账号已停用,请联系管理员");
         }
-        String token = JwtUtils.getJwtToken("" + userMessage.getUserId());
+        String token = JwtUtils.getJwtToken(userMessage.getUserId().toString());
         response.setHeader("token", token);
-
+        Integer ruleId = userMessage.getRuleId();
+        response.setHeader("ruleId", ruleId.toString());
         return R.success("登陆成功");
     }
 
@@ -228,7 +229,7 @@ public class UserServiceImpl implements UserService {
 
         String emailCode = userMessageDto.getEmailCode();
         String emailCodeRedis = redisCache.getCacheObject(userMessageDto.getEmail() + "_" + userMessageDto.getUuid());
-        if (!StringUtils.equals(Md5Utils.hash(emailCode), emailCodeRedis)) {
+        if (!StringUtils.equals(emailCode, emailCodeRedis)) {
             return R.error("邮箱验证码输入有误");
         }
 
@@ -248,5 +249,4 @@ public class UserServiceImpl implements UserService {
 
         return R.success("密码修改成功");
     }
-
 }
