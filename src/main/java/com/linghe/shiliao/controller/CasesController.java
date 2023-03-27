@@ -3,6 +3,7 @@ package com.linghe.shiliao.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.linghe.shiliao.aop.RuleAop;
 import com.linghe.shiliao.common.R;
 import com.linghe.shiliao.entity.Cases;
 import com.linghe.shiliao.entity.UserMessage;
@@ -16,6 +17,7 @@ import com.xxl.tool.excel.ExcelTool;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.support.HttpRequestHandlerServlet;
 
@@ -79,6 +81,7 @@ public class CasesController {
      * @param excelName
      * @return
      */
+    @RuleAop(ruleNames = "1")
     @GetMapping("/outputExcelByIds")
     public R<String> outputExcelByIds(@RequestParam String excel, @RequestParam String excelName) {
         String[] ids = excel.split(",");
@@ -90,6 +93,7 @@ public class CasesController {
      * @param word
      * @return
      */
+    @RuleAop(ruleNames = "0")
     @GetMapping("/outputWordByIds")
     public R<String> outputWordByIds(@RequestParam String word) {
         String[] ids = word.split(",");

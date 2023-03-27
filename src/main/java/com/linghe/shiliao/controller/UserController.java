@@ -58,7 +58,6 @@ public class UserController {
      * @return //返回验证码输出字节流
      * @throws IOException
      */
-    @RuleAop(ruleNames = {"zilongcs"})
     @GetMapping("/getCode")
     public R<String> getCode(String uuid) throws IOException {
         return userService.getCode(uuid);
