@@ -227,7 +227,7 @@ public class UserServiceImpl implements UserService {
 
         String emailCode = userMessageDto.getEmailCode();
         String emailCodeRedis = redisCache.getCacheObject(userMessageDto.getEmail() + "_" + userMessageDto.getUuid());
-        if (!StringUtils.equals(emailCode, emailCodeRedis)) {
+        if (!StringUtils.equals(Md5Utils.hash(emailCode), emailCodeRedis)) {
             return R.error("邮箱验证码输入有误");
         }
 

@@ -1,4 +1,4 @@
-package com.linghe.shiliao.common.text;
+package com.linghe.shiliao.text;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;

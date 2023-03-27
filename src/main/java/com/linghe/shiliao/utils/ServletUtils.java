@@ -1,6 +1,6 @@
 package com.linghe.shiliao.utils;
 
-import com.linghe.shiliao.common.text.Convert;
+import com.linghe.shiliao.text.Convert;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
