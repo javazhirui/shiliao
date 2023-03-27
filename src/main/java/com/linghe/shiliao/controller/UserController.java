@@ -1,6 +1,7 @@
 package com.linghe.shiliao.controller;
 
 import com.linghe.shiliao.common.R;
+import com.linghe.shiliao.entity.UserMessage;
 import com.linghe.shiliao.entity.dto.LoginDto;
 import com.linghe.shiliao.entity.dto.UserMessageDto;
 import com.linghe.shiliao.service.MailService;
@@ -27,9 +28,6 @@ public class UserController {
     @Autowired
     private MailService mailService;
 
-    @Autowired
-    private UserMessageService userMessageService;
-
     /**
      * 注册
      *
@@ -37,7 +35,7 @@ public class UserController {
      * @return
      */
     @PostMapping("/register")
-    public R<String> register(UserMessageDto userMessageDto) {
+    public R<String> register(@RequestBody UserMessageDto userMessageDto) {
         return userService.register(userMessageDto);
     }
 
@@ -72,7 +70,6 @@ public class UserController {
      */
     @PostMapping("/getEmailCode")
     public R<String> getEmailCode(@RequestBody UserMessageDto userMessageDto) {
-        System.err.println("soleUUid:" + userMessageDto.getUuid());
 //        String uuid, @RequestParam String email, @RequestParam String code
         return mailService.getEmailCode(userMessageDto.getUuid(), userMessageDto.getEmail(), userMessageDto.getCode());
     }
@@ -83,9 +80,11 @@ public class UserController {
      * @return
      */
     @PostMapping("/forgetPassword")
-    public R<String> forgetPassword(UserMessageDto userMessageDto) {
+    public R<String> forgetPassword(@RequestBody UserMessageDto userMessageDto) {
         return userService.forgetPassword(userMessageDto);
     }
+
+
 
 
 }

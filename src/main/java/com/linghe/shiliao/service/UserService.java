@@ -2,6 +2,7 @@ package com.linghe.shiliao.service;
 
 
 import com.linghe.shiliao.common.R;
+import com.linghe.shiliao.entity.UserMessage;
 import com.linghe.shiliao.entity.dto.LoginDto;
 import com.linghe.shiliao.entity.dto.UserMessageDto;
 
@@ -39,4 +40,5 @@ public interface UserService {
      * @return
      */
     R<String> forgetPassword(UserMessageDto userMessageDto);
+
 }

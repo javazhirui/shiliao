@@ -3,6 +3,7 @@ package com.linghe.shiliao.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.linghe.shiliao.common.R;
 import com.linghe.shiliao.entity.UserMessage;
+import com.linghe.shiliao.entity.dto.LoginDto;
 import com.linghe.shiliao.entity.dto.PasswordDto;
 import com.linghe.shiliao.entity.dto.UserMessageDto;
 import com.linghe.shiliao.mapper.CasesMapper;
@@ -140,4 +141,19 @@ public class UserMessageServiceImpl extends ServiceImpl<UserMessageMapper, UserM
 
         return R.success("密码修改成功");
     }
+
+    @Override
+    public UserMessage getUserBean(LoginDto loginDto) {
+        LambdaQueryWrapper<UserMessage> lqw = new LambdaQueryWrapper<>();
+        lqw.eq(UserMessage::getEmail, loginDto.getUserName());
+        UserMessage userMessage = userMessageMapper.selectOne(lqw);
+        if (ObjectUtils.isEmpty(userMessage)) {
+            LambdaQueryWrapper<UserMessage> lqw1 = new LambdaQueryWrapper<>();
+            lqw1.eq(UserMessage::getUserName, loginDto.getUserName());
+            UserMessage userMessage1 = userMessageMapper.selectOne(lqw1);
+                return userMessage1;
+        }
+        return userMessage;
+    }
+
 }
