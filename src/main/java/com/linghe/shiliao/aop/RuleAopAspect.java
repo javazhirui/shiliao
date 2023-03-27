@@ -1,10 +1,11 @@
 package com.linghe.shiliao.aop;
 
+import com.linghe.shiliao.utils.JwtUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -26,8 +27,8 @@ public class RuleAopAspect {
         }
         String[] headerNames = ruleAop.ruleNames();
         for (String headerName : headerNames) {
-            String value = request.getHeader(headerName);
-            if (StringUtils.hasText(value)) {
+            String ruleId = JwtUtils.getRuleIdByJwtToken(request);
+            if (StringUtils.equals(headerName,ruleId)) {
                 return;
             }
         }

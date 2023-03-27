@@ -126,7 +126,7 @@ public class UserServiceImpl implements UserService {
         if (userMessage.getStatus() != 1) {
             return R.error("账号已停用,请联系管理员");
         }
-        String token = JwtUtils.getJwtToken(userMessage.getUserId().toString());
+        String token = JwtUtils.getJwtToken(userMessage.getUserId().toString(),userMessage.getRuleId().toString());
         response.setHeader("token", token);
         Integer ruleId = userMessage.getRuleId();
         response.setHeader("ruleId", ruleId.toString());
