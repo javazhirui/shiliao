@@ -1,5 +1,6 @@
 package com.linghe.shiliao.controller;
 
+import com.linghe.shiliao.aop.RuleAop;
 import com.linghe.shiliao.common.R;
 import com.linghe.shiliao.entity.dto.LoginDto;
 import com.linghe.shiliao.entity.dto.UserMessageDto;
@@ -59,6 +60,7 @@ public class UserController {
      * @return //返回验证码输出字节流
      * @throws IOException
      */
+    @RuleAop(ruleNames = {"zilongcs"})
     @GetMapping("/getCode")
     public R<String> getCode(String uuid) throws IOException {
         return userService.getCode(uuid);
