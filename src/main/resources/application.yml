@@ -119,6 +119,6 @@ shiliaoRedisTime:
 
 
 #jwt过期时间(秒)
-jwtDeadTime: 30
+jwtDeadTime: 300
 
 

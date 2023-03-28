@@ -50,7 +50,9 @@ public class JWTInterceptor implements HandlerInterceptor {
                 String uuid = JwtUtils.getUuidByJwtToken(request);
                 String loginUuid = redisCache.getCacheObject("login_" + userId);
                 if (null != loginUuid && !StringUtils.equals(loginUuid, uuid)) {
-                    throw new CustomException("该账号可能已在其它设备登录,请重新登陆");
+                    String errorMessage = "该账号可能已退出或已在其它设备登录,请重新登陆";
+                    doResponse(response, errorMessage);
+                    return false;
                 }
                 Object tokenRedis = redisCache.getCacheObject("token_" + userId);
                 if (ObjectUtils.isEmpty(tokenRedis)) {
@@ -69,10 +71,10 @@ public class JWTInterceptor implements HandlerInterceptor {
             } catch (UnsupportedJwtException e) {
                 String errorMessage = "Token不合法, 请自重";
                 doResponse(response, errorMessage);
-            } catch (Exception e) {
+            } /*catch (Exception e) {
                 String errorMessage = "token有误,请重新登陆";
                 doResponse(response, errorMessage);
-            }
+            }*/
         }
         return false;
     }
