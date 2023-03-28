@@ -71,10 +71,10 @@ public class JWTInterceptor implements HandlerInterceptor {
             } catch (UnsupportedJwtException e) {
                 String errorMessage = "Token不合法, 请自重";
                 doResponse(response, errorMessage);
-            } /*catch (Exception e) {
+            } catch (Exception e) {
                 String errorMessage = "token有误,请重新登陆";
                 doResponse(response, errorMessage);
-            }*/
+            }
         }
         return false;
     }
