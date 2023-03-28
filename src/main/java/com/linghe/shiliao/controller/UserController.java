@@ -9,8 +9,10 @@ import com.linghe.shiliao.entity.dto.UserMessageDto;
 import com.linghe.shiliao.service.MailService;
 import com.linghe.shiliao.service.UserMessageService;
 import com.linghe.shiliao.service.UserService;
+import com.linghe.shiliao.utils.JwtUtils;
 import com.linghe.shiliao.utils.RedisCache;
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
@@ -129,7 +131,11 @@ public class UserController {
      * @return
      */
     @PostMapping("/logout")
-    public R<String> logout(String userId) {
+    public R<String> logout(HttpServletRequest request, String userId) {
+        String userIdByJwtToken = JwtUtils.getUserIdByJwtToken(request);
+        if (StringUtils.isEmpty(userId) && !StringUtils.equals(userIdByJwtToken,userId)) {
+            return R.error("userId错误,只能退出当前验证登录账号");
+        }
         redisCache.setCacheObject("login_" + userId, "logout", Integer.parseInt(jwtDeadTime), TimeUnit.SECONDS);
         return R.success("退出成功");
     }
