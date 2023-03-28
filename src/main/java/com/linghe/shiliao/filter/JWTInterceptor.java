@@ -1,6 +1,7 @@
 package com.linghe.shiliao.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.linghe.shiliao.common.CustomException;
 import com.linghe.shiliao.utils.JwtUtils;
 import com.linghe.shiliao.utils.RedisCache;
 import io.jsonwebtoken.*;
@@ -48,9 +49,8 @@ public class JWTInterceptor implements HandlerInterceptor {
                 String ruleId = JwtUtils.getRuleIdByJwtToken(request);
                 String uuid = JwtUtils.getUuidByJwtToken(request);
                 String loginUuid = redisCache.getCacheObject("login_" + userId);
-                if (null != loginUuid && StringUtils.equals(loginUuid, uuid)) {
-                    String errorMessage = "该账号可能已在其它设备登录,请重新登陆";
-                    doResponse(response, errorMessage);
+                if (null != loginUuid && !StringUtils.equals(loginUuid, uuid)) {
+                    throw new CustomException("该账号可能已在其它设备登录,请重新登陆");
                 }
                 Object tokenRedis = redisCache.getCacheObject("token_" + userId);
                 if (ObjectUtils.isEmpty(tokenRedis)) {
@@ -69,10 +69,10 @@ public class JWTInterceptor implements HandlerInterceptor {
             } catch (UnsupportedJwtException e) {
                 String errorMessage = "Token不合法, 请自重";
                 doResponse(response, errorMessage);
-            } catch (Exception e) {
+            } /*catch (Exception e) {
                 String errorMessage = "token有误,请重新登陆";
                 doResponse(response, errorMessage);
-            }
+            }*/
         }
         return false;
     }
