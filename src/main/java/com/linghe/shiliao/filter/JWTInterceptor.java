@@ -62,7 +62,9 @@ public class JWTInterceptor implements HandlerInterceptor {
                     redisCache.setCacheObject("login_" + userId, uuid, i, TimeUnit.SECONDS);
                     response.setHeader("token", newToken);
                     response.setHeader("flush", "token刷新");
+                    return true;
                 }
+                response.setHeader("token",token);
                 return true; // 放行; 去访问接口吧
             } catch (ExpiredJwtException e) {
                 // 登录过期
