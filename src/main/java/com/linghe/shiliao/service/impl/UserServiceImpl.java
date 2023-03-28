@@ -50,6 +50,10 @@ public class UserServiceImpl implements UserService {
     @Value("${shiliaoRedisTime.codeTime}")
     private String codeTime;
 
+    @Value("${jwtDeadTime}")
+    private String jwtDeadTime;
+
+
     /**
      * 获取验证码
      *
@@ -126,8 +130,9 @@ public class UserServiceImpl implements UserService {
         if (userMessage.getStatus() != 1) {
             return R.error("账号已停用,请联系管理员");
         }
-        String token = JwtUtils.getJwtToken(userMessage.getUserId().toString(),userMessage.getRuleId().toString());
+        String token = JwtUtils.getJwtToken(userMessage.getUserId().toString(), userMessage.getRuleId().toString());
         response.setHeader("token", token);
+        redisCache.setCacheObject("token_" + userMessage.getUserId(), token, Integer.parseInt(jwtDeadTime) * 2, TimeUnit.SECONDS);
         Integer ruleId = userMessage.getRuleId();
         response.setHeader("ruleId", ruleId.toString());
         return R.success("登陆成功");
@@ -220,7 +225,7 @@ public class UserServiceImpl implements UserService {
         }
 
         LambdaQueryWrapper<UserMessage> lqw = new LambdaQueryWrapper<>();
-        lqw.eq(UserMessage::getEmail,userMessageDto.getEmail());
+        lqw.eq(UserMessage::getEmail, userMessageDto.getEmail());
         UserMessage userMessage = userMessageMapper.selectOne(lqw);
         if (ObjectUtils.isEmpty(userMessage)) {
             return R.error("邮箱不存在,请先注册");
@@ -238,7 +243,7 @@ public class UserServiceImpl implements UserService {
         }
 
 
-        if (StringUtils.equals(Md5Utils.hash(userMessageDto.getPassword()),userMessage.getPassword())) {
+        if (StringUtils.equals(Md5Utils.hash(userMessageDto.getPassword()), userMessage.getPassword())) {
             return R.error("新密码不可与原密码相同");
         }
         userMessage.setPassword(Md5Utils.hash(userMessageDto.getPassword()));

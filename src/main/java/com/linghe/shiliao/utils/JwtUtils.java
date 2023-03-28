@@ -5,6 +5,8 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
@@ -12,13 +14,20 @@ import java.util.Date;
 /**
  * JWT工具类
  */
+@Component
 public class JwtUtils {
 
     /**
-     * 两个常量： 过期时间；秘钥
+     * 秘钥
      */
-    public static final long EXPIRE = 1000 * 60 * 60;
     public static final String SECRET = "ukc8BDbRigUDaY6pZFfWus2jZWLPHO";
+
+    private static String jwtDeadTime;
+
+    @Value("${jwtDeadTime}")
+    public void setJwtDeadTime(String jwtDeadTime) {
+        JwtUtils.jwtDeadTime = jwtDeadTime;
+    }
 
     /**
      * 生成token字符串的方法
@@ -34,7 +43,7 @@ public class JwtUtils {
                 //设置分类；设置过期时间 一个当前时间，一个加上设置的过期时间常量
                 .setSubject("lin-user")
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + EXPIRE))
+                .setExpiration(new Date(System.currentTimeMillis() + (1000 * Integer.parseInt(jwtDeadTime))))
                 //设置token主体信息，存储用户信息
                 .claim("userId", userId)
                 .claim("ruleId", ruleId)

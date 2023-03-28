@@ -118,3 +118,7 @@ shiliaoRedisTime:
   emailCodeTime: 3000
 
 
+#jwt过期时间(秒)
+jwtDeadTime: 30
+
+

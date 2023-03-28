@@ -8,6 +8,6 @@ import java.lang.annotation.*;
 public @interface RuleAop {
 
     //参数输入为:"权限1","权限2"
-    String[] ruleNames();
+    public String[] ruleNames();
 
 }
