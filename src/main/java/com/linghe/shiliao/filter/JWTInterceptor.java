@@ -5,6 +5,7 @@ import com.linghe.shiliao.utils.JwtUtils;
 import com.linghe.shiliao.utils.RedisCache;
 import io.jsonwebtoken.*;
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -26,7 +27,7 @@ public class JWTInterceptor implements HandlerInterceptor {
     private RedisCache redisCache;
 
     @Value("${jwtDeadTime}")
-    private static String jwtDeadTime;
+    private String jwtDeadTime;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -45,11 +46,18 @@ public class JWTInterceptor implements HandlerInterceptor {
                 Jws<Claims> claimsJws = parser.parseClaimsJws(token);
                 String userId = JwtUtils.getUserIdByJwtToken(request);
                 String ruleId = JwtUtils.getRuleIdByJwtToken(request);
-
+                String uuid = JwtUtils.getUuidByJwtToken(request);
+                String loginUuid = redisCache.getCacheObject("login_" + userId);
+                if (null != loginUuid && StringUtils.equals(loginUuid, uuid)) {
+                    String errorMessage = "该账号可能已在其它设备登录,请重新登陆";
+                    doResponse(response, errorMessage);
+                }
                 Object tokenRedis = redisCache.getCacheObject("token_" + userId);
                 if (ObjectUtils.isEmpty(tokenRedis)) {
-                    String newToken = JwtUtils.getJwtToken(userId, ruleId);
-                    redisCache.setCacheObject("token_" + userId, newToken, Integer.parseInt(jwtDeadTime) / 2, TimeUnit.SECONDS);
+                    String newToken = JwtUtils.getJwtToken(userId, ruleId, uuid);
+                    int i = Integer.parseInt(jwtDeadTime);
+                    redisCache.setCacheObject("token_" + userId, newToken, i / 2, TimeUnit.SECONDS);
+                    redisCache.setCacheObject("login_" + userId, uuid, i, TimeUnit.SECONDS);
                     response.setHeader("token", newToken);
                     response.setHeader("flush", "token刷新");
                 }
@@ -61,10 +69,10 @@ public class JWTInterceptor implements HandlerInterceptor {
             } catch (UnsupportedJwtException e) {
                 String errorMessage = "Token不合法, 请自重";
                 doResponse(response, errorMessage);
-            } catch (Exception e) {
+            } /*catch (Exception e) {
                 String errorMessage = "token有误,请重新登陆";
                 doResponse(response, errorMessage);
-            }
+            }*/
         }
         return false;
     }

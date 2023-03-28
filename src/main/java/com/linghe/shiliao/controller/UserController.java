@@ -1,5 +1,6 @@
 package com.linghe.shiliao.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.linghe.shiliao.aop.RuleAop;
 import com.linghe.shiliao.common.R;
 import com.linghe.shiliao.entity.UserMessage;
@@ -8,13 +9,17 @@ import com.linghe.shiliao.entity.dto.UserMessageDto;
 import com.linghe.shiliao.service.MailService;
 import com.linghe.shiliao.service.UserMessageService;
 import com.linghe.shiliao.service.UserService;
+import com.linghe.shiliao.utils.RedisCache;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 用户注册、登录、修改权限
@@ -28,6 +33,15 @@ public class UserController {
 
     @Autowired
     private MailService mailService;
+
+    @Autowired
+    private RedisCache redisCache;
+
+    @Autowired
+    private UserMessageService userMessageService;
+
+    @Value("${jwtDeadTime}")
+    private String jwtDeadTime;
 
     /**
      * 注册
@@ -88,5 +102,35 @@ public class UserController {
 //    @PostMapping("/loginout")
 //    pub
 
+    /**
+     * 登录前,查询登录状态
+     *
+     * @param loginDto
+     * @return
+     */
+    @PostMapping("/getLoginStatus")
+    public R<String> getLoginStatus(LoginDto loginDto) {
+        LambdaQueryWrapper<UserMessage> lqw = new LambdaQueryWrapper<>();
+        lqw.eq(UserMessage::getUserName, loginDto.getUserName());
+        UserMessage userMessage = userMessageService.getOne(lqw);
+        if (ObjectUtils.isEmpty(userMessage)) {
+            return R.error("用户名不存在,请先注册");
+        }
+        String loginUuid = redisCache.getCacheObject("login_" + userMessage.getUserId());
+        if (loginUuid != null && !loginDto.getUuid().equals(loginUuid)) {
+            return R.error("该账号已在其它设备登录,登录将会导致其它设备强制退出");
+        }
+        return R.success("无其他设备登录,可正常登录");
+    }
 
+    /**
+     * 退出登录
+     * @param userId
+     * @return
+     */
+    @PostMapping("/logout")
+    public R<String> logout(String userId) {
+        redisCache.setCacheObject("login_" + userId, "logout", Integer.parseInt(jwtDeadTime), TimeUnit.SECONDS);
+        return R.success("退出成功");
+    }
 }

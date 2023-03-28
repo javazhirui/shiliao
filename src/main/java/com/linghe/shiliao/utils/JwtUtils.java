@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * JWT工具类
@@ -37,10 +38,11 @@ public class JwtUtils {
      * @param userId
      * @return
      */
-    public static String getJwtToken(String userId, String ruleId) {
+    public static String getJwtToken(String userId, String ruleId, String uuid) {
         Map<String, Object> map = new HashMap<>();
         map.put("userId", userId);
         map.put("ruleId", ruleId);
+        map.put("uuid", uuid);
         String JwtToken = Jwts.builder()
                 //JWT头信息
                 .setHeaderParam("typ", "JWT")
@@ -118,5 +120,15 @@ public class JwtUtils {
         Jws<Claims> claimsJws = Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token);
         Claims body = claimsJws.getBody();
         return (String) body.get("ruleId");
+    }
+
+    public static String getUuidByJwtToken(HttpServletRequest request) {
+        String token = request.getHeader("token");
+        if (StringUtils.isEmpty(token)) {
+            return "";
+        }
+        Jws<Claims> claimsJws = Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token);
+        Claims body = claimsJws.getBody();
+        return (String) body.get("uuid");
     }
 }

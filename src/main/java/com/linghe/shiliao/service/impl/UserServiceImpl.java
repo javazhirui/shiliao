@@ -18,6 +18,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
@@ -27,6 +28,7 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -130,9 +132,11 @@ public class UserServiceImpl implements UserService {
         if (userMessage.getStatus() != 1) {
             return R.error("账号已停用,请联系管理员");
         }
-        String token = JwtUtils.getJwtToken(userMessage.getUserId().toString(), userMessage.getRuleId().toString());
+        String token = JwtUtils.getJwtToken(userMessage.getUserId().toString(), userMessage.getRuleId().toString(), loginDto.getUuid());
         response.setHeader("token", token);
-        redisCache.setCacheObject("token_" + userMessage.getUserId(), token, Integer.parseInt(jwtDeadTime) / 2, TimeUnit.SECONDS);
+        int i = Integer.parseInt(jwtDeadTime);
+        redisCache.setCacheObject("token_" + userMessage.getUserId(), token, i / 2, TimeUnit.SECONDS);
+        redisCache.setCacheObject("login_" + userMessage.getUserId(), loginDto.getUuid(), i, TimeUnit.SECONDS);
         Integer ruleId = userMessage.getRuleId();
         response.setHeader("ruleId", ruleId.toString());
         return R.success("登陆成功");
