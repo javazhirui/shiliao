@@ -116,7 +116,12 @@ public class UserController {
         lqw.eq(UserMessage::getUserName, loginDto.getUserName());
         UserMessage userMessage = userMessageService.getOne(lqw);
         if (ObjectUtils.isEmpty(userMessage)) {
-            return R.error("用户名不存在,请先注册");
+            LambdaQueryWrapper<UserMessage> lqw1 = new LambdaQueryWrapper<>();
+            lqw.eq(UserMessage::getEmail,loginDto.getUserName());
+            userMessage = userMessageService.getOne(lqw1);
+            if (ObjectUtils.isEmpty(userMessage)) {
+                return R.error("登录账号不存在");
+            }
         }
         String loginUuid = redisCache.getCacheObject("login_" + userMessage.getUserId());
         if (loginUuid != null && !loginDto.getUuid().equals(loginUuid)) {
