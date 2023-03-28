@@ -132,7 +132,7 @@ public class UserServiceImpl implements UserService {
         }
         String token = JwtUtils.getJwtToken(userMessage.getUserId().toString(), userMessage.getRuleId().toString());
         response.setHeader("token", token);
-        redisCache.setCacheObject("token_" + userMessage.getUserId(), token, Integer.parseInt(jwtDeadTime) * 2, TimeUnit.SECONDS);
+        redisCache.setCacheObject("token_" + userMessage.getUserId(), token, Integer.parseInt(jwtDeadTime) / 2, TimeUnit.SECONDS);
         Integer ruleId = userMessage.getRuleId();
         response.setHeader("ruleId", ruleId.toString());
         return R.success("登陆成功");

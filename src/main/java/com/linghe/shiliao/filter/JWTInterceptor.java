@@ -45,10 +45,17 @@ public class JWTInterceptor implements HandlerInterceptor {
                 Jws<Claims> claimsJws = parser.parseClaimsJws(token);
                 String userId = JwtUtils.getUserIdByJwtToken(request);
                 String ruleId = JwtUtils.getRuleIdByJwtToken(request);
+                Object dead_token = redisCache.getCacheObject(token);
+                if (null != dead_token) {
+                    String errorMessage = "token已刷新,请使用新token或者重新登陆";
+                    doResponse(response, errorMessage);
+                    return false;
+                }
                 Object tokenRedis = redisCache.getCacheObject("token_" + userId);
                 if (ObjectUtils.isEmpty(tokenRedis)) {
+                    redisCache.setCacheObject(token, token, Integer.parseInt(jwtDeadTime) / 2, TimeUnit.SECONDS);
                     String newToken = JwtUtils.getJwtToken(userId, ruleId);
-                    redisCache.setCacheObject("token_" + userId, newToken, Integer.parseInt(jwtDeadTime), TimeUnit.SECONDS);
+                    redisCache.setCacheObject("token_" + userId, newToken, Integer.parseInt(jwtDeadTime) / 2, TimeUnit.SECONDS);
                     response.setHeader("token", newToken);
                     response.setHeader("flush", "token刷新");
                 }
