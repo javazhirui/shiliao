@@ -186,7 +186,7 @@ public class UserServiceImpl implements UserService {
         emailCode = Md5Utils.hash(emailCode);
         //获取缓存的邮箱验证码(md5加密后的)
         String emailCodeRedis = redisCache.getCacheObject(userMessageDto.getEmail() + "_" + userMessageDto.getUuid());
-        if (!StringUtils.equals(emailCode, emailCodeRedis)) {
+        if (!StringUtils.equals(Md5Utils.hash(emailCode), emailCodeRedis)) {
             return R.error("邮箱验证码输入有误");
         }
         if (userMessageDto.getPassword().isEmpty()) {
