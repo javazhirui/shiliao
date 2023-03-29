@@ -49,6 +49,15 @@ class WebMvcConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         // 把 拦截器 注册到 Mvc, 同时 设置 拦截 和 放过的 信息
         registry.addInterceptor(jwtInterceptor)
-                .excludePathPatterns("/user/**","/**/login","/**/register","/file/**","/test111/**","/**/getEmailCode","/**/getCode");
+                .excludePathPatterns(
+                        "/user/**",
+                        "/**/login",
+                        "/**/register",
+                        "/file/**",
+                        "/test111/**",
+                        "/**/getEmailCode",
+                        "/**/getCode",
+                        "/**/getLoginStatus"
+                );
     }
 }
