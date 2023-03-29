@@ -127,9 +127,6 @@ public class UserController {
             }
         }
         String loginUuid = redisCache.getCacheObject("login_" + userMessage.getUserId());
-        System.err.println("loginUuid:"+loginUuid);
-        System.err.println("loginDto.getUuid():"+loginDto.getUuid());
-        System.err.println(loginDto.getUuid().equals(loginUuid));
         if (loginUuid != null && !loginDto.getUuid().equals(loginUuid) && !loginUuid.equals("logout")) {
             return R.error("该账号已在其它设备登录,登录将会导致其它设备强制退出");
         }
@@ -144,7 +141,6 @@ public class UserController {
     @PostMapping("/logout")
     public R<String> logout(HttpServletRequest request,@RequestBody LoginDto loginDto) {
         String userIdByJwtToken = JwtUtils.getUserIdByJwtToken(request);
-        System.err.println(userIdByJwtToken);
         if (StringUtils.isEmpty(loginDto.getUserId()) && !StringUtils.equals(userIdByJwtToken,loginDto.getUserId())) {
             return R.error("userId错误,只能退出当前验证登录账号");
         }
