@@ -29,4 +29,9 @@ public class LoginDto implements Serializable {
      */
     private String uuid;
 
+    /**
+     * 退出账户userid
+     */
+    private String userId;
+
 }

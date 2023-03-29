@@ -11,11 +11,14 @@ import com.linghe.shiliao.service.UserMessageService;
 import com.linghe.shiliao.service.UserService;
 import com.linghe.shiliao.utils.JwtUtils;
 import com.linghe.shiliao.utils.RedisCache;
+import io.lettuce.core.dynamic.annotation.Param;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import sun.rmi.runtime.Log;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -74,6 +77,7 @@ public class UserController {
      * @return //返回验证码输出字节流
      * @throws IOException
      */
+//    @RuleAop(ruleNames = {"zilongcs"})
     @GetMapping("/getCode")
     public R<String> getCode(String uuid) throws IOException {
         return userService.getCode(uuid);
@@ -101,8 +105,7 @@ public class UserController {
         return userService.forgetPassword(userMessageDto);
     }
 
-//    @PostMapping("/loginout")
-//    pub
+
 
     /**
      * 登录前,查询登录状态
@@ -111,20 +114,23 @@ public class UserController {
      * @return
      */
     @PostMapping("/getLoginStatus")
-    public R<String> getLoginStatus(LoginDto loginDto) {
+    public R<String> getLoginStatus(@RequestBody LoginDto loginDto) {
         LambdaQueryWrapper<UserMessage> lqw = new LambdaQueryWrapper<>();
         lqw.eq(UserMessage::getUserName, loginDto.getUserName());
         UserMessage userMessage = userMessageService.getOne(lqw);
         if (ObjectUtils.isEmpty(userMessage)) {
             LambdaQueryWrapper<UserMessage> lqw1 = new LambdaQueryWrapper<>();
-            lqw.eq(UserMessage::getEmail,loginDto.getUserName());
+            lqw1.eq(UserMessage::getEmail,loginDto.getUserName());
             userMessage = userMessageService.getOne(lqw1);
             if (ObjectUtils.isEmpty(userMessage)) {
                 return R.error("登录账号不存在");
             }
         }
         String loginUuid = redisCache.getCacheObject("login_" + userMessage.getUserId());
-        if (loginUuid != null && !loginDto.getUuid().equals(loginUuid)) {
+        System.err.println("loginUuid:"+loginUuid);
+        System.err.println("loginDto.getUuid():"+loginDto.getUuid());
+        System.err.println(loginDto.getUuid().equals(loginUuid));
+        if (loginUuid != null && !loginDto.getUuid().equals(loginUuid) && !loginUuid.equals("logout")) {
             return R.error("该账号已在其它设备登录,登录将会导致其它设备强制退出");
         }
         return R.success("无其他设备登录,可正常登录");
@@ -132,16 +138,17 @@ public class UserController {
 
     /**
      * 退出登录
-     * @param userId
+     * @param loginDto
      * @return
      */
     @PostMapping("/logout")
-    public R<String> logout(HttpServletRequest request, String userId) {
+    public R<String> logout(HttpServletRequest request,@RequestBody LoginDto loginDto) {
         String userIdByJwtToken = JwtUtils.getUserIdByJwtToken(request);
-        if (StringUtils.isEmpty(userId) && !StringUtils.equals(userIdByJwtToken,userId)) {
+        System.err.println(userIdByJwtToken);
+        if (StringUtils.isEmpty(loginDto.getUserId()) && !StringUtils.equals(userIdByJwtToken,loginDto.getUserId())) {
             return R.error("userId错误,只能退出当前验证登录账号");
         }
-        redisCache.setCacheObject("login_" + userId, "logout", Integer.parseInt(jwtDeadTime), TimeUnit.SECONDS);
+        redisCache.setCacheObject("login_" + loginDto.getUserId(), "logout", Integer.parseInt(jwtDeadTime), TimeUnit.SECONDS);
         return R.success("退出成功");
     }
 }
