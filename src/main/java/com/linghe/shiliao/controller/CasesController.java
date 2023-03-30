@@ -3,6 +3,7 @@ package com.linghe.shiliao.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.linghe.shiliao.aop.LogAop;
 import com.linghe.shiliao.aop.RuleAop;
 import com.linghe.shiliao.common.R;
 import com.linghe.shiliao.entity.Cases;
@@ -44,7 +45,6 @@ public class CasesController {
     private CasesService casesService;
 
     /**
-     *
      * @param userMessageDto
      * @return
      */
@@ -56,6 +56,7 @@ public class CasesController {
 
     /**
      * 添加客户/病历信息
+     *
      * @param cases
      * @return
      */
@@ -66,6 +67,7 @@ public class CasesController {
 
     /**
      * 修改客户/病历信息
+     *
      * @param cases
      * @return
      */
@@ -77,6 +79,7 @@ public class CasesController {
     /**
      * 病例信息导出
      * 根据id数组导出excel
+     *
      * @param excel
      * @param excelName
      * @return
@@ -85,15 +88,17 @@ public class CasesController {
     @GetMapping("/outputExcelByIds")
     public R<String> outputExcelByIds(@RequestParam String excel, @RequestParam String excelName) {
         String[] ids = excel.split(",");
-        return casesService.outputExcelByIds(ids,excelName);
+        return casesService.outputExcelByIds(ids, excelName);
     }
 
     /**
      * 根据id数组导出word
+     *
      * @param word
      * @return
      */
     @RuleAop(ruleNames = "0")
+    @LogAop(logType = "查询导出文件", logMessage = "根据ids导出病例word")
     @GetMapping("/outputWordByIds")
     public R<String> outputWordByIds(@RequestParam String word) {
         String[] ids = word.split(",");

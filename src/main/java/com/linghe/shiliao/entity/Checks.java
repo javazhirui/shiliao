@@ -27,12 +27,12 @@ public class Checks implements Serializable {
      * 审核id
      */
     @TableId(value = "checks_id", type = IdType.ASSIGN_ID)
-    private Integer checksId;
+    private Long checksId;
 
     /**
      * 用户id
      */
-    private Integer userId;
+    private Long userId;
 
     /**
      * 自述病情

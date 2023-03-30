@@ -29,7 +29,7 @@ public class CodeGenerator {
         GlobalConfig globalConfig = new GlobalConfig();
         globalConfig.setOutputDir(System.getProperty("user.dir")+"/src/main/java");    //设置代码生成位置
         globalConfig.setOpen(false);    //设置生成完毕后是否打开生成代码所在的目录
-        globalConfig.setAuthor("zhao_qin");    //设置作者
+        globalConfig.setAuthor("zhao");    //设置作者
         globalConfig.setFileOverride(true);     //设置是否覆盖原始生成的文件
         globalConfig.setMapperName("%sMapper");    //设置数据层接口名，%s为占位符，指代模块名称
         globalConfig.setServiceName("%sService");

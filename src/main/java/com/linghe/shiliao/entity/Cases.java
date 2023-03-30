@@ -3,7 +3,6 @@ package com.linghe.shiliao.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -28,13 +27,12 @@ public class Cases implements Serializable {
      * 病例id
      */
     @TableId(value = "cases_id", type = IdType.ASSIGN_ID)
-    private Integer casesId;
+    private Long casesId;
 
     /**
      * 关联user_id
      */
-    private Integer userId;
-
+    private Long userId;
     /**
      * 诊断结果
      */
