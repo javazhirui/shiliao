@@ -1,11 +1,11 @@
-server:
-  port: 8443
-  ssl:
-    key-store: classpath:shiliao.jks
-    key-alias: shiliao666
-    key-store-password: 123456
-    enabled: true
-    key-store-type: jks
+#server:
+#  port: 8443
+#  ssl:
+#    key-store: classpath:shiliao.jks
+#    key-alias: shiliao666
+#    key-store-password: 123456
+#    enabled: true
+#    key-store-type: jks
 
 spring:
   datasource:
@@ -24,7 +24,7 @@ spring:
       # 数据库索引
     database: 0
       # 密码
-    password: root
+    password:
       # 连接超时时间
     timeout: 10s
     lettuce:
