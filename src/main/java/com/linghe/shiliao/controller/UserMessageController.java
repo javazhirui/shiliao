@@ -44,11 +44,19 @@ public class UserMessageController {
         return userMessageService.getList(userMessageDto);
     }
 
+    /**
+     * 修改用户个人信息
+     * @param userMessage
+     */
     @PostMapping("/editUserMessageBean")
     public void editUserMessageBean(@RequestBody  UserMessage userMessage) {
         userMessageService.editUserMessageBean(userMessage);
     }
 
+    /**
+     * 删除/隐藏用户个人信息
+     * @param userMessage
+     */
     @PostMapping("/delUserMessage")
     public void delUserMessage(@RequestBody UserMessage userMessage) {
         userMessageService.delUserMessage(userMessage);
@@ -102,7 +110,7 @@ public class UserMessageController {
      */
     @PostMapping("/getUserBean")
     public UserMessage getUserBean(@RequestBody LoginDto loginDto){
-        return  userMessageService.getUserBean(loginDto);
+        return userMessageService.getUserBean(loginDto);
     }
 
     @PostMapping("/addUserMessageBean")
