@@ -50,8 +50,7 @@ public class CasesController {
      */
     @PostMapping("/getCaseList")
     public Page<CasesDto> getCaseList(@RequestBody UserMessageDto userMessageDto) {
-        Page<CasesDto> page = casesService.getCaseList(userMessageDto.getStatus(), userMessageDto.getPhone(), userMessageDto.getName(), userMessageDto.getHealth(), userMessageDto.getCurrentPage(), userMessageDto.getPageSize());
-        return page;
+        return casesService.getCaseList(userMessageDto.getStatus(), userMessageDto.getPhone(), userMessageDto.getName(), userMessageDto.getHealth(), userMessageDto.getCurrentPage(), userMessageDto.getPageSize());
     }
 
     /**

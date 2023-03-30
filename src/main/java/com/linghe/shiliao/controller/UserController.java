@@ -11,6 +11,8 @@ import com.linghe.shiliao.service.UserMessageService;
 import com.linghe.shiliao.service.UserService;
 import com.linghe.shiliao.utils.JwtUtils;
 import com.linghe.shiliao.utils.RedisCache;
+import com.linghe.shiliao.utils.SMSUtils;
+import com.linghe.shiliao.utils.VerifyCodeUtils;
 import io.lettuce.core.dynamic.annotation.Param;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -146,5 +148,15 @@ public class UserController {
         }
         redisCache.setCacheObject("login_" + loginDto.getUserId(), "logout", Integer.parseInt(jwtDeadTime), TimeUnit.SECONDS);
         return R.success("退出成功");
+    }
+
+    @PostMapping("/getPhoneCode")
+    public R<String> getPhoneCode() {
+        try {
+            SMSUtils.sendMessage("阿里云短信测试", "SMS_154950909", "17731815890", VerifyCodeUtils.generateVerifyCode(6));
+        } catch (Exception e) {
+            R.error("获取验证码意外失败");
+        }
+        return R.success("短信验证码发送成功");
     }
 }
