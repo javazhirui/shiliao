@@ -14,6 +14,7 @@ import com.linghe.shiliao.utils.RedisCache;
 import com.linghe.shiliao.utils.SMSUtils;
 import com.linghe.shiliao.utils.VerifyCodeUtils;
 import io.lettuce.core.dynamic.annotation.Param;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,11 +27,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 /**
  * 用户注册、登录、修改权限
  */
+@Slf4j
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -151,9 +154,16 @@ public class UserController {
     }
 
     @PostMapping("/getPhoneCode")
-    public R<String> getPhoneCode() {
+    public R<String> getPhoneCode(String phone) {
+        Random random = new Random();
+        StringBuilder sb = new StringBuilder();
+        for (int j = 0; j < 6; j++) {
+            String s = String.valueOf(random.nextInt(9));
+            sb.append(s);
+        }
+        String s = String.valueOf(sb);
         try {
-            SMSUtils.sendMessage("阿里云短信测试", "SMS_154950909", "17731815890", VerifyCodeUtils.generateVerifyCode(6));
+            SMSUtils.sendMessage("阿里云短信测试", "SMS_154950909", phone, s);
         } catch (Exception e) {
             R.error("获取验证码意外失败");
         }
