@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -67,6 +68,10 @@ public class UserMessageServiceImpl extends ServiceImpl<UserMessageMapper, UserM
 
     @Override
     public void editUserMessageBean(UserMessage userMessage) {
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String thisDateTime = sdf.format(date);
+        userMessage.setUpdateTime(thisDateTime);
         UserMessage userMessage2 = new UserMessage();
         BeanUtils.copyProperties(userMessage, userMessage2);
         this.updateById(userMessage2);
@@ -156,6 +161,42 @@ public class UserMessageServiceImpl extends ServiceImpl<UserMessageMapper, UserM
                 return userMessage1;
         }
         return userMessage;
+    }
+
+    /**
+     * 添加用户个人信息
+     * @param userMessageDto
+     */
+    @Override
+    public R<String> addUserBean(UserMessageDto userMessageDto) {
+
+        //查询构造器
+        LambdaQueryWrapper<UserMessage> lqw = new LambdaQueryWrapper<>();
+        //查询email
+        lqw.eq(UserMessage::getEmail, userMessageDto.getEmail());
+        //获取第一个查询结果
+        UserMessage userMessage = userMessageMapper.selectOne(lqw);
+        if (!ObjectUtils.isEmpty(userMessage)) {
+            return R.error("邮箱已注册,请更换邮箱或重新登陆");
+        }
+        LambdaQueryWrapper<UserMessage> lqw1 = new LambdaQueryWrapper<>();
+        lqw1.eq(UserMessage::getUserName, userMessageDto.getUserName());
+        UserMessage userMessage1 = userMessageMapper.selectOne(lqw1);
+        if (!ObjectUtils.isEmpty(userMessage1)) {
+            return R.error("账号名字已存在");
+        }
+
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String thisDateTime = sdf.format(date);
+
+        userMessageDto.setCreateTime(thisDateTime);
+
+        //对密码进行MD5加密后替换password
+        userMessageDto.setPassword(Md5Utils.hash(userMessageDto.getPassword()));
+        userMessageMapper.insert(userMessageDto);
+
+        return R.success("添加成功");
     }
 
 }

@@ -53,4 +53,6 @@ public interface UserMessageService extends IService<UserMessage> {
      * @return
      */
     UserMessage getUserBean(LoginDto loginDto);
+
+    R<String> addUserBean(UserMessageDto userMessageDto);
 }
