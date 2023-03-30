@@ -67,11 +67,11 @@ public class ChecksServiceImpl extends ServiceImpl<ChecksMapper, Checks> impleme
             return R.error("数据为空");
         }
         Page<ChecksDto> pageDto = new Page<>();
-        checksDto.setStartSize((checksDto.getCurrentPage() - 1) * checksDto.getPageSize());
-        pageDto.setList(checksMapper.getCheckList(checksDto));
         pageDto.setCurrentPage(checksDto.getCurrentPage());
         pageDto.setPageSize(checksDto.getPageSize());
+        checksDto.setStartSize((checksDto.getCurrentPage() - 1) * checksDto.getPageSize());
         pageDto.setTotal(checksMapper.getTotal());
+        pageDto.setList(checksMapper.getCheckList(checksDto));
         return R.success(pageDto);
     }
 }
