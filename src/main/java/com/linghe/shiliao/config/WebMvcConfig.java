@@ -57,7 +57,8 @@ class WebMvcConfig implements WebMvcConfigurer {
                         "/test111/**",
                         "/**/getEmailCode",
                         "/**/getCode",
-                        "/**/getLoginStatus"
+                        "/**/getLoginStatus",
+                        "/**/getPhoneCode"
                 );
     }
 }
