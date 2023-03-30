@@ -45,6 +45,7 @@ public class JWTInterceptor implements HandlerInterceptor {
                 parser.setSigningKey("ukc8BDbRigUDaY6pZFfWus2jZWLPHO"); // 解析token 的 SigningKey 必须和生成的token时设置的密码一致
                 // 如果 token正确(密码正确, 有效期内) 则正常执行, 否则抛出 异常
                 Jws<Claims> claimsJws = parser.parseClaimsJws(token);
+                String signature = claimsJws.getSignature();
                 String userId = JwtUtils.getUserIdByJwtToken(request);
                 String ruleId = JwtUtils.getRuleIdByJwtToken(request);
                 String uuid = JwtUtils.getUuidByJwtToken(request);
