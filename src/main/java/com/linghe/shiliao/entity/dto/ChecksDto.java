@@ -60,7 +60,7 @@ public class ChecksDto implements Serializable {
     /**
      * 0未知 1男 2女
      */
-    private Integer gender;
+    private String gender;
 
     /**
      * 联系电话

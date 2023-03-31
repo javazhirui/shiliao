@@ -156,7 +156,7 @@ public class UserController {
     @PostMapping("/getPhoneCode")
     public R<String> getPhoneCode(String phone) {
         Random random = new Random();
-        StringBuilder sb = new StringBuilder();
+        StringBuffer sb = new StringBuffer();
         for (int j = 0; j < 6; j++) {
             String s = String.valueOf(random.nextInt(9));
             sb.append(s);

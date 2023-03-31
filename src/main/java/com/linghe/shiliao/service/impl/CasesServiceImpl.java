@@ -5,6 +5,7 @@ import com.linghe.shiliao.common.R;
 import com.linghe.shiliao.entity.Cases;
 import com.linghe.shiliao.entity.UserMessage;
 import com.linghe.shiliao.entity.dto.CasesDto;
+import com.linghe.shiliao.entity.dto.CasesExcel;
 import com.linghe.shiliao.mapper.CasesMapper;
 import com.linghe.shiliao.mapper.UserMessageMapper;
 import com.linghe.shiliao.service.CasesService;
@@ -76,7 +77,6 @@ public class CasesServiceImpl extends ServiceImpl<CasesMapper, Cases> implements
         pageDto.setCurrentPage(currentPage);
         pageDto.setPageSize(pageSize);
         pageDto.setTotal(casesMapper.getTotal(status, phone, name, health, startSize, pageSize));
-
         pageDto.setList(casesMapper.getList(status, phone, name, health, startSize, pageSize));
         return pageDto;
     }
@@ -151,7 +151,7 @@ public class CasesServiceImpl extends ServiceImpl<CasesMapper, Cases> implements
             }
         }
 
-        List<CasesDto> list = casesMapper.getByIds(ids);
+        List<CasesExcel> list = casesMapper.getByIds(ids);
         String excelPath = casesMessageExcel + excelName + ".xlsx";//后期可换minio地址
         File file = new File(excelPath);
         if (!file.getParentFile().exists()) { // 此时文件有父目录
@@ -179,7 +179,7 @@ public class CasesServiceImpl extends ServiceImpl<CasesMapper, Cases> implements
             //获取用户基础信息
             UserMessage userMessage = userMessageMapper.selectById(id);
             dataMap.put("name", userMessage.getName());
-            dataMap.put("gender", userMessage.getGender() == 1 ? "男" : "女");
+            dataMap.put("gender", userMessage.getGender());
             dataMap.put("age", userMessage.getAge());
             dataMap.put("phone", userMessage.getPhone());
             dataMap.put("email", userMessage.getEmail());

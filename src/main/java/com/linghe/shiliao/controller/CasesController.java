@@ -83,7 +83,7 @@ public class CasesController {
      * @param excelName
      * @return
      */
-    @RuleAop(ruleNames = "1")
+    @RuleAop(ruleNames = "0")
     @GetMapping("/outputExcelByIds")
     public R<String> outputExcelByIds(@RequestParam String excel, @RequestParam String excelName) {
         String[] ids = excel.split(",");

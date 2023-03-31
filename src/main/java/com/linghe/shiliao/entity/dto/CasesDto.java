@@ -58,7 +58,7 @@ public class CasesDto implements Serializable {
     /**
      * 0/未知(1男 2女)
      */
-    private Integer gender;
+    private String gender;
 
     /**
      * 联系电话
