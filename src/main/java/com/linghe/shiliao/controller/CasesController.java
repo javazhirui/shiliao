@@ -83,9 +83,17 @@ public class CasesController {
      * @param excelName
      * @return
      */
-    @RuleAop(ruleNames = "1")
+//    @RuleAop(ruleNames = "1")
     @GetMapping("/outputExcelByIds")
     public R<String> outputExcelByIds(@RequestParam String excel, @RequestParam String excelName) {
+        if(null == excel || excel.equals("")){
+            return R.error("请选择需要导出至excel的数据");
+        }
+
+        if(null == excelName || excelName.equals("")){
+            return R.error("文件名称不能为空");
+        }
+
         String[] ids = excel.split(",");
         return casesService.outputExcelByIds(ids, excelName);
     }
@@ -96,8 +104,8 @@ public class CasesController {
      * @param word
      * @return
      */
-    @RuleAop(ruleNames = "0")
-    @LogAop(logType = "查询导出文件", logMessage = "根据ids导出病例word")
+//    @RuleAop(ruleNames = "0")
+//    @LogAop(logType = "查询导出文件", logMessage = "根据ids导出病例word")
     @GetMapping("/outputWordByIds")
     public R<String> outputWordByIds(@RequestParam String word) {
         String[] ids = word.split(",");
@@ -114,5 +122,26 @@ public class CasesController {
     public R<List<Cases>> getById(HttpServletRequest request) {
         return casesService.getByUserId(request);
     }
+
+    /**
+     * 病例录入
+     * @return
+     */
+    @PostMapping("/addCasesInput")
+    public R<String> addCasesInput(@RequestBody CasesDto casesDto){
+        return casesService.addCasesInput(casesDto);
+    }
+
+    /**
+     * 根据病例id删除/隐藏病例信息
+     * @param cases
+     * @return
+     */
+    @PostMapping("/delCasesById")
+    public R<String> delCasesById(@RequestBody Cases cases){
+        return casesService.delCasesById(cases);
+    }
+
+
 }
 

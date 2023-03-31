@@ -5,12 +5,13 @@
     <!--    分页查询病历信息-->
     <select id="getList" resultType="com.linghe.shiliao.entity.dto.CasesDto">
         select t1.user_id, t1.name, t1.age, t1.gender, t1.phone, t1.email, t1.health, t1.user_name, t1.password,
-        t1.status, t1.rule_id, t1.remark, t1.create_time, t1.update_time, t2.diagnosis, t2.feedback, t2.user_id,
+        t1.status, t1.rule_id, t1.remark, t1.create_time, t1.update_time,t2.cases_id, t2.diagnosis, t2.feedback, t2.user_id,
         t2.cases_url, t2.cases_img_url
         from user_message as t1
         right join cases as t2 on t1.user_id = t2.user_id
         <where>
-            <if test="status != null and status != ''">and status = #{status}</if>
+            and t2.status = 1
+            and t1.status = 1
             <if test="name != null and name != ''">and t1.name like concat('%',#{name},'%')</if>
             <if test="phone != null and phone != ''">and t1.phone like concat('%',#{phone},'%')</if>
             <if test="health != null and health != ''">and t1.health = #{health}</if>
@@ -24,7 +25,8 @@
         from user_message as t1
         right join cases as t2 on t1.user_id = t2.user_id
         <where>
-            <if test="status != null and status != ''">and status = #{status}</if>
+            and t2.status = 1
+            and t1.status = 1
             <if test="name != null and name != ''">and t1.name like concat('%',#{name},'%')</if>
             <if test="phone != null and phone != ''">and t1.phone like concat('%',#{phone},'%')</if>
             <if test="health != null and health != ''">and t1.health = #{health}</if>

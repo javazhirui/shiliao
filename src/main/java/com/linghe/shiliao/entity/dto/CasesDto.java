@@ -19,6 +19,7 @@ public class CasesDto implements Serializable {
      * 用户id
      */
     private Long userId;
+
     /**
      * 诊断结果
      */
@@ -58,7 +59,7 @@ public class CasesDto implements Serializable {
     /**
      * 0/未知(1男 2女)
      */
-    private Integer gender;
+    private String gender;
 
     /**
      * 联系电话
@@ -93,8 +94,8 @@ public class CasesDto implements Serializable {
     /**
      * 病例id
      */
-    @ExcelField(name = "case_id")
-    private String caseId;
+    @ExcelField(name = "cases_id")
+    private String casesId;
 
     /**
      * 权限id

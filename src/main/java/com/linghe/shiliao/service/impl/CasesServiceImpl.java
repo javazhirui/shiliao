@@ -17,6 +17,8 @@ import com.xxl.tool.excel.ExcelTool;
 import net.sf.jsqlparser.expression.DateTimeLiteralExpression;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -159,7 +161,7 @@ public class CasesServiceImpl extends ServiceImpl<CasesMapper, Cases> implements
         }
         ExcelTool.exportToFile(Collections.singletonList(list), excelPath);
 
-        return R.success(excelPath);
+        return R.success("导出结束,请前往本地查看:" + casesMessageExcel);
     }
 
     /**
@@ -179,7 +181,7 @@ public class CasesServiceImpl extends ServiceImpl<CasesMapper, Cases> implements
             //获取用户基础信息
             UserMessage userMessage = userMessageMapper.selectById(id);
             dataMap.put("name", userMessage.getName());
-            dataMap.put("gender", userMessage.getGender() == 1 ? "男" : "女");
+            dataMap.put("gender", userMessage.getGender());
             dataMap.put("age", userMessage.getAge());
             dataMap.put("phone", userMessage.getPhone());
             dataMap.put("email", userMessage.getEmail());
@@ -227,5 +229,41 @@ public class CasesServiceImpl extends ServiceImpl<CasesMapper, Cases> implements
             return R.error("当前用户没有病例信息");
         }
         return R.success(casesList);
+    }
+
+    @Override
+    public R<String> addCasesInput(CasesDto casesDto) {
+
+        if(null == casesDto){
+            return R.error("参数为空");
+        }
+
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String thisDateTime = sdf.format(date);
+        casesDto.setCreateTime(thisDateTime);
+        try {
+            Cases cases = new Cases();
+            BeanUtils.copyProperties(casesDto,cases);
+            casesMapper.insert(cases);
+        } catch (Exception e) {
+            return R.error(e.getMessage());
+        }
+        return R.success("添加成功");
+    }
+
+    /**
+     * 根据病例id删除/隐藏病例信息
+     * @param cases
+     * @return
+     */
+    @Override
+    public R<String> delCasesById(Cases cases) {
+        try {
+            casesMapper.updateById(cases);
+        } catch (Exception e) {
+            return R.error(e.getMessage());
+        }
+        return R.success("删除成功");
     }
 }

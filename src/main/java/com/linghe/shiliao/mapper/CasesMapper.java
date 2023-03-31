@@ -27,6 +27,4 @@ public interface CasesMapper extends BaseMapper<Cases> {
 
     //根据ids数组查询病例详细信息
     List<CasesDto> getByIds(String[] ids);
-
-
 }

@@ -66,4 +66,13 @@ public interface CasesService extends IService<Cases> {
      * @return
      */
     R<List<Cases>> getByUserId(HttpServletRequest request);
+
+    R<String> addCasesInput(CasesDto casesDto);
+
+    /**
+     * 根据病例id删除/隐藏病例信息
+     * @param casesId
+     * @return
+     */
+    R<String> delCasesById(Cases cases);
 }

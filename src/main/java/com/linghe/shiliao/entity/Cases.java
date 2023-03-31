@@ -58,4 +58,9 @@ public class Cases implements Serializable {
      */
     private String createTime;
 
+    /**
+     * 删除显示隐藏
+     */
+    private Integer status;
+
 }
