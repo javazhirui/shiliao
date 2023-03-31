@@ -122,26 +122,5 @@ public class CasesController {
     public R<List<Cases>> getById(HttpServletRequest request) {
         return casesService.getByUserId(request);
     }
-
-    /**
-     * 病例录入
-     * @return
-     */
-    @PostMapping("/addCasesInput")
-    public R<String> addCasesInput(@RequestBody CasesDto casesDto){
-        return casesService.addCasesInput(casesDto);
-    }
-
-    /**
-     * 根据病例id删除/隐藏病例信息
-     * @param cases
-     * @return
-     */
-    @PostMapping("/delCasesById")
-    public R<String> delCasesById(@RequestBody Cases cases){
-        return casesService.delCasesById(cases);
-    }
-
-
 }
 

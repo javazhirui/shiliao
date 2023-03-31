@@ -47,7 +47,7 @@ public class Loginfo implements Serializable {
     private String logMessage;
 
     /**
-     * 请求参数  map集合tostring
+     * 请求参数  一个集合转string
      */
     private String request;
 

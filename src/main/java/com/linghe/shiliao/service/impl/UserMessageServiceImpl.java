@@ -158,7 +158,7 @@ public class UserMessageServiceImpl extends ServiceImpl<UserMessageMapper, UserM
             LambdaQueryWrapper<UserMessage> lqw1 = new LambdaQueryWrapper<>();
             lqw1.eq(UserMessage::getUserName, loginDto.getUserName());
             UserMessage userMessage1 = userMessageMapper.selectOne(lqw1);
-                return userMessage1;
+            return userMessage1;
         }
         return userMessage;
     }

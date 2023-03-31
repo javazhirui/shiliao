@@ -241,7 +241,7 @@
                                             <w:rFonts w:hint="eastAsia"/>
                                             <w:szCs w:val="21"/>
                                         </w:rPr>
-                                        <w:t>${name}</w:t>
+                                        <w:t>${name!"null"}</w:t>
                                     </w:r>
                                 </w:p>
                             </w:tc>
@@ -263,7 +263,7 @@
                                             <w:rFonts w:hint="eastAsia"/>
                                             <w:szCs w:val="21"/>
                                         </w:rPr>
-                                        <w:t>${gender}</w:t>
+                                        <w:t>${gender!"null"}</w:t>
                                     </w:r>
                                 </w:p>
                             </w:tc>
@@ -285,7 +285,7 @@
                                             <w:rFonts w:hint="eastAsia"/>
                                             <w:szCs w:val="21"/>
                                         </w:rPr>
-                                        <w:t>${age}</w:t>
+                                        <w:t>${age!"null"}</w:t>
                                     </w:r>
                                 </w:p>
                             </w:tc>
@@ -307,7 +307,7 @@
                                             <w:rFonts w:hint="eastAsia"/>
                                             <w:szCs w:val="21"/>
                                         </w:rPr>
-                                        <w:t>${phone}</w:t>
+                                        <w:t>${phone!"null"}</w:t>
                                     </w:r>
                                 </w:p>
                             </w:tc>
@@ -329,7 +329,7 @@
                                             <w:rFonts w:hint="eastAsia"/>
                                             <w:szCs w:val="21"/>
                                         </w:rPr>
-                                        <w:t>${email}</w:t>
+                                        <w:t>${email!"null"}</w:t>
                                     </w:r>
                                 </w:p>
                             </w:tc>
@@ -458,7 +458,7 @@
                                             <w:rFonts w:hint="eastAsia"/>
                                             <w:szCs w:val="21"/>
                                         </w:rPr>
-                                        <w:t>${cases.time}</w:t>
+                                        <w:t>${cases.time!"null"}</w:t>
                                     </w:r>
                                 </w:p>
                             </w:tc>
@@ -480,7 +480,7 @@
                                             <w:rFonts w:hint="eastAsia"/>
                                             <w:szCs w:val="21"/>
                                         </w:rPr>
-                                        <w:t>${cases.diagnosis}</w:t>
+                                        <w:t>${cases.diagnosis!"null"}</w:t>
                                     </w:r>
                                 </w:p>
                             </w:tc>
@@ -502,7 +502,7 @@
                                             <w:rFonts w:hint="eastAsia"/>
                                             <w:szCs w:val="21"/>
                                         </w:rPr>
-                                        <w:t>${cases.feedback}</w:t>
+                                        <w:t>${cases.feedback!"null"}</w:t>
                                     </w:r>
                                 </w:p>
                             </w:tc>

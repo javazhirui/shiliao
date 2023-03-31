@@ -34,7 +34,7 @@
     </select>
 
     <!--    根据数组ids获取详细信息-->
-    <select id="getByIds" resultType="com.linghe.shiliao.entity.dto.CasesDto">
+    <select id="getByIds" resultType="com.linghe.shiliao.entity.dto.CasesExcel">
         select t1.user_id, t1.name, t1.age, t1.gender, t1.phone, t1.email, t1.health, t1.user_name, t1.password,
         t1.status, t1.rule_id, t1.remark, t1.create_time, t1.update_time, t2.diagnosis, t2.feedback,
         t2.cases_url, t2.cases_img_url
