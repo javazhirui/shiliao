@@ -24,6 +24,9 @@ import java.util.List;
 public class LoginfoServiceImpl extends ServiceImpl<LoginfoMapper, Loginfo> implements LoginfoService {
 
     @Autowired
+    private LoginfoMapper loginfoMapper;
+
+    @Autowired
     private UserMessageMapper userMessageMapper;
 
     /**
@@ -44,6 +47,7 @@ public class LoginfoServiceImpl extends ServiceImpl<LoginfoMapper, Loginfo> impl
         String name = logDto.getName();
         String phone = logDto.getPhone();
         String email = logDto.getEmail();
+
         LambdaQueryWrapper<UserMessage> userLqw = new LambdaQueryWrapper<>();
         if (StringUtils.isNotEmpty(name)) {
             userLqw.like(UserMessage::getName, name);
@@ -80,6 +84,7 @@ public class LoginfoServiceImpl extends ServiceImpl<LoginfoMapper, Loginfo> impl
         if (StringUtils.isNotEmpty(logDto.getLogMessage())) {
             lqw.like(Loginfo::getLogMessage, logDto.getLogMessage());
         }
+        Long total = loginfoMapper.selectCount(lqw);
         lqw.groupBy(Loginfo::getUserId);
         lqw.orderByDesc(Loginfo::getCreateTime);
 
@@ -90,7 +95,7 @@ public class LoginfoServiceImpl extends ServiceImpl<LoginfoMapper, Loginfo> impl
         Page<Loginfo> loginfoPage1 = new Page<>();
         loginfoPage1.setCurrentPage(logDto.getCurrentPage());
         loginfoPage1.setPageSize(logDto.getPageSize());
-        loginfoPage1.setTotal(this.count(lqw));
+        loginfoPage1.setTotal(total);
         loginfoPage1.setList(records);
         return R.success(loginfoPage1);
     }

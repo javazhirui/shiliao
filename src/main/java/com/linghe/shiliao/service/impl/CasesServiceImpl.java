@@ -190,13 +190,21 @@ public class CasesServiceImpl extends ServiceImpl<CasesMapper, Cases> implements
             List<Cases> cases = casesMapper.selectList(lqw);
             //将查询到的病例信息存入表格所属集合
             List<Map<String, Object>> casesList = new LinkedList<>();
-            for (Cases aCase : cases) {
-                Map<String, Object> map = new HashMap<>();
-                map.put("time", aCase.getCreateTime());
-                map.put("diagnosis", aCase.getDiagnosis());
-                map.put("feedback", aCase.getFeedback());
+            Map<String, Object> map = new HashMap<>();
+            if (cases != null && cases.size() != 0) {
+                for (Cases aCase : cases) {
+                    map.put("time", aCase.getCreateTime());
+                    map.put("diagnosis", aCase.getDiagnosis());
+                    map.put("feedback", aCase.getFeedback());
+                    casesList.add(map);
+                }
+            } else {
+                map.put("time", "null");
+                map.put("diagnosis", "null");
+                map.put("feedback", "null");
                 casesList.add(map);
             }
+
             dataMap.put("casesList", casesList);
             //文件生成位置
             String wordName = casesMessageWord + userMessage.getName() + "_" + userMessage.getPhone() + ".doc";
