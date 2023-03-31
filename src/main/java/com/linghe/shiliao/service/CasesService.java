@@ -1,8 +1,8 @@
 package com.linghe.shiliao.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.linghe.shiliao.common.R;
 import com.linghe.shiliao.entity.Cases;
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.linghe.shiliao.entity.dto.CasesDto;
 import com.linghe.shiliao.utils.Page;
 
@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  * <p>
- *  服务类
+ * 服务类
  * </p>
  *
  * @author zhao_qin
@@ -21,6 +21,7 @@ public interface CasesService extends IService<Cases> {
 
     /**
      * 获取客户及病历信息
+     *
      * @param status
      * @param phone
      * @param name
@@ -33,6 +34,7 @@ public interface CasesService extends IService<Cases> {
 
     /**
      * 新增病历信息
+     *
      * @param cases
      * @return
      */
@@ -40,6 +42,7 @@ public interface CasesService extends IService<Cases> {
 
     /**
      * 编辑修改客户/病历信息
+     *
      * @param cases
      * @return
      */
@@ -47,6 +50,7 @@ public interface CasesService extends IService<Cases> {
 
     /**
      * 根据id数组导出excel
+     *
      * @param ids
      * @param excelName
      * @return
@@ -55,6 +59,7 @@ public interface CasesService extends IService<Cases> {
 
     /**
      * 根据id数组导出word
+     *
      * @param ids
      * @return
      */
@@ -62,6 +67,7 @@ public interface CasesService extends IService<Cases> {
 
     /**
      * 获取登录用户自己的信息
+     *
      * @param request
      * @return
      */

@@ -10,13 +10,10 @@ import com.linghe.shiliao.service.UserMessageService;
 import com.linghe.shiliao.utils.JwtUtils;
 import com.linghe.shiliao.utils.Page;
 import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 /**
  * <p>
@@ -46,15 +43,17 @@ public class UserMessageController {
 
     /**
      * 修改用户个人信息
+     *
      * @param userMessage
      */
     @PostMapping("/editUserMessageBean")
-    public void editUserMessageBean(@RequestBody  UserMessage userMessage) {
+    public void editUserMessageBean(@RequestBody UserMessage userMessage) {
         userMessageService.editUserMessageBean(userMessage);
     }
 
     /**
      * 删除/隐藏用户个人信息
+     *
      * @param userMessage
      */
     @PostMapping("/delUserMessage")
@@ -105,22 +104,22 @@ public class UserMessageController {
 
     /**
      * 普通用户登录
+     *
      * @param loginDto
      * @return
      */
     @PostMapping("/getUserBean")
-    public UserMessage getUserBean(@RequestBody LoginDto loginDto){
+    public UserMessage getUserBean(@RequestBody LoginDto loginDto) {
         return userMessageService.getUserBean(loginDto);
     }
 
     @PostMapping("/addUserMessageBean")
-    public R<String> addUserMessageBean(@RequestBody UserMessageDto userMessageDto){
-        if(ObjectUtils.isEmpty(userMessageDto)){
+    public R<String> addUserMessageBean(@RequestBody UserMessageDto userMessageDto) {
+        if (ObjectUtils.isEmpty(userMessageDto)) {
             return R.error("用户信息为空");
         }
         return userMessageService.addUserBean(userMessageDto);
     }
-
 
 
 }

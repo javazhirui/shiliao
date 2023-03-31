@@ -6,7 +6,10 @@ import com.linghe.shiliao.entity.dto.LogDto;
 import com.linghe.shiliao.service.LoginfoService;
 import com.linghe.shiliao.utils.Page;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/loginfo")
@@ -17,6 +20,7 @@ public class LoginfoController {
 
     /**
      * 查询日志信息
+     *
      * @param logDto 可传userIds((string字符串)多个用户userId);模糊查询:姓名name,电话号phone,邮箱email,
      *               操作类型logType,具体操作logMessage,当前页currentPage,单页条数pageSize
      * @return 回传分页数据

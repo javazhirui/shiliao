@@ -3,7 +3,6 @@ package com.linghe.shiliao.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.linghe.shiliao.entity.UserMessage;
 import com.linghe.shiliao.mapper.UserMessageMapper;
-import com.linghe.shiliao.service.UserMessageService;
 import com.linghe.shiliao.utils.WordUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -57,7 +56,7 @@ public class TestController {
             map.put("age", userMessage.getAge());
             map.put("phone", userMessage.getPhone());
             map.put("email", userMessage.getEmail());
-            map.put("health",userMessage.getHealth());
+            map.put("health", userMessage.getHealth());
             list.add(map);
         }
         Map<String, Object> dataMap = new HashMap<>();

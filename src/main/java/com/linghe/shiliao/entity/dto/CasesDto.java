@@ -5,7 +5,6 @@ import com.xxl.tool.excel.annotation.ExcelSheet;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 @Data
 @ExcelSheet(name = "病例")

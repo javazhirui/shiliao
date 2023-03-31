@@ -1,7 +1,6 @@
 package com.linghe.shiliao.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.linghe.shiliao.aop.RuleAop;
 import com.linghe.shiliao.common.R;
 import com.linghe.shiliao.entity.UserMessage;
 import com.linghe.shiliao.entity.dto.LoginDto;
@@ -12,21 +11,16 @@ import com.linghe.shiliao.service.UserService;
 import com.linghe.shiliao.utils.JwtUtils;
 import com.linghe.shiliao.utils.RedisCache;
 import com.linghe.shiliao.utils.SMSUtils;
-import com.linghe.shiliao.utils.VerifyCodeUtils;
-import io.lettuce.core.dynamic.annotation.Param;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import sun.rmi.runtime.Log;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -111,7 +105,6 @@ public class UserController {
     }
 
 
-
     /**
      * 登录前,查询登录状态
      *
@@ -125,7 +118,7 @@ public class UserController {
         UserMessage userMessage = userMessageService.getOne(lqw);
         if (ObjectUtils.isEmpty(userMessage)) {
             LambdaQueryWrapper<UserMessage> lqw1 = new LambdaQueryWrapper<>();
-            lqw1.eq(UserMessage::getEmail,loginDto.getUserName());
+            lqw1.eq(UserMessage::getEmail, loginDto.getUserName());
             userMessage = userMessageService.getOne(lqw1);
             if (ObjectUtils.isEmpty(userMessage)) {
                 return R.error("登录账号不存在");
@@ -140,13 +133,14 @@ public class UserController {
 
     /**
      * 退出登录
+     *
      * @param loginDto
      * @return
      */
     @PostMapping("/logout")
-    public R<String> logout(HttpServletRequest request,@RequestBody LoginDto loginDto) {
+    public R<String> logout(HttpServletRequest request, @RequestBody LoginDto loginDto) {
         String userIdByJwtToken = JwtUtils.getUserIdByJwtToken(request);
-        if (StringUtils.isEmpty(loginDto.getUserId()) && !StringUtils.equals(userIdByJwtToken,loginDto.getUserId())) {
+        if (StringUtils.isEmpty(loginDto.getUserId()) && !StringUtils.equals(userIdByJwtToken, loginDto.getUserId())) {
             return R.error("userId错误,只能退出当前验证登录账号");
         }
         redisCache.setCacheObject("login_" + loginDto.getUserId(), "logout", Integer.parseInt(jwtDeadTime), TimeUnit.SECONDS);

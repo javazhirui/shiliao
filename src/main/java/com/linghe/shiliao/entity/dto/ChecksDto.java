@@ -2,11 +2,9 @@ package com.linghe.shiliao.entity.dto;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.linghe.shiliao.entity.UserMessage;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 @Data
 public class ChecksDto implements Serializable {

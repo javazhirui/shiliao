@@ -1,22 +1,18 @@
 package com.linghe.shiliao.aop;
 
-import com.alibaba.fastjson.JSONObject;
 import com.linghe.shiliao.common.CustomException;
 import com.linghe.shiliao.entity.Loginfo;
 import com.linghe.shiliao.service.LoginfoService;
-import com.linghe.shiliao.service.UserMessageService;
 import com.linghe.shiliao.utils.JwtUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.text.SimpleDateFormat;
 import java.util.*;
 

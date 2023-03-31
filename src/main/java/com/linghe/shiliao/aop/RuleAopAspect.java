@@ -28,7 +28,7 @@ public class RuleAopAspect {
         String[] headerNames = ruleAop.ruleNames();
         for (String headerName : headerNames) {
             String ruleId = JwtUtils.getRuleIdByJwtToken(request);
-            if (StringUtils.equals(headerName,ruleId)) {
+            if (StringUtils.equals(headerName, ruleId)) {
                 return;
             }
         }
