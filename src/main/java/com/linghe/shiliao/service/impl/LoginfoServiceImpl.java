@@ -48,6 +48,12 @@ public class LoginfoServiceImpl extends ServiceImpl<LoginfoMapper, Loginfo> impl
         String phone = logDto.getPhone();
         String email = logDto.getEmail();
         List<Long> userIds = new ArrayList<>();
+        if (StringUtils.isNotEmpty(logDto.getIds())) {
+            String[] ids = logDto.getIds().split(",");
+            for (String id : ids) {
+                userIds.add(Long.parseLong(id));
+            }
+        }
         if (StringUtils.isNotEmpty(name) || StringUtils.isNotEmpty(phone) || StringUtils.isNotEmpty(email)) {
             LambdaQueryWrapper<UserMessage> userLqw = new LambdaQueryWrapper<>();
             if (StringUtils.isNotEmpty(name)) {
@@ -61,12 +67,6 @@ public class LoginfoServiceImpl extends ServiceImpl<LoginfoMapper, Loginfo> impl
             }
 
             List<UserMessage> userMessages = userMessageMapper.selectList(userLqw);
-            if (StringUtils.isNotEmpty(logDto.getIds())) {
-                String[] ids = logDto.getIds().split(",");
-                for (String id : ids) {
-                    userIds.add(Long.parseLong(id));
-                }
-            }
             for (UserMessage userMessage : userMessages) {
                 userIds.add(userMessage.getUserId());
             }
@@ -87,7 +87,7 @@ public class LoginfoServiceImpl extends ServiceImpl<LoginfoMapper, Loginfo> impl
             lqw.like(Loginfo::getLogMessage, logDto.getLogMessage());
         }
         Long total = loginfoMapper.selectCount(lqw);
-        lqw.groupBy(Loginfo::getUserId);
+        lqw.orderByDesc(Loginfo::getUserId);
         lqw.orderByDesc(Loginfo::getCreateTime);
 
         com.baomidou.mybatisplus.extension.plugins.pagination.Page<Loginfo> page =
