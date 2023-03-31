@@ -47,29 +47,31 @@ public class LoginfoServiceImpl extends ServiceImpl<LoginfoMapper, Loginfo> impl
         String name = logDto.getName();
         String phone = logDto.getPhone();
         String email = logDto.getEmail();
-
-        LambdaQueryWrapper<UserMessage> userLqw = new LambdaQueryWrapper<>();
-        if (StringUtils.isNotEmpty(name)) {
-            userLqw.like(UserMessage::getName, name);
-        }
-        if (StringUtils.isNotEmpty(phone)) {
-            userLqw.like(UserMessage::getPhone, phone);
-        }
-        if (StringUtils.isNotEmpty(email)) {
-            userLqw.like(UserMessage::getEmail, email);
-        }
-
-        List<UserMessage> userMessages = userMessageMapper.selectList(userLqw);
         List<Long> userIds = new ArrayList<>();
-        if (StringUtils.isNotEmpty(logDto.getIds())) {
-            String[] ids = logDto.getIds().split(",");
-            for (String id : ids) {
-                userIds.add(Long.parseLong(id));
+        if (StringUtils.isNotEmpty(name) || StringUtils.isNotEmpty(phone) || StringUtils.isNotEmpty(email)) {
+            LambdaQueryWrapper<UserMessage> userLqw = new LambdaQueryWrapper<>();
+            if (StringUtils.isNotEmpty(name)) {
+                userLqw.like(UserMessage::getName, name);
+            }
+            if (StringUtils.isNotEmpty(phone)) {
+                userLqw.like(UserMessage::getPhone, phone);
+            }
+            if (StringUtils.isNotEmpty(email)) {
+                userLqw.like(UserMessage::getEmail, email);
+            }
+
+            List<UserMessage> userMessages = userMessageMapper.selectList(userLqw);
+            if (StringUtils.isNotEmpty(logDto.getIds())) {
+                String[] ids = logDto.getIds().split(",");
+                for (String id : ids) {
+                    userIds.add(Long.parseLong(id));
+                }
+            }
+            for (UserMessage userMessage : userMessages) {
+                userIds.add(userMessage.getUserId());
             }
         }
-        for (UserMessage userMessage : userMessages) {
-            userIds.add(userMessage.getUserId());
-        }
+
 
         LambdaQueryWrapper<Loginfo> lqw = new LambdaQueryWrapper<>();
         if (ObjectUtils.isNotEmpty(userIds) && userIds.size() != 0) {
