@@ -17,7 +17,6 @@ import com.linghe.shiliao.utils.WordUtil;
 import com.xxl.tool.excel.ExcelTool;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -238,6 +237,7 @@ public class CasesServiceImpl extends ServiceImpl<CasesMapper, Cases> implements
 
     /**
      * 根据病例id删除/隐藏病例信息
+     *
      * @param cases
      * @return
      */

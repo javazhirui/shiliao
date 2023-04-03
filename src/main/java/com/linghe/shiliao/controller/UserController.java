@@ -159,6 +159,7 @@ public class UserController {
 
     /**
      * 获取手机验证码
+     *
      * @param phone
      * @return
      */

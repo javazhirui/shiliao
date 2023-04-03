@@ -3,7 +3,6 @@ package com.linghe.shiliao.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.linghe.shiliao.common.R;
 import com.linghe.shiliao.entity.UserMessage;
-import com.linghe.shiliao.entity.dto.LoginDto;
 import com.linghe.shiliao.entity.dto.PasswordDto;
 import com.linghe.shiliao.entity.dto.UserMessageDto;
 import com.linghe.shiliao.utils.Page;
@@ -62,6 +61,7 @@ public interface UserMessageService extends IService<UserMessage> {
 
     /**
      * 通过姓名查询所有相似名称的客户
+     *
      * @param userMessageDto
      * @return
      */

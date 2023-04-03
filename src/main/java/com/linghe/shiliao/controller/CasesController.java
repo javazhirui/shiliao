@@ -1,8 +1,6 @@
 package com.linghe.shiliao.controller;
 
 
-import com.linghe.shiliao.aop.LogAop;
-import com.linghe.shiliao.aop.RuleAop;
 import com.linghe.shiliao.common.R;
 import com.linghe.shiliao.entity.Cases;
 import com.linghe.shiliao.entity.dto.CasesDto;
@@ -78,11 +76,11 @@ public class CasesController {
     @ApiOperation("根据id数组(暂时字符串代替:'1,2,3,10086')导出excel")
     @GetMapping("/outputExcelByIds")
     public R<String> outputExcelByIds(@RequestParam String excel, @RequestParam String excelName) {
-        if(null == excel || excel.equals("")){
+        if (null == excel || excel.equals("")) {
             return R.error("请选择需要导出至excel的数据");
         }
 
-        if(null == excelName || excelName.equals("")){
+        if (null == excelName || excelName.equals("")) {
             return R.error("文件名称不能为空");
         }
 
@@ -119,7 +117,7 @@ public class CasesController {
 
     @ApiOperation("根据病例id删除(隐藏)病历信息")
     @PostMapping("/delCasesById")
-    public R<String> delCasesById(@RequestBody Cases casesDto){
+    public R<String> delCasesById(@RequestBody Cases casesDto) {
         return casesService.delCasesById(casesDto);
     }
 

@@ -32,7 +32,7 @@ public class LoginfoServiceImpl extends ServiceImpl<LoginfoMapper, Loginfo> impl
      *
      * @param logDto 可传userIds((string字符串)多个用户userId);模糊查询:姓名name,电话号phone,邮箱email,
      *               操作类型logType,具体操作logMessage,当前页currentPage,单页条数pageSize
-     * @return       回传分页数据
+     * @return 回传分页数据
      */
     @Override
     public R<Page<Loginfo>> getLog(LogDto logDto) {
