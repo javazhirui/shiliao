@@ -9,6 +9,8 @@ import com.linghe.shiliao.entity.dto.UserMessageDto;
 import com.linghe.shiliao.service.UserMessageService;
 import com.linghe.shiliao.utils.JwtUtils;
 import com.linghe.shiliao.utils.Page;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,7 +96,7 @@ public class UserMessageController {
 
 
     /**
-     *
+     *获取登录用户自己的信息
      *
      * @param request
      * @return
@@ -121,7 +123,7 @@ public class UserMessageController {
 
     /**
      * 普通用户登录
-     * @param loginDto
+     * @param userMessageDto
      * @return
      */
     @ApiOperation("新增用户信息,管理员新增用户使用")

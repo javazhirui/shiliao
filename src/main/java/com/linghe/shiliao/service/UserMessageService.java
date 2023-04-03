@@ -9,6 +9,7 @@ import com.linghe.shiliao.entity.dto.UserMessageDto;
 import com.linghe.shiliao.utils.Page;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * <p>
