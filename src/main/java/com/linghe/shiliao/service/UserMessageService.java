@@ -49,13 +49,13 @@ public interface UserMessageService extends IService<UserMessage> {
      */
     R<String> updatePassword(HttpServletRequest request, PasswordDto passwordDto);
 
-    /**
-     * 普通用户登录查询
-     *
-     * @param loginDto
-     * @return
-     */
-    UserMessage getUserBean(LoginDto loginDto);
+//    /**
+//     * 普通用户登录查询
+//     *
+//     * @param loginDto
+//     * @return
+//     */
+//    UserMessage getUserBean(LoginDto loginDto);
 
     R<String> addUserBean(UserMessageDto userMessageDto);
 }

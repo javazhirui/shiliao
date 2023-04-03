@@ -9,6 +9,7 @@ import com.linghe.shiliao.entity.dto.CasesDto;
 import com.linghe.shiliao.entity.dto.UserMessageDto;
 import com.linghe.shiliao.service.CasesService;
 import com.linghe.shiliao.utils.Page;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +24,7 @@ import java.util.List;
  * @author zhao_qin
  * @since 2023-03-14
  */
+@ApiOperation("病例相关控制器")
 @RestController
 @RequestMapping("/cases")
 public class CasesController {
@@ -45,6 +47,7 @@ public class CasesController {
      * @param cases
      * @return
      */
+    @ApiOperation("添加客户/病历信息")
     @PostMapping("/addCases")
     public R<String> addCases(@RequestBody Cases cases) {
         return casesService.addCases(cases);
@@ -56,6 +59,7 @@ public class CasesController {
      * @param cases
      * @return
      */
+    @ApiOperation("修改客户/病历信息")
     @PostMapping("/updateCases")
     public R<String> updateCases(@RequestBody Cases cases) {
         return casesService.updateCases(cases);
@@ -70,6 +74,7 @@ public class CasesController {
      * @return
      */
 //    @RuleAop(ruleNames = "1")
+    @ApiOperation("根据id数组(暂时字符串代替:'1,2,3,10086')导出excel")
     @GetMapping("/outputExcelByIds")
     public R<String> outputExcelByIds(@RequestParam String excel, @RequestParam String excelName) {
         if(null == excel || excel.equals("")){
@@ -92,6 +97,7 @@ public class CasesController {
      */
 //    @RuleAop(ruleNames = "0")
 //    @LogAop(logType = "查询导出文件", logMessage = "根据ids导出病例word")
+    @ApiOperation("根据id数组(暂时字符串代替:'1,2,3,10086')导出word")
     @GetMapping("/outputWordByIds")
     public R<String> outputWordByIds(@RequestParam String word) {
         String[] ids = word.split(",");
@@ -104,11 +110,13 @@ public class CasesController {
      * @param request
      * @return
      */
+    @ApiOperation("获取登录用户自己的病例信息")
     @GetMapping("/getById")
     public R<List<Cases>> getById(HttpServletRequest request) {
         return casesService.getByUserId(request);
     }
 
+    @ApiOperation("根据病例id删除(隐藏)病历信息")
     @PostMapping("/delCasesById")
     public R<String> delCasesById(@RequestBody Cases casesDto){
         return casesService.delCasesById(casesDto);

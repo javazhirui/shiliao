@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.linghe.shiliao.entity.UserMessage;
 import com.linghe.shiliao.mapper.UserMessageMapper;
 import com.linghe.shiliao.utils.WordUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Api("测试专用控制器")
 @RestController
 @RequestMapping("/test111")
 public class TestController {
@@ -22,6 +25,7 @@ public class TestController {
     @Autowired
     private UserMessageMapper userMessageMapper;
 
+    @ApiOperation("freemarker导出word测试")
     @GetMapping("/getWord")
     public String getWord(@RequestParam String fileName) {
         LambdaQueryWrapper<UserMessage> lqw = new LambdaQueryWrapper<>();
@@ -43,6 +47,7 @@ public class TestController {
         return "测试";
     }
 
+    @ApiOperation("xxl-tool导出excel测试")
     @GetMapping("/getExcel")
     public String getExcel(@RequestParam String fileName) {
         LambdaQueryWrapper<UserMessage> lqw = new LambdaQueryWrapper<>();

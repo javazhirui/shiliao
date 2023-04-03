@@ -9,6 +9,8 @@ import com.linghe.shiliao.entity.dto.UserMessageDto;
 import com.linghe.shiliao.service.UserMessageService;
 import com.linghe.shiliao.utils.JwtUtils;
 import com.linghe.shiliao.utils.Page;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,7 @@ import java.util.List;
  * @author zhao_qin
  * @since 2023-03-14
  */
+@Api("用户基本信息控制器")
 @RestController
 @RequestMapping("/userMessage")
 public class UserMessageController {
@@ -39,6 +42,7 @@ public class UserMessageController {
      * @param userMessageDto
      * @return
      */
+    @ApiOperation("查询用户信息")
     @PostMapping("/getList")
     public Page<UserMessage> getList(@RequestBody UserMessageDto userMessageDto) {
         return userMessageService.getList(userMessageDto);
@@ -48,27 +52,30 @@ public class UserMessageController {
      * 修改用户个人信息
      * @param userMessage
      */
+    @ApiOperation("修改用户个人信息")
     @PostMapping("/editUserMessageBean")
     public void editUserMessageBean(@RequestBody  UserMessage userMessage) {
         userMessageService.editUserMessageBean(userMessage);
     }
 
     /**
-     * 删除/隐藏用户个人信息
+     *
      * @param userMessage
      */
+    @ApiOperation("删除/隐藏用户个人信息")
     @PostMapping("/delUserMessage")
     public void delUserMessage(@RequestBody UserMessage userMessage) {
         userMessageService.delUserMessage(userMessage);
     }
 
     /**
-     * 导出用户信息Excel
+     *
      *
      * @param excel
      * @param excelName
      * @return
      */
+    @ApiOperation("导出用户信息Excel")
     @GetMapping("/outputExcelByIds")
     public R<String> outputExcelByIds(@RequestParam String excel, @RequestParam String excelName) {
         System.err.println(excel);
@@ -77,11 +84,12 @@ public class UserMessageController {
     }
 
     /**
-     * 已知原始密码修改密码接口
+     * 登录状态下,已知原始密码修改密码接口
      *
      * @param request
      * @return
      */
+    @ApiOperation("登录状态下,已知原始密码修改密码接口")
     @PostMapping("/updatePassword")
     public R<String> updatePassword(HttpServletRequest request, PasswordDto passwordDto) {
         return userMessageService.updatePassword(request, passwordDto);
@@ -89,11 +97,12 @@ public class UserMessageController {
 
 
     /**
-     * 获取登录用户自己的信息
+     *
      *
      * @param request
      * @return
      */
+    @ApiOperation("获取登录用户自己的信息")
     @GetMapping("/getMyById")
     public R<UserMessage> getById(HttpServletRequest request) {
         UserMessage userMessage = userMessageService.getById(JwtUtils.getUserIdByJwtToken(request));
@@ -102,17 +111,23 @@ public class UserMessageController {
         }
         return R.success(userMessage);
     }
+//
+//    /**
+//     * 普通用户登录查询
+//     * @param loginDto
+//     * @return
+//     */
+//    @PostMapping("/getUserBean")
+//    public UserMessage getUserBean(@RequestBody LoginDto loginDto){
+//        return userMessageService.getUserBean(loginDto);
+//    }
 
     /**
-     * 普通用户登录
-     * @param loginDto
+     *
+     * @param userMessageDto
      * @return
      */
-    @PostMapping("/getUserBean")
-    public UserMessage getUserBean(@RequestBody LoginDto loginDto){
-        return userMessageService.getUserBean(loginDto);
-    }
-
+    @ApiOperation("新增用户信息,管理员新增用户使用")
     @PostMapping("/addUserMessageBean")
     public R<String> addUserMessageBean(@RequestBody UserMessageDto userMessageDto){
         if(ObjectUtils.isEmpty(userMessageDto)){
