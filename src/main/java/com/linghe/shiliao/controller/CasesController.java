@@ -47,6 +47,7 @@ public class CasesController {
      */
     @PostMapping("/addCases")
     public R<String> addCases(@RequestBody Cases cases) {
+        System.err.println(cases);
         return casesService.addCases(cases);
     }
 

@@ -67,6 +67,10 @@ public class UserMessageServiceImpl extends ServiceImpl<UserMessageMapper, UserM
         return page;
     }
 
+    /**
+     * 修改客户基本信息
+     * @param userMessage
+     */
     @Override
     public void editUserMessageBean(UserMessage userMessage) {
         Date date = new Date();
@@ -78,6 +82,10 @@ public class UserMessageServiceImpl extends ServiceImpl<UserMessageMapper, UserM
         this.updateById(userMessage2);
     }
 
+    /**
+     * 删除客户信息/隐藏客户信息
+     * @param userMessage
+     */
     @Override
     public void delUserMessage(UserMessage userMessage) {
         UserMessage userMessage2 = new UserMessage();
@@ -150,20 +158,6 @@ public class UserMessageServiceImpl extends ServiceImpl<UserMessageMapper, UserM
         return R.success("密码修改成功");
     }
 
-    @Override
-    public UserMessage getUserBean(LoginDto loginDto) {
-        LambdaQueryWrapper<UserMessage> lqw = new LambdaQueryWrapper<>();
-        lqw.eq(UserMessage::getEmail, loginDto.getUserName());
-        UserMessage userMessage = userMessageMapper.selectOne(lqw);
-        if (ObjectUtils.isEmpty(userMessage)) {
-            LambdaQueryWrapper<UserMessage> lqw1 = new LambdaQueryWrapper<>();
-            lqw1.eq(UserMessage::getUserName, loginDto.getUserName());
-            UserMessage userMessage1 = userMessageMapper.selectOne(lqw1);
-            return userMessage1;
-        }
-        return userMessage;
-    }
-
     /**
      * 添加用户个人信息
      *
@@ -199,6 +193,25 @@ public class UserMessageServiceImpl extends ServiceImpl<UserMessageMapper, UserM
         userMessageMapper.insert(userMessageDto);
 
         return R.success("添加成功");
+    }
+
+    /**
+     * 通过姓名查询所有相似名称的客户
+     * @param userMessageDto
+     * @return
+     */
+    @Override
+    public R<List<UserMessage>> getUserMessages(UserMessageDto userMessageDto) {
+
+        LambdaQueryWrapper<UserMessage> lqw = new LambdaQueryWrapper<>();
+        lqw.like(UserMessage::getName,userMessageDto.getName());
+        List<UserMessage> userMessages = userMessageMapper.selectList(lqw);
+        if(ObjectUtils.isEmpty(userMessages)){
+            return R.error("未查询到该用户信息");
+        }
+
+
+        return R.success(userMessages);
     }
 
 }

@@ -104,21 +104,30 @@ public class UserMessageController {
     }
 
     /**
-     * 普通用户登录
-     * @param loginDto
+     * 添加客户基本信息
+     * @param userMessageDto
      * @return
      */
-    @PostMapping("/getUserBean")
-    public UserMessage getUserBean(@RequestBody LoginDto loginDto){
-        return userMessageService.getUserBean(loginDto);
-    }
-
     @PostMapping("/addUserMessageBean")
     public R<String> addUserMessageBean(@RequestBody UserMessageDto userMessageDto){
         if(ObjectUtils.isEmpty(userMessageDto)){
             return R.error("用户信息为空");
         }
         return userMessageService.addUserBean(userMessageDto);
+    }
+
+    /**
+     * 通过姓名查询所有相似名称的客户
+     * @param userMessageDto
+     * @return
+     */
+    @PostMapping("/getUserMessages")
+    public R<List<UserMessage>> getUserMessages(@RequestBody UserMessageDto userMessageDto){
+        System.err.println(userMessageDto.getName());
+        if(null == userMessageDto.getName() || userMessageDto.getName().equals("")){
+            return R.error("请输入所需要添加的用户名称");
+        }
+        return userMessageService.getUserMessages(userMessageDto);
     }
 
 
