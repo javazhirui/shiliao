@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.linghe.shiliao.common.R;
 import com.linghe.shiliao.entity.Cases;
 import com.linghe.shiliao.entity.dto.CasesDto;
+import com.linghe.shiliao.entity.dto.UserMessageDto;
 import com.linghe.shiliao.utils.Page;
 
 import javax.servlet.http.HttpServletRequest;
@@ -73,12 +74,24 @@ public interface CasesService extends IService<Cases> {
      */
     R<List<Cases>> getByUserId(HttpServletRequest request);
 
+    /**
+     * 客户/病例录入
+     * @param casesDto
+     * @return
+     */
     R<String> addCasesInput(CasesDto casesDto);
 
     /**
      * 根据病例id删除/隐藏病例信息
-     * @param casesId
+     * @param cases
      * @return
      */
     R<String> delCasesById(Cases cases);
+
+    /**
+     * 通过userID获取客户病例信息
+     * @param userId
+     * @return
+     */
+    R<CasesDto> getUserByCases(Integer userId);
 }
