@@ -7,6 +7,7 @@ import com.linghe.shiliao.entity.Cases;
 import com.linghe.shiliao.entity.UserMessage;
 import com.linghe.shiliao.entity.dto.CasesDto;
 import com.linghe.shiliao.entity.dto.CasesExcel;
+import com.linghe.shiliao.entity.dto.UserMessageDto;
 import com.linghe.shiliao.mapper.CasesMapper;
 import com.linghe.shiliao.mapper.UserMessageMapper;
 import com.linghe.shiliao.service.CasesService;
@@ -18,7 +19,6 @@ import com.xxl.tool.excel.ExcelTool;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -237,6 +237,11 @@ public class CasesServiceImpl extends ServiceImpl<CasesMapper, Cases> implements
         return R.success(casesList);
     }
 
+    /**
+     * 客户/病例录入
+     * @param casesDto
+     * @return
+     */
     @Override
     public R<String> addCasesInput(CasesDto casesDto) {
 
@@ -271,5 +276,19 @@ public class CasesServiceImpl extends ServiceImpl<CasesMapper, Cases> implements
             return R.error(e.getMessage());
         }
         return R.success("删除成功");
+    }
+
+    /**
+     * 通过userID获取客户病例信息
+     * @return userId
+     */
+    @Override
+    public R<CasesDto> getUserByCases(Integer userId) {
+
+        LambdaQueryWrapper<Cases> lqw  = new LambdaQueryWrapper<>();
+        lqw.eq(Cases::getUserId, userId);
+
+
+        return null;
     }
 }

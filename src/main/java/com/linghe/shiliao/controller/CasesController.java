@@ -108,5 +108,28 @@ public class CasesController {
     public R<List<Cases>> getById(HttpServletRequest request) {
         return casesService.getByUserId(request);
     }
+
+    /**
+     * 客户/病例录入
+     * @param casesDto
+     * @return
+     */
+    @PostMapping("/addCasesInput")
+    public R<String> addCasesInput(@RequestBody CasesDto casesDto){
+        return casesService.addCasesInput(casesDto);
+    }
+
+    /**
+     * 通过userID获取客户病例信息
+     * @return getUserIdAddCases
+     */
+    public R<CasesDto> getUserByCases(@RequestBody Integer userId){
+        if(null ==userId && userId == 0){
+            return R.error("用户信息为空");
+        }
+        return casesService.getUserByCases(userId);
+    }
+
+
 }
 
