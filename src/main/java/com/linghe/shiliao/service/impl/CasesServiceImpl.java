@@ -7,7 +7,6 @@ import com.linghe.shiliao.entity.Cases;
 import com.linghe.shiliao.entity.UserMessage;
 import com.linghe.shiliao.entity.dto.CasesDto;
 import com.linghe.shiliao.entity.dto.CasesExcel;
-import com.linghe.shiliao.entity.dto.UserMessageDto;
 import com.linghe.shiliao.mapper.CasesMapper;
 import com.linghe.shiliao.mapper.UserMessageMapper;
 import com.linghe.shiliao.service.CasesService;
@@ -238,32 +237,6 @@ public class CasesServiceImpl extends ServiceImpl<CasesMapper, Cases> implements
     }
 
     /**
-     * 客户/病例录入
-     * @param casesDto
-     * @return
-     */
-    @Override
-    public R<String> addCasesInput(CasesDto casesDto) {
-
-        if(null == casesDto){
-            return R.error("参数为空");
-        }
-
-        Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String thisDateTime = sdf.format(date);
-        casesDto.setCreateTime(thisDateTime);
-        try {
-            Cases cases = new Cases();
-            BeanUtils.copyProperties(casesDto,cases);
-            casesMapper.insert(cases);
-        } catch (Exception e) {
-            return R.error(e.getMessage());
-        }
-        return R.success("添加成功");
-    }
-
-    /**
      * 根据病例id删除/隐藏病例信息
      * @param cases
      * @return
@@ -278,17 +251,4 @@ public class CasesServiceImpl extends ServiceImpl<CasesMapper, Cases> implements
         return R.success("删除成功");
     }
 
-    /**
-     * 通过userID获取客户病例信息
-     * @return userId
-     */
-    @Override
-    public R<CasesDto> getUserByCases(Integer userId) {
-
-        LambdaQueryWrapper<Cases> lqw  = new LambdaQueryWrapper<>();
-        lqw.eq(Cases::getUserId, userId);
-
-
-        return null;
-    }
 }
