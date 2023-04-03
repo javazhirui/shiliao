@@ -9,9 +9,13 @@ import com.linghe.shiliao.service.CasesService;
 import com.linghe.shiliao.utils.Page;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -29,6 +33,12 @@ public class CasesController {
 
     @Autowired
     private CasesService casesService;
+
+    @Value("${shiliaoFilePath.casesUrlPath}")
+    private String casesUrlPath;
+
+    @Value("${shiliaoFilePath.casesUrlImgPath}")
+    private String casesUrlImgPath;
 
     /**
      * @param userMessageDto
@@ -48,7 +58,6 @@ public class CasesController {
     @ApiOperation("添加客户/病历信息")
     @PostMapping("/addCases")
     public R<String> addCases(@RequestBody Cases cases) {
-        System.err.println(cases);
         return casesService.addCases(cases);
     }
 
@@ -119,6 +128,53 @@ public class CasesController {
     @PostMapping("/delCasesById")
     public R<String> delCasesById(@RequestBody Cases casesDto) {
         return casesService.delCasesById(casesDto);
+    }
+
+    /**
+     * 食用疗程影像上传
+     * @param file
+     * @return
+     */
+    @ApiOperation("食用疗程影像上传")
+    @PostMapping("/getCaseUrl")
+    public R<String> caseUrl(@RequestParam(value = "file",required = false) MultipartFile file){
+        if(file.getOriginalFilename().equals("") || file.getSize() == 0 || null == file.getOriginalFilename()){
+            return R.error("文件上传错误，请重新上传");
+        }
+        File caseUrlFileName = new File(casesUrlPath);
+        if(!caseUrlFileName.exists()){
+            caseUrlFileName.mkdirs();
+        }
+        try {
+            file.transferTo(caseUrlFileName);
+        } catch (Exception e) {
+            return R.error(e.getMessage());
+        }
+        return R.success("文件上传成功");
+    }
+
+
+    /**
+     * 诊断图片上传
+     * @param file
+     * @return
+     */
+    @ApiOperation("诊断图片上传")
+    @PostMapping("/getCaseUrlImg")
+    public R<String> getCaseUrlImg(@RequestParam(value = "file",required = false) MultipartFile file){
+        if(file.getOriginalFilename().equals("") || file.getSize() == 0 || null == file.getOriginalFilename()){
+            return R.error("文件上传错误，请重新上传");
+        }
+        File casesUrlImgFileName = new File(casesUrlImgPath);
+        if(!casesUrlImgFileName.exists()){
+            casesUrlImgFileName.mkdirs();
+        }
+        try {
+            file.transferTo(casesUrlImgFileName);
+        } catch (Exception e) {
+            return R.error(e.getMessage());
+        }
+        return R.success("文件上传成功");
     }
 
 

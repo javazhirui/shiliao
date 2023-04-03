@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.linghe.shiliao.common.R;
 import com.linghe.shiliao.entity.UserMessage;
+import com.linghe.shiliao.entity.dto.LoginDto;
 import com.linghe.shiliao.entity.dto.PasswordDto;
 import com.linghe.shiliao.entity.dto.UserMessageDto;
 import com.linghe.shiliao.entity.dto.UserMessageExcelDto;
@@ -67,7 +68,6 @@ public class UserMessageServiceImpl extends ServiceImpl<UserMessageMapper, UserM
 
     /**
      * 修改客户基本信息
-     *
      * @param userMessage
      */
     @Override
@@ -76,9 +76,7 @@ public class UserMessageServiceImpl extends ServiceImpl<UserMessageMapper, UserM
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String thisDateTime = sdf.format(date);
         userMessage.setUpdateTime(thisDateTime);
-        UserMessage userMessage2 = new UserMessage();
-        BeanUtils.copyProperties(userMessage, userMessage2);
-        this.updateById(userMessage2);
+        this.updateById(userMessage);
     }
 
     /**
@@ -88,9 +86,7 @@ public class UserMessageServiceImpl extends ServiceImpl<UserMessageMapper, UserM
      */
     @Override
     public void delUserMessage(UserMessage userMessage) {
-        UserMessage userMessage2 = new UserMessage();
-        BeanUtils.copyProperties(userMessage, userMessage2);
-        this.updateById(userMessage2);
+        this.updateById(userMessage);
     }
 
     /**
@@ -218,7 +214,6 @@ public class UserMessageServiceImpl extends ServiceImpl<UserMessageMapper, UserM
 
     /**
      * 通过姓名查询所有相似名称的客户
-     *
      * @param userMessageDto
      * @return
      */
@@ -226,12 +221,14 @@ public class UserMessageServiceImpl extends ServiceImpl<UserMessageMapper, UserM
     public R<List<UserMessage>> getUserMessages(UserMessageDto userMessageDto) {
 
         LambdaQueryWrapper<UserMessage> lqw = new LambdaQueryWrapper<>();
-        lqw.like(UserMessage::getName, userMessageDto.getName());
-        List<UserMessage> userMessages = this.list(lqw);
-        if (ObjectUtils.isEmpty(userMessages) || userMessages.size() == 0) {
+        lqw.like(UserMessage::getName,userMessageDto.getName());
+        List<UserMessage> userMessagesList = this.list(lqw);
+        if(ObjectUtils.isEmpty(userMessagesList) || userMessagesList.size() == 0){
             return R.error("未查询到该用户信息");
         }
-        return R.success(userMessages);
+
+
+        return R.success(userMessagesList);
     }
 
 }

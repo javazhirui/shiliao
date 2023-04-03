@@ -109,16 +109,6 @@ public class UserMessageController {
         }
         return R.success(userMessage);
     }
-//
-//    /**
-//     * 普通用户登录查询
-//     * @param loginDto
-//     * @return
-//     */
-//    @PostMapping("/getUserBean")
-//    public UserMessage getUserBean(@RequestBody LoginDto loginDto){
-//        return userMessageService.getUserBean(loginDto);
-//    }
 
     /**
      * 普通用户登录
@@ -141,6 +131,7 @@ public class UserMessageController {
      * @param userMessageDto
      * @return
      */
+    @ApiOperation("通过姓名查询所有相似名称的客户")
     @PostMapping("/getUserMessages")
     public R<List<UserMessage>> getUserMessages(@RequestBody UserMessageDto userMessageDto) {
         System.err.println(userMessageDto.getName());
