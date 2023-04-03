@@ -1,15 +1,14 @@
 package com.linghe.shiliao.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.linghe.shiliao.common.R;
 import com.linghe.shiliao.entity.UserMessage;
 import com.linghe.shiliao.entity.dto.LoginDto;
 import com.linghe.shiliao.entity.dto.PasswordDto;
 import com.linghe.shiliao.entity.dto.UserMessageDto;
-import com.linghe.shiliao.mapper.CasesMapper;
 import com.linghe.shiliao.mapper.UserMessageMapper;
 import com.linghe.shiliao.service.UserMessageService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.linghe.shiliao.task.LocalFileTask;
 import com.linghe.shiliao.utils.JwtUtils;
 import com.linghe.shiliao.utils.Md5Utils;
@@ -24,9 +23,11 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -165,6 +166,7 @@ public class UserMessageServiceImpl extends ServiceImpl<UserMessageMapper, UserM
 
     /**
      * 添加用户个人信息
+     *
      * @param userMessageDto
      */
     @Override

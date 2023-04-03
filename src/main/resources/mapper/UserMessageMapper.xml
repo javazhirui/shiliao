@@ -14,11 +14,11 @@
             <if test="minAge != null and minAge != '' and maxAge != null and maxAge != ''">
                 and age between #{minAge} and #{maxAge}
             </if>
-<!--            <if test="minCreateTime != null and minCreateTime != '' and maxCreateTime != null and maxCreateTime != ''">-->
-<!--                and date_format(createTime,'%y%m%d%h%i%s')-->
-<!--                between date_format(#{minCreatetime},'%y%m%d%h%i%s')-->
-<!--                and date_format(#{maxCreatetime},'%y%m%d%h%i%s')-->
-<!--            </if>-->
+            <!--            <if test="minCreateTime != null and minCreateTime != '' and maxCreateTime != null and maxCreateTime != ''">-->
+            <!--                and date_format(createTime,'%y%m%d%h%i%s')-->
+            <!--                between date_format(#{minCreatetime},'%y%m%d%h%i%s')-->
+            <!--                and date_format(#{maxCreatetime},'%y%m%d%h%i%s')-->
+            <!--            </if>-->
         </where>
         limit #{currentPage}, #{pageSize}
     </select>

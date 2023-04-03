@@ -1,10 +1,8 @@
 package com.linghe.shiliao.entity.dto;
 
-import com.xxl.tool.excel.ExcelTool;
 import com.xxl.tool.excel.annotation.ExcelField;
 import com.xxl.tool.excel.annotation.ExcelSheet;
 import lombok.Data;
-import net.bytebuddy.implementation.bytecode.assign.TypeCasting;
 
 import java.io.Serializable;
 

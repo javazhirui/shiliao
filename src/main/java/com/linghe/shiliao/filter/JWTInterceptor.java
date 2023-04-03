@@ -1,7 +1,6 @@
 package com.linghe.shiliao.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.linghe.shiliao.common.CustomException;
 import com.linghe.shiliao.utils.JwtUtils;
 import com.linghe.shiliao.utils.RedisCache;
 import io.jsonwebtoken.*;
@@ -65,7 +64,7 @@ public class JWTInterceptor implements HandlerInterceptor {
                     response.setHeader("flush", "token刷新");
                     return true;
                 }
-                response.setHeader("token",token);
+                response.setHeader("token", token);
                 return true; // 放行; 去访问接口吧
             } catch (ExpiredJwtException e) {
                 // 登录过期

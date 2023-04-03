@@ -7,11 +7,14 @@ import com.linghe.shiliao.entity.dto.ChecksDto;
 import com.linghe.shiliao.service.ChecksService;
 import com.linghe.shiliao.utils.Page;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author zhao_qin
@@ -23,8 +26,10 @@ public class ChecksController {
 
     @Autowired
     private ChecksService checksService;
+
     /**
      * 新增预约
+     *
      * @param checks
      * @return
      */
@@ -35,6 +40,7 @@ public class ChecksController {
 
     /**
      * 处理预约
+     *
      * @param checks
      * @return
      */
@@ -45,6 +51,7 @@ public class ChecksController {
 
     /**
      * 获取待处理预约信息
+     *
      * @param checksDto
      * @return
      */

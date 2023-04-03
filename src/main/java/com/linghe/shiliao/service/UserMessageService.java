@@ -9,11 +9,10 @@ import com.linghe.shiliao.entity.dto.UserMessageDto;
 import com.linghe.shiliao.utils.Page;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 /**
  * <p>
- *  服务类
+ * 服务类
  * </p>
  *
  * @author zhao_qin
@@ -23,6 +22,7 @@ public interface UserMessageService extends IService<UserMessage> {
 
     /**
      * 查询用户信息
+     *
      * @param userMessageDto
      * @return
      */
@@ -34,6 +34,7 @@ public interface UserMessageService extends IService<UserMessage> {
 
     /**
      * 导出用户信息Excel
+     *
      * @param split
      * @param excelName
      * @return
@@ -42,6 +43,7 @@ public interface UserMessageService extends IService<UserMessage> {
 
     /**
      * 已知原始密码,修改密码
+     *
      * @param request
      * @return
      */
@@ -49,6 +51,7 @@ public interface UserMessageService extends IService<UserMessage> {
 
     /**
      * 普通用户登录查询
+     *
      * @param loginDto
      * @return
      */

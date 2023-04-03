@@ -1,16 +1,12 @@
 package com.linghe.shiliao;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
 import com.baomidou.mybatisplus.generator.config.GlobalConfig;
 import com.baomidou.mybatisplus.generator.config.PackageConfig;
 import com.baomidou.mybatisplus.generator.config.StrategyConfig;
-import com.baomidou.mybatisplus.generator.config.po.TableFill;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
-
-import java.util.ArrayList;
 
 public class CodeGenerator {
     public static void main(String[] args) {
@@ -22,12 +18,12 @@ public class CodeGenerator {
         dataSource.setDriverName("com.mysql.cj.jdbc.Driver");
         dataSource.setUrl("jdbc:mysql://localhost:3306/shiliao?serverTimezone=UTC");
         dataSource.setUsername("root");
-        dataSource.setPassword("123456");
+        dataSource.setPassword("root");
         autoGenerator.setDataSource(dataSource);
 
         //设置全局配置
         GlobalConfig globalConfig = new GlobalConfig();
-        globalConfig.setOutputDir(System.getProperty("user.dir")+"/src/main/java");    //设置代码生成位置
+        globalConfig.setOutputDir(System.getProperty("user.dir") + "/src/main/java");    //设置代码生成位置
         globalConfig.setOpen(false);    //设置生成完毕后是否打开生成代码所在的目录
         globalConfig.setAuthor("zhao");    //设置作者
         globalConfig.setFileOverride(true);     //设置是否覆盖原始生成的文件

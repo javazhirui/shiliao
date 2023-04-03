@@ -2,19 +2,17 @@ package com.linghe.shiliao.service;
 
 
 import com.linghe.shiliao.common.R;
-import com.linghe.shiliao.entity.UserMessage;
 import com.linghe.shiliao.entity.dto.LoginDto;
 import com.linghe.shiliao.entity.dto.UserMessageDto;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.OutputStream;
 
 public interface UserService {
 
     /**
      * 注册
+     *
      * @param userMessageDto
      * @return
      */
@@ -22,6 +20,7 @@ public interface UserService {
 
     /**
      * 获取验证码
+     *
      * @param uuid
      * @return
      * @throws IOException
@@ -30,6 +29,7 @@ public interface UserService {
 
     /**
      * 登录方法 jwt
+     *
      * @param loginDto
      * @return
      */
@@ -37,6 +37,7 @@ public interface UserService {
 
     /**
      * 忘记密码,修改密码
+     *
      * @return
      */
     R<String> forgetPassword(UserMessageDto userMessageDto);

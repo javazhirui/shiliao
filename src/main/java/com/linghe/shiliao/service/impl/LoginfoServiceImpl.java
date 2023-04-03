@@ -9,7 +9,6 @@ import com.linghe.shiliao.entity.dto.LogDto;
 import com.linghe.shiliao.mapper.LoginfoMapper;
 import com.linghe.shiliao.mapper.UserMessageMapper;
 import com.linghe.shiliao.service.LoginfoService;
-import com.linghe.shiliao.service.UserMessageService;
 import com.linghe.shiliao.utils.Page;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -17,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
