@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 @Data
 @ExcelSheet(name = "病例")
-public class CasesExcel implements Serializable {
+public class Dto implements Serializable {
     private static final long serialVersionUID = 3626950822839403506L;
 
     /**

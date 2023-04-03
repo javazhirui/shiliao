@@ -6,6 +6,7 @@ import com.linghe.shiliao.common.R;
 import com.linghe.shiliao.entity.UserMessage;
 import com.linghe.shiliao.entity.dto.PasswordDto;
 import com.linghe.shiliao.entity.dto.UserMessageDto;
+import com.linghe.shiliao.entity.dto.UserMessageExcelDto;
 import com.linghe.shiliao.mapper.UserMessageMapper;
 import com.linghe.shiliao.service.UserMessageService;
 import com.linghe.shiliao.task.LocalFileTask;
@@ -23,10 +24,8 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -114,18 +113,21 @@ public class UserMessageServiceImpl extends ServiceImpl<UserMessageMapper, UserM
                 }
             }
         }
+        List<String> list = Arrays.asList(ids);
+        List<UserMessage> userMessages = userMessageMapper.selectBatchIds(list);
+        List<UserMessageExcelDto> userMessageExcelDtos = userMessages.stream().map(userMessage -> {
+            UserMessageExcelDto userMessageExcelDto = new UserMessageExcelDto();
+            BeanUtils.copyProperties(userMessage, userMessageExcelDto);
+            return userMessageExcelDto;
+        }).collect(Collectors.toList());
 
-        ArrayList list = new ArrayList<>();
-        for (int i = 0; i < ids.length; i++) {
-            list.add(ids[i]);
-        }
-        List<UserMessage> list1 = userMessageMapper.selectBatchIds(list);
         String excelPath = userMessageExcel + excelName1;//后期可换minio地址
         File file = new File(excelPath);
         if (!file.getParentFile().exists()) { // 此时文件有父目录
             file.getParentFile().mkdirs(); // 创建父目录
         }
-        ExcelTool.exportToFile(Collections.singletonList(list1), excelPath);
+
+        ExcelTool.exportToFile(Collections.singletonList(userMessageExcelDtos), excelPath);
         return R.success(excelPath);
     }
 
