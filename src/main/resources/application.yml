@@ -1,11 +1,11 @@
-server:
-  port: 8443
-  ssl:
-    key-store: classpath:shiliao.jks
-    key-alias: shiliao666
-    key-store-password: 123456
-    enabled: true
-    key-store-type: jks
+#server:
+#  port: 8443
+#  ssl:
+#    key-store: classpath:shiliao.jks
+#    key-alias: shiliao666
+#    key-store-password: 123456
+#    enabled: true
+#    key-store-type: jks
 
 spring:
   datasource:
@@ -37,6 +37,12 @@ spring:
         max-active: 8
         # #连接池最大阻塞等待时间（使用负值表示没有限制）
         max-wait: -1ms
+
+#修改mvc路径匹配规则
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
 
   #email
   mail:

@@ -3,6 +3,7 @@ package com.linghe.shiliao.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.linghe.shiliao.entity.Cases;
 import com.linghe.shiliao.entity.dto.CasesDto;
+import com.linghe.shiliao.entity.dto.CasesExcel;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

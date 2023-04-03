@@ -57,7 +57,14 @@ class WebMvcConfig implements WebMvcConfigurer {
                         "/**/getEmailCode",
                         "/**/getCode",
                         "/**/getLoginStatus",
-                        "/**/getPhoneCode"
+                        "/**/getPhoneCode",
+
+                        //放过swagger,酌情打开或注释
+                        "/swagger-ui/**",
+                        "/swagger-resources/**",
+                        "/webjars/**",
+                        "/v3/**",
+                        "/swagger-ui.html/**"
                 );
     }
 }
