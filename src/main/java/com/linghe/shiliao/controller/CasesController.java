@@ -161,7 +161,7 @@ public class CasesController {
      */
     @ApiOperation("诊断图片上传")
     @PostMapping("/getCaseUrlImg")
-    public R<String> getCaseUrlImg(@RequestParam(value = "file",required = false) MultipartFile file){
+    public R<String> getCaseUrlImg(@RequestParam(value = "casesUrlImgFile",required = false) MultipartFile file){
         if(file.getOriginalFilename().equals("") || file.getSize() == 0 || null == file.getOriginalFilename()){
             return R.error("文件上传错误，请重新上传");
         }
