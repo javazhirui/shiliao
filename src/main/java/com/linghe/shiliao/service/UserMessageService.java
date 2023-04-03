@@ -9,7 +9,6 @@ import com.linghe.shiliao.entity.dto.UserMessageDto;
 import com.linghe.shiliao.utils.Page;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 /**
  * <p>
@@ -50,11 +49,14 @@ public interface UserMessageService extends IService<UserMessage> {
      */
     R<String> updatePassword(HttpServletRequest request, PasswordDto passwordDto);
 
-    /**
-     * 添加客户基本信息
-     * @param userMessageDto
-     * @return
-     */
+//    /**
+//     * 普通用户登录查询
+//     *
+//     * @param loginDto
+//     * @return
+//     */
+//    UserMessage getUserBean(LoginDto loginDto);
+
     R<String> addUserBean(UserMessageDto userMessageDto);
 
     /**

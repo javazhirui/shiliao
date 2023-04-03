@@ -157,6 +157,20 @@ public class UserMessageServiceImpl extends ServiceImpl<UserMessageMapper, UserM
 
         return R.success("密码修改成功");
     }
+//
+//    @Override
+//    public UserMessage getUserBean(LoginDto loginDto) {
+//        LambdaQueryWrapper<UserMessage> lqw = new LambdaQueryWrapper<>();
+//        lqw.eq(UserMessage::getEmail, loginDto.getUserName());
+//        UserMessage userMessage = userMessageMapper.selectOne(lqw);
+//        if (ObjectUtils.isEmpty(userMessage)) {
+//            LambdaQueryWrapper<UserMessage> lqw1 = new LambdaQueryWrapper<>();
+//            lqw1.eq(UserMessage::getUserName, loginDto.getUserName());
+//            UserMessage userMessage1 = userMessageMapper.selectOne(lqw1);
+//            return userMessage1;
+//        }
+//        return userMessage;
+//    }
 
     /**
      * 添加用户个人信息
@@ -175,11 +189,12 @@ public class UserMessageServiceImpl extends ServiceImpl<UserMessageMapper, UserM
         if (!ObjectUtils.isEmpty(userMessage)) {
             return R.error("邮箱已注册,请更换邮箱或重新登陆");
         }
+
         LambdaQueryWrapper<UserMessage> lqw1 = new LambdaQueryWrapper<>();
         lqw1.eq(UserMessage::getUserName, userMessageDto.getUserName());
         UserMessage userMessage1 = userMessageMapper.selectOne(lqw1);
         if (!ObjectUtils.isEmpty(userMessage1)) {
-            return R.error("账号名字已存在");
+            return R.error("账号名已存在");
         }
 
         Date date = new Date();
@@ -189,6 +204,9 @@ public class UserMessageServiceImpl extends ServiceImpl<UserMessageMapper, UserM
         userMessageDto.setCreateTime(thisDateTime);
 
         //对密码进行MD5加密后替换password
+        if (StringUtils.isEmpty(userMessageDto.getPassword())) {
+            return R.error("密码不可为空");
+        }
         userMessageDto.setPassword(Md5Utils.hash(userMessageDto.getPassword()));
         userMessageMapper.insert(userMessageDto);
 

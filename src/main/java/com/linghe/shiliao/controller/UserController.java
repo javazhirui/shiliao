@@ -11,6 +11,8 @@ import com.linghe.shiliao.service.UserService;
 import com.linghe.shiliao.utils.JwtUtils;
 import com.linghe.shiliao.utils.RedisCache;
 import com.linghe.shiliao.utils.SMSUtils;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -28,6 +30,7 @@ import java.util.concurrent.TimeUnit;
  * 用户注册、登录、修改权限
  */
 @Slf4j
+@Api("用户账号相关控制器")
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -53,6 +56,7 @@ public class UserController {
      * @param userMessageDto
      * @return
      */
+    @ApiOperation("账号注册接口")
     @PostMapping("/register")
     public R<String> register(@RequestBody UserMessageDto userMessageDto) {
         return userService.register(userMessageDto);
@@ -63,6 +67,7 @@ public class UserController {
      *
      * @param loginDto
      */
+    @ApiOperation("账号登录")
     @PostMapping("/login")
     public R<String> login(HttpServletResponse response, @RequestBody LoginDto loginDto) {
         return userService.login(response, loginDto);
@@ -77,6 +82,7 @@ public class UserController {
      * @throws IOException
      */
 //    @RuleAop(ruleNames = {"zilongcs"})
+    @ApiOperation("获取图片验证码")
     @GetMapping("/getCode")
     public R<String> getCode(String uuid) throws IOException {
         return userService.getCode(uuid);
@@ -88,6 +94,7 @@ public class UserController {
      * @param userMessageDto
      * @return
      */
+    @ApiOperation("发送邮箱验证码")
     @PostMapping("/getEmailCode")
     public R<String> getEmailCode(@RequestBody UserMessageDto userMessageDto) {
 //        String uuid, @RequestParam String email, @RequestParam String code
@@ -99,6 +106,7 @@ public class UserController {
      *
      * @return
      */
+    @ApiOperation("忘记密码,修改密码")
     @PostMapping("/forgetPassword")
     public R<String> forgetPassword(@RequestBody UserMessageDto userMessageDto) {
         return userService.forgetPassword(userMessageDto);
@@ -111,6 +119,7 @@ public class UserController {
      * @param loginDto
      * @return
      */
+    @ApiOperation("登录前,查询登录状态")
     @PostMapping("/getLoginStatus")
     public R<String> getLoginStatus(@RequestBody LoginDto loginDto) {
         LambdaQueryWrapper<UserMessage> lqw = new LambdaQueryWrapper<>();
@@ -137,6 +146,7 @@ public class UserController {
      * @param loginDto
      * @return
      */
+    @ApiOperation("退出登录")
     @PostMapping("/logout")
     public R<String> logout(HttpServletRequest request, @RequestBody LoginDto loginDto) {
         String userIdByJwtToken = JwtUtils.getUserIdByJwtToken(request);
@@ -147,6 +157,12 @@ public class UserController {
         return R.success("退出成功");
     }
 
+    /**
+     * 获取手机验证码
+     * @param phone
+     * @return
+     */
+    @ApiOperation("获取手机验证码")
     @PostMapping("/getPhoneCode")
     public R<String> getPhoneCode(String phone) {
         Random random = new Random();
