@@ -282,9 +282,9 @@ public class CasesServiceImpl extends ServiceImpl<CasesMapper, Cases> implements
             return R.error("文件格式错误,请重新上传");
         }
 
-        File casesUrlImgFileName = new File(casesUrlPath + "/" + userMessageDto.getName() + "_" + userMessageDto.getPhone() + "/" + filename);
-        if (!casesUrlImgFileName.exists()) {
-            casesUrlImgFileName.mkdirs();
+        File casesUrlFileName = new File(casesUrlPath + "/" + userMessageDto.getName() + "_" + userMessageDto.getPhone() + "/" + filename);
+        if (!casesUrlFileName.exists()) {
+            casesUrlFileName.mkdirs();
         }
         List<String> fileNames = localFileTask.getFileNames(casesUrlPath);
         if (null != fileNames && fileNames.size() != 0) {
@@ -295,10 +295,11 @@ public class CasesServiceImpl extends ServiceImpl<CasesMapper, Cases> implements
             }
         }
         try {
-            file.transferTo(casesUrlImgFileName);
+            file.transferTo(casesUrlFileName);
         } catch (Exception e) {
             return R.error(e.getMessage());
         }
-        return R.success("文件上传成功");
+
+        return R.success("文件上传成功,文件路径为: " + casesUrlFileName);
     }
 }
