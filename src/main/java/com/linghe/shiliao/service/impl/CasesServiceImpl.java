@@ -7,6 +7,7 @@ import com.linghe.shiliao.entity.Cases;
 import com.linghe.shiliao.entity.UserMessage;
 import com.linghe.shiliao.entity.dto.CasesDto;
 import com.linghe.shiliao.entity.dto.Dto;
+import com.linghe.shiliao.entity.dto.UserMessageDto;
 import com.linghe.shiliao.mapper.CasesMapper;
 import com.linghe.shiliao.mapper.UserMessageMapper;
 import com.linghe.shiliao.service.CasesService;
@@ -20,6 +21,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
@@ -36,6 +38,9 @@ import java.util.*;
  */
 @Service
 public class CasesServiceImpl extends ServiceImpl<CasesMapper, Cases> implements CasesService {
+
+    @Value("${shiliaoFilePath.casesUrlPath}")
+    private static String casesUrlPath;
 
     @Autowired
     private CasesMapper casesMapper;
@@ -249,6 +254,23 @@ public class CasesServiceImpl extends ServiceImpl<CasesMapper, Cases> implements
             return R.error(e.getMessage());
         }
         return R.success("删除成功");
+    }
+
+    @Override
+    public R<String> uploadFile(MultipartFile file, UserMessageDto userMessageDto) {
+        if(ObjectUtils.isEmpty(file)){
+            return R.error("文件上传错误，请重新上传");
+        }
+        File casesUrlImgFileName = new File(casesUrlPath+"/"+userMessageDto.getName()+"_"+userMessageDto.getPhone()+"/"+file.getOriginalFilename());
+        if(!casesUrlImgFileName.exists()){
+            casesUrlImgFileName.mkdirs();
+        }
+        try {
+            file.transferTo(casesUrlImgFileName);
+        } catch (Exception e) {
+            return R.error(e.getMessage());
+        }
+        return R.success("文件上传成功");
     }
 
 }

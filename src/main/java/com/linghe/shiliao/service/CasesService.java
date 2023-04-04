@@ -4,7 +4,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.linghe.shiliao.common.R;
 import com.linghe.shiliao.entity.Cases;
 import com.linghe.shiliao.entity.dto.CasesDto;
+import com.linghe.shiliao.entity.dto.UserMessageDto;
 import com.linghe.shiliao.utils.Page;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -80,5 +82,13 @@ public interface CasesService extends IService<Cases> {
      * @return
      */
     R<String> delCasesById(Cases cases);
+
+    /**
+     * 文件上传
+     * @param file
+     * @param userMessageDto
+     * @return
+     */
+    public R<String> uploadFile(MultipartFile file, UserMessageDto userMessageDto);
 
 }

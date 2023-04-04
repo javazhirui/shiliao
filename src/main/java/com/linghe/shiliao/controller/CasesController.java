@@ -9,13 +9,10 @@ import com.linghe.shiliao.service.CasesService;
 import com.linghe.shiliao.utils.Page;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -33,9 +30,6 @@ public class CasesController {
 
     @Autowired
     private CasesService casesService;
-
-    @Value("${shiliaoFilePath.casesUrlPath}")
-    private String casesUrlPath;
 
     /**
      * @param userMessageDto
@@ -135,19 +129,7 @@ public class CasesController {
     @ApiOperation("食用疗程影像上传")
     @PostMapping("/getCaseUrl")
     public R<String> caseUrl(@RequestParam(value = "casesUrlFile",required = false) MultipartFile file,UserMessageDto userMessageDto){
-        if(file.getOriginalFilename().equals("") || file.getSize() == 0 || null == file.getOriginalFilename()){
-            return R.error("文件上传错误，请重新上传");
-        }
-        File caseUrlFileName = new File(casesUrlPath+"/"+userMessageDto.getName()+"_"+userMessageDto.getPhone()+"/"+file.getOriginalFilename());
-        if(!caseUrlFileName.exists()){
-            caseUrlFileName.mkdirs();
-        }
-        try {
-            file.transferTo(caseUrlFileName);
-        } catch (Exception e) {
-            return R.error(e.getMessage());
-        }
-        return R.success("文件上传成功");
+       return casesService.uploadFile(file,userMessageDto);
     }
 
 
@@ -160,20 +142,7 @@ public class CasesController {
     @ApiOperation("诊断图片上传")
     @PostMapping("/getCaseUrlImg")
     public R<String> getCaseUrlImg(@RequestParam(value = "casesUrlImgFile",required = false) MultipartFile file,UserMessageDto userMessageDto){
-
-        if(file.getOriginalFilename().equals("") || file.getSize() == 0 || null == file.getOriginalFilename()){
-            return R.error("文件上传错误，请重新上传");
-        }
-        File casesUrlImgFileName = new File(casesUrlPath+"/"+userMessageDto.getName()+"_"+userMessageDto.getPhone()+"/"+file.getOriginalFilename());
-        if(!casesUrlImgFileName.exists()){
-            casesUrlImgFileName.mkdirs();
-        }
-        try {
-            file.transferTo(casesUrlImgFileName);
-        } catch (Exception e) {
-            return R.error(e.getMessage());
-        }
-        return R.success("文件上传成功");
+        return  casesService.uploadFile(file,userMessageDto);
     }
 
 
