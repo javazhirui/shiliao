@@ -114,10 +114,8 @@ shiliaoFilePath:
   casesMessageExcelPath: D:/ShiLiao/casesMessageExcel/
   #病历信息word导出地址
   casesMessageWordPath: D:/ShiLiao/casesMessageWord/
-  #食用疗程影像上传地址
-  casesUrlPath: D:/ShiLiao/casesUrl/
-  #诊断图片上传地址
-  casesUrlImgPath: D:/ShiLiao/casesUrlImg/
+  #食用疗程影像及诊断图片上传地址
+  casesUrlPath: D:/ShiLiao/casesVideo_casesImg/
 
 
 #redis缓存时间

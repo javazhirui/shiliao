@@ -7,6 +7,7 @@
         status, rule_id, remark, create_time, update_time
         from user_message
         <where>
+            rule_id = '0'
             <if test="status != null and status != ''">and status = #{status}</if>
             <if test="name != null and name != ''">and name like concat('%',#{name},'%')</if>
             <if test="phone != null and phone != ''">and phone like concat('%',#{phone},'%')</if>
@@ -27,6 +28,7 @@
         select count(*)
         from user_message
         <where>
+            rule_id = '0'
             <if test="status != null and status != ''">and status = #{status}</if>
             <if test="name != null and name != ''">and name like concat('%',#{name},'%')</if>
             <if test="phone != null and phone != ''">and phone like concat('%',#{phone},'%')</if>
