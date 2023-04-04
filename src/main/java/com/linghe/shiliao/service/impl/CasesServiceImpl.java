@@ -12,6 +12,7 @@ import com.linghe.shiliao.mapper.CasesMapper;
 import com.linghe.shiliao.mapper.UserMessageMapper;
 import com.linghe.shiliao.service.CasesService;
 import com.linghe.shiliao.task.LocalFileTask;
+import com.linghe.shiliao.text.FileSuffix;
 import com.linghe.shiliao.utils.JwtUtils;
 import com.linghe.shiliao.utils.Page;
 import com.linghe.shiliao.utils.WordUtil;
@@ -40,7 +41,7 @@ import java.util.*;
 public class CasesServiceImpl extends ServiceImpl<CasesMapper, Cases> implements CasesService {
 
     @Value("${shiliaoFilePath.casesUrlPath}")
-    private static String casesUrlPath;
+    private String casesUrlPath;
 
     @Autowired
     private CasesMapper casesMapper;
@@ -256,14 +257,42 @@ public class CasesServiceImpl extends ServiceImpl<CasesMapper, Cases> implements
         return R.success("删除成功");
     }
 
+    /**
+     * @param file           文件
+     * @param userMessageDto name、phone
+     * @return
+     */
     @Override
     public R<String> uploadFile(MultipartFile file, UserMessageDto userMessageDto) {
-        if(ObjectUtils.isEmpty(file)){
+        if (ObjectUtils.isEmpty(file)) {
             return R.error("文件上传错误，请重新上传");
         }
-        File casesUrlImgFileName = new File(casesUrlPath+"/"+userMessageDto.getName()+"_"+userMessageDto.getPhone()+"/"+file.getOriginalFilename());
-        if(!casesUrlImgFileName.exists()){
+
+        String filename = file.getOriginalFilename();
+        String suffix = filename.substring(filename.lastIndexOf("."));
+        int i = 0;
+        String[] suffixArr = FileSuffix.suffixArr;
+        for (String s : suffixArr) {
+            i++;
+            if (StringUtils.equalsIgnoreCase(s, suffix)) {
+                break;
+            }
+        }
+        if (i == suffixArr.length) {
+            return R.error("文件格式错误,请重新上传");
+        }
+
+        File casesUrlImgFileName = new File(casesUrlPath + "/" + userMessageDto.getName() + "_" + userMessageDto.getPhone() + "/" + filename);
+        if (!casesUrlImgFileName.exists()) {
             casesUrlImgFileName.mkdirs();
+        }
+        List<String> fileNames = localFileTask.getFileNames(casesUrlPath);
+        if (null != fileNames && fileNames.size() != 0) {
+            for (String fileName : fileNames) {
+                if (StringUtils.equals(fileName, filename)) {
+                    return R.error("文件名已存在");
+                }
+            }
         }
         try {
             file.transferTo(casesUrlImgFileName);
@@ -272,5 +301,4 @@ public class CasesServiceImpl extends ServiceImpl<CasesMapper, Cases> implements
         }
         return R.success("文件上传成功");
     }
-
 }

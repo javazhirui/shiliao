@@ -1,4 +1,4 @@
-package com.linghe.shiliao.common;
+package com.linghe.shiliao.text;
 
 /**
  * 通用常量信息
