@@ -55,7 +55,6 @@ public class CasesController {
     @ApiOperation("添加客户/病历信息")
     @PostMapping("/addCases")
     public R<String> addCases(@RequestBody Cases cases) {
-        System.err.println(cases);
         return casesService.addCases(cases);
     }
 
@@ -154,6 +153,7 @@ public class CasesController {
 
     /**
      * 诊断图片上传
+     *
      * @param file
      * @return
      */
