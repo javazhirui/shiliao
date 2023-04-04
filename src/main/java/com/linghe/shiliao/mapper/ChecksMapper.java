@@ -31,6 +31,6 @@ public interface ChecksMapper extends BaseMapper<Checks> {
      *
      * @return
      */
-    long getTotal();
+    long getTotal(ChecksDto checksDto);
 
 }

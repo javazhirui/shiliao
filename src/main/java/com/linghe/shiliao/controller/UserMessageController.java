@@ -134,10 +134,9 @@ public class UserMessageController {
     @ApiOperation("通过姓名查询所有相似名称的客户")
     @PostMapping("/getUserMessages")
     public R<List<UserMessage>> getUserMessages(@RequestBody UserMessageDto userMessageDto) {
-        System.err.println(userMessageDto.getName());
-        if (null == userMessageDto.getName() || userMessageDto.getName().equals("")) {
-            return R.error("请输入所需要添加的用户名称");
-        }
+//        if (null == userMessageDto.getName() || userMessageDto.getName().equals("")) {
+//            return R.error("请输入所需要添加的用户名称");
+//        }
         return userMessageService.getUserMessages(userMessageDto);
     }
 

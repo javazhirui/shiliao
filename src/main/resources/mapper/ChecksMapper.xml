@@ -29,7 +29,19 @@
         select count(*)
         from user_message as t1
         right join checks as t2 on t1.user_id = t2.user_id
-        where t2.status = '1'
-        and t1.status = '1'
+
+        <where>
+            t2.status = '1'
+            and t1.status = '1'
+            <if test="name != null and name != ''">
+                and name like concat('%',#{name},'%')
+            </if>
+            <if test="email != null and email != ''">
+                and email like concat('%',#{email},'%')
+            </if>
+            <if test="phone != null and phone != ''">
+                and phone like concat('%',#{phone},'%')
+            </if>
+        </where>
     </select>
 </mapper>

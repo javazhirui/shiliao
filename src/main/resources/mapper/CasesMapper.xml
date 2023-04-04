@@ -13,6 +13,7 @@
         <where>
             and t2.status = 1
             and t1.status = 1
+            and t1.rule_id = 0
             <if test="name != null and name != ''">and t1.name like concat('%',#{name},'%')</if>
             <if test="phone != null and phone != ''">and t1.phone like concat('%',#{phone},'%')</if>
             <if test="health != null and health != ''">and t1.health = #{health}</if>
@@ -28,6 +29,7 @@
         <where>
             and t2.status = 1
             and t1.status = 1
+            and t1.rule_id = 0
             <if test="name != null and name != ''">and t1.name like concat('%',#{name},'%')</if>
             <if test="phone != null and phone != ''">and t1.phone like concat('%',#{phone},'%')</if>
             <if test="health != null and health != ''">and t1.health = #{health}</if>

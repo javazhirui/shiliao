@@ -219,8 +219,10 @@ public class UserMessageServiceImpl extends ServiceImpl<UserMessageMapper, UserM
      */
     @Override
     public R<List<UserMessage>> getUserMessages(UserMessageDto userMessageDto) {
-
+        userMessageDto.setRuleId(0);
         LambdaQueryWrapper<UserMessage> lqw = new LambdaQueryWrapper<>();
+        lqw.eq(UserMessage::getStatus,userMessageDto.getStatus());
+        lqw.eq(UserMessage::getRuleId,userMessageDto.getRuleId());
         lqw.like(UserMessage::getName,userMessageDto.getName());
         List<UserMessage> userMessagesList = this.list(lqw);
         if(ObjectUtils.isEmpty(userMessagesList) || userMessagesList.size() == 0){

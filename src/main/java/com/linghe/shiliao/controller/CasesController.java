@@ -37,9 +37,6 @@ public class CasesController {
     @Value("${shiliaoFilePath.casesUrlPath}")
     private String casesUrlPath;
 
-    @Value("${shiliaoFilePath.casesUrlImgPath}")
-    private String casesUrlImgPath;
-
     /**
      * @param userMessageDto
      * @return
@@ -58,6 +55,7 @@ public class CasesController {
     @ApiOperation("添加客户/病历信息")
     @PostMapping("/addCases")
     public R<String> addCases(@RequestBody Cases cases) {
+        System.err.println(cases);
         return casesService.addCases(cases);
     }
 
@@ -137,11 +135,11 @@ public class CasesController {
      */
     @ApiOperation("食用疗程影像上传")
     @PostMapping("/getCaseUrl")
-    public R<String> caseUrl(@RequestParam(value = "casesUrlFile",required = false) MultipartFile file){
+    public R<String> caseUrl(@RequestParam(value = "casesUrlFile",required = false) MultipartFile file,UserMessageDto userMessageDto){
         if(file.getOriginalFilename().equals("") || file.getSize() == 0 || null == file.getOriginalFilename()){
             return R.error("文件上传错误，请重新上传");
         }
-        File caseUrlFileName = new File(casesUrlPath);
+        File caseUrlFileName = new File(casesUrlPath+"/"+userMessageDto.getName()+"_"+userMessageDto.getPhone()+"/"+file.getOriginalFilename());
         if(!caseUrlFileName.exists()){
             caseUrlFileName.mkdirs();
         }
@@ -161,11 +159,12 @@ public class CasesController {
      */
     @ApiOperation("诊断图片上传")
     @PostMapping("/getCaseUrlImg")
-    public R<String> getCaseUrlImg(@RequestParam(value = "casesUrlImgFile",required = false) MultipartFile file){
+    public R<String> getCaseUrlImg(@RequestParam(value = "casesUrlImgFile",required = false) MultipartFile file,UserMessageDto userMessageDto){
+
         if(file.getOriginalFilename().equals("") || file.getSize() == 0 || null == file.getOriginalFilename()){
             return R.error("文件上传错误，请重新上传");
         }
-        File casesUrlImgFileName = new File(casesUrlImgPath);
+        File casesUrlImgFileName = new File(casesUrlPath+"/"+userMessageDto.getName()+"_"+userMessageDto.getPhone()+"/"+file.getOriginalFilename());
         if(!casesUrlImgFileName.exists()){
             casesUrlImgFileName.mkdirs();
         }
