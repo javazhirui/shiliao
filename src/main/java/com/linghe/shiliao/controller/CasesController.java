@@ -123,13 +123,14 @@ public class CasesController {
 
     /**
      * 食用疗程影像上传
+     *
      * @param file
      * @return
      */
     @ApiOperation("食用疗程影像上传")
     @PostMapping("/getCaseUrl")
-    public R<String> caseUrl(@RequestParam(value = "casesUrlFile",required = false) MultipartFile file,UserMessageDto userMessageDto){
-       return casesService.uploadFile(file,userMessageDto);
+    public R<String> caseUrl(@RequestParam(value = "casesUrlFile", required = false) MultipartFile file, UserMessageDto userMessageDto) {
+        return casesService.uploadFile(file, userMessageDto);
     }
 
 
@@ -141,8 +142,8 @@ public class CasesController {
      */
     @ApiOperation("诊断图片上传")
     @PostMapping("/getCaseUrlImg")
-    public R<String> getCaseUrlImg(@RequestParam(value = "casesUrlImgFile",required = false) MultipartFile file,UserMessageDto userMessageDto){
-        return  casesService.uploadFile(file,userMessageDto);
+    public R<String> getCaseUrlImg(@RequestParam(value = "casesUrlImgFile", required = false) MultipartFile file, UserMessageDto userMessageDto) {
+        return casesService.uploadFile(file, userMessageDto);
     }
 
 

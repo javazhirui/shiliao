@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.linghe.shiliao.common.R;
 import com.linghe.shiliao.entity.UserMessage;
-import com.linghe.shiliao.entity.dto.LoginDto;
 import com.linghe.shiliao.entity.dto.PasswordDto;
 import com.linghe.shiliao.entity.dto.UserMessageDto;
 import com.linghe.shiliao.entity.dto.UserMessageExcelDto;
@@ -25,7 +24,10 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -215,6 +217,7 @@ public class UserMessageServiceImpl extends ServiceImpl<UserMessageMapper, UserM
 
     /**
      * 通过姓名查询所有相似名称的客户
+     *
      * @param userMessageDto
      * @return
      */
@@ -222,11 +225,11 @@ public class UserMessageServiceImpl extends ServiceImpl<UserMessageMapper, UserM
     public R<List<UserMessage>> getUserMessages(UserMessageDto userMessageDto) {
         userMessageDto.setRuleId(0);
         LambdaQueryWrapper<UserMessage> lqw = new LambdaQueryWrapper<>();
-        lqw.eq(UserMessage::getStatus,userMessageDto.getStatus());
-        lqw.eq(UserMessage::getRuleId,userMessageDto.getRuleId());
-        lqw.like(UserMessage::getName,userMessageDto.getName());
+        lqw.eq(UserMessage::getStatus, userMessageDto.getStatus());
+        lqw.eq(UserMessage::getRuleId, userMessageDto.getRuleId());
+        lqw.like(UserMessage::getName, userMessageDto.getName());
         List<UserMessage> userMessagesList = this.list(lqw);
-        if(ObjectUtils.isEmpty(userMessagesList) || userMessagesList.size() == 0){
+        if (ObjectUtils.isEmpty(userMessagesList) || userMessagesList.size() == 0) {
             return R.error("未查询到该用户信息");
         }
 
