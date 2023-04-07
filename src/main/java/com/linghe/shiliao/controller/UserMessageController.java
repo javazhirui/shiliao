@@ -1,7 +1,9 @@
 package com.linghe.shiliao.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.linghe.shiliao.common.R;
+import com.linghe.shiliao.entity.Cases;
 import com.linghe.shiliao.entity.UserMessage;
 import com.linghe.shiliao.entity.dto.PasswordDto;
 import com.linghe.shiliao.entity.dto.UserMessageDto;
@@ -15,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -139,7 +142,6 @@ public class UserMessageController {
 //        }
         return userMessageService.getUserMessages(userMessageDto);
     }
-
 
 }
 

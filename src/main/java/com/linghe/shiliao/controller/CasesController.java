@@ -1,6 +1,7 @@
 package com.linghe.shiliao.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.linghe.shiliao.common.R;
 import com.linghe.shiliao.entity.Cases;
 import com.linghe.shiliao.entity.dto.CasesDto;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -128,7 +130,7 @@ public class CasesController {
      */
     @ApiOperation("食用疗程影像上传")
     @PostMapping("/getCaseUrl")
-    public R<String> caseUrl(@RequestParam(value = "casesUrlFile",required = false) MultipartFile file,UserMessageDto userMessageDto){
+    public R<String> caseUrl(@RequestParam(value = "casesUrlFile",required = false) MultipartFile file,@RequestBody UserMessageDto userMessageDto){
        return casesService.uploadFile(file,userMessageDto);
     }
 
@@ -143,6 +145,17 @@ public class CasesController {
     @PostMapping("/getCaseUrlImg")
     public R<String> getCaseUrlImg(@RequestParam(value = "casesUrlImgFile",required = false) MultipartFile file,UserMessageDto userMessageDto){
         return  casesService.uploadFile(file,userMessageDto);
+    }
+
+    /**
+     * 通过客户登录id查询该客户所有的病例信息
+     * @param userMessageDto
+     * @return
+     */
+    @ApiOperation("客户登录查询病例信息")
+    @PostMapping("/getCasesList")
+    public R<List<Cases>> getCasesList(@RequestBody UserMessageDto userMessageDto){
+        return casesService.getCaseList(userMessageDto.getUserId());
     }
 
 

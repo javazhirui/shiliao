@@ -40,7 +40,7 @@ import java.util.*;
 public class CasesServiceImpl extends ServiceImpl<CasesMapper, Cases> implements CasesService {
 
     @Value("${shiliaoFilePath.casesUrlPath}")
-    private static String casesUrlPath;
+    private String casesUrlPath;
 
     @Autowired
     private CasesMapper casesMapper;
@@ -256,11 +256,17 @@ public class CasesServiceImpl extends ServiceImpl<CasesMapper, Cases> implements
         return R.success("删除成功");
     }
 
+    /**
+     * 文件上传方法提取
+     * @param file
+     * @param userMessageDto
+     * @return
+     */
     @Override
     public R<String> uploadFile(MultipartFile file, UserMessageDto userMessageDto) {
-        if(ObjectUtils.isEmpty(file)){
-            return R.error("文件上传错误，请重新上传");
-        }
+//        if(ObjectUtils.isEmpty(file)){
+//            return R.error("文件上传错误，请重新上传");
+//        }
         File casesUrlImgFileName = new File(casesUrlPath+"/"+userMessageDto.getName()+"_"+userMessageDto.getPhone()+"/"+file.getOriginalFilename());
         if(!casesUrlImgFileName.exists()){
             casesUrlImgFileName.mkdirs();
@@ -270,7 +276,24 @@ public class CasesServiceImpl extends ServiceImpl<CasesMapper, Cases> implements
         } catch (Exception e) {
             return R.error(e.getMessage());
         }
-        return R.success("文件上传成功");
+        return R.success(casesUrlPath);
+    }
+
+    /**
+     * 通过客户登录id查询该客户所有的病例信息
+     * @param userId
+     * @return
+     */
+    @Override
+    public R<List<Cases>> getCaseList(Long userId) {
+        if(null == userId || userId.equals("") || userId == 0){
+            return R.error("请重新登录用户信息");
+        }
+        LambdaQueryWrapper<Cases> lqw = new LambdaQueryWrapper<>();
+        lqw.eq(Cases::getUserId, userId);
+        lqw.orderByDesc(Cases::getCreateTime);
+        List<Cases> casesList = casesMapper.selectList(lqw);
+        return R.success(casesList);
     }
 
 }

@@ -165,7 +165,7 @@ public class UserServiceImpl implements UserService {
         lqw1.eq(UserMessage::getUserName, userMessageDto.getUserName());
         UserMessage userMessage1 = userMessageMapper.selectOne(lqw1);
         if (!ObjectUtils.isEmpty(userMessage1)) {
-            return R.error("用户名已存在");
+            return R.error("账号已存在");
         }
         if (StringUtils.isBlank(userMessageDto.getCode())) {
             return R.error("验证码为空,请检查");
@@ -182,10 +182,13 @@ public class UserServiceImpl implements UserService {
             return R.error("邮箱验证码为空,请检查");
         }
         String emailCode = userMessageDto.getEmailCode();
+
         emailCode = Md5Utils.hash(emailCode);
         //获取缓存的邮箱验证码(md5加密后的)
+
         String emailCodeRedis = redisCache.getCacheObject(userMessageDto.getEmail() + "_" + userMessageDto.getUuid());
-        if (!StringUtils.equals(Md5Utils.hash(emailCode), emailCodeRedis)) {
+
+        if (!StringUtils.equals(emailCode, emailCodeRedis)) {
             return R.error("邮箱验证码输入有误");
         }
         if (userMessageDto.getPassword().isEmpty()) {

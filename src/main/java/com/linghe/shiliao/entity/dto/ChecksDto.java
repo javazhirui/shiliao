@@ -18,12 +18,12 @@ public class ChecksDto implements Serializable {
      * 审核id
      */
     @TableId(value = "check_id", type = IdType.ASSIGN_ID)
-    private Integer checksId;
+    private Long checksId;
 
     /**
      * 用户id
      */
-    private String userId;
+    private Long userId;
 
     /**
      * 自述病情

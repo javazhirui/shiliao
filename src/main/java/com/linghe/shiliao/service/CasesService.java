@@ -91,4 +91,10 @@ public interface CasesService extends IService<Cases> {
      */
     public R<String> uploadFile(MultipartFile file, UserMessageDto userMessageDto);
 
+    /**
+     * 通过客户登录id查询该客户所有的病例信息
+     * @param userId
+     * @return
+     */
+    R<List<Cases>> getCaseList(Long userId);
 }
