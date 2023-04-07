@@ -1,7 +1,6 @@
 package com.linghe.shiliao.controller;
 
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.linghe.shiliao.common.R;
 import com.linghe.shiliao.entity.Cases;
 import com.linghe.shiliao.entity.dto.CasesDto;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -130,8 +128,8 @@ public class CasesController {
      */
     @ApiOperation("食用疗程影像上传")
     @PostMapping("/getCaseUrl")
-    public R<String> caseUrl(@RequestParam(value = "casesUrlFile",required = false) MultipartFile file,@RequestBody UserMessageDto userMessageDto){
-       return casesService.uploadFile(file,userMessageDto);
+    public R<String> caseUrl(@RequestParam(value = "casesUrlFile", required = false) MultipartFile file, UserMessageDto userMessageDto) {
+        return casesService.uploadFile(file, userMessageDto);
     }
 
 
@@ -143,8 +141,8 @@ public class CasesController {
      */
     @ApiOperation("诊断图片上传")
     @PostMapping("/getCaseUrlImg")
-    public R<String> getCaseUrlImg(@RequestParam(value = "casesUrlImgFile",required = false) MultipartFile file,UserMessageDto userMessageDto){
-        return  casesService.uploadFile(file,userMessageDto);
+    public R<String> getCaseUrlImg(@RequestParam(value = "casesUrlImgFile", required = false) MultipartFile file, UserMessageDto userMessageDto) {
+        return casesService.uploadFile(file, userMessageDto);
     }
 
     /**

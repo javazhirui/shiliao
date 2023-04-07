@@ -264,19 +264,42 @@ public class CasesServiceImpl extends ServiceImpl<CasesMapper, Cases> implements
      */
     @Override
     public R<String> uploadFile(MultipartFile file, UserMessageDto userMessageDto) {
-//        if(ObjectUtils.isEmpty(file)){
-//            return R.error("文件上传错误，请重新上传");
-//        }
-        File casesUrlImgFileName = new File(casesUrlPath+"/"+userMessageDto.getName()+"_"+userMessageDto.getPhone()+"/"+file.getOriginalFilename());
-        if(!casesUrlImgFileName.exists()){
-            casesUrlImgFileName.mkdirs();
+        if (ObjectUtils.isEmpty(file)) {
+            return R.error("文件上传错误，请重新上传");
+        }
+
+        String filename = file.getOriginalFilename();
+        String suffix = filename.substring(filename.lastIndexOf("."));
+        int i = 0;
+        String[] suffixArr = FileSuffix.suffixArr;
+        for (String s : suffixArr) {
+            i++;
+            if (StringUtils.equalsIgnoreCase(s, suffix)) {
+                break;
+            }
+        }
+        if (i == suffixArr.length) {
+            return R.error("文件格式错误,请重新上传");
+        }
+
+        File casesUrlFileName = new File(casesUrlPath + "/" + userMessageDto.getName() + "_" + userMessageDto.getPhone() + "/" + filename);
+        if (!casesUrlFileName.exists()) {
+            casesUrlFileName.mkdirs();
+        }
+        List<String> fileNames = localFileTask.getFileNames(casesUrlPath);
+        if (null != fileNames && fileNames.size() != 0) {
+            for (String fileName : fileNames) {
+                if (StringUtils.equals(fileName, filename)) {
+                    return R.error("文件名已存在");
+                }
+            }
         }
         try {
-            file.transferTo(casesUrlImgFileName);
+            file.transferTo(casesUrlFileName);
         } catch (Exception e) {
             return R.error(e.getMessage());
         }
-        return R.success(casesUrlPath);
+        return R.success("文件上传成功,文件路径为: " + casesUrlFileName);
     }
 
     /**

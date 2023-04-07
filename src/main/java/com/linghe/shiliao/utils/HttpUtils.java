@@ -1,6 +1,6 @@
 package com.linghe.shiliao.utils;
 
-import com.linghe.shiliao.common.Constants;
+import com.linghe.shiliao.text.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
