@@ -85,7 +85,8 @@ public class UserController {
     @ApiOperation("获取图片验证码")
     @GetMapping("/getCode")
     public R<String> getCode(String uuid) throws IOException {
-        return userService.getCode(uuid);
+//        return userService.getCode(uuid);
+        return userService.getCode1(uuid); //测试minio
     }
 
     /**

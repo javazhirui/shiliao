@@ -42,4 +42,5 @@ public interface UserService {
      */
     R<String> forgetPassword(UserMessageDto userMessageDto);
 
+    R<String> getCode1(String uuid) throws IOException;
 }

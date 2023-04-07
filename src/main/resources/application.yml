@@ -128,4 +128,13 @@ shiliaoRedisTime:
 #jwt过期时间(秒)
 jwtDeadTime: 3000
 
+# Miniio配置
+minio:
+  endpoint: localhost
+  port: 9000
+  accessKey: admin
+  secretKey: zhemima666
+  secure: false
+  bucketName1: "shiliao"
+
 
