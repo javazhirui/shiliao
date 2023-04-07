@@ -200,7 +200,6 @@ public class UserServiceImpl implements UserService {
         //将userMessageDto中数据拷贝到user
         BeanUtils.copyProperties(userMessageDto, user);
         userMessageMapper.insert(user);
-
         return R.success("注册成功");
     }
 
