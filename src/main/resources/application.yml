@@ -135,6 +135,6 @@ minio:
   accessKey: admin
   secretKey: zhemima666
   secure: false
-  bucketName1: "shiliao"
+  bucketName1: shiliao
 
 
