@@ -11,6 +11,9 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * <p>
  * 服务实现类
@@ -36,6 +39,13 @@ public class ChecksServiceImpl extends ServiceImpl<ChecksMapper, Checks> impleme
         if (ObjectUtils.isEmpty(checks)) {
             return R.error("预约数据为空");
         }
+
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String thisDateTime = sdf.format(date);
+
+        checks.setCreateTime(thisDateTime);
+        checks.setStatus(1);
         boolean save = this.save(checks);
         if (!save) {
             return R.error("添加预约失败");
