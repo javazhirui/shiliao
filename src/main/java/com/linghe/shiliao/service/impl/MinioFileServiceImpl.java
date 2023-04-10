@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 /**
  * Minio 文件存储
  */
-@Primary
+//@Primary
 @Service
 public class MinioFileServiceImpl implements IFileService {
 
