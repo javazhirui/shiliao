@@ -131,12 +131,12 @@ jwtDeadTime: 3000
 # Miniio配置
 minio:
   #外网访问服务地址
-  url: 47.94.216.226:9000/login
+  url: http://47.94.216.226:9000
   endpoint: localhost
   #  accessKey: admin
   #  secretKey: zhemima666
   accessKey: yQtSg8dkioa6my8N
   secretKey: 4AyGZ9rxiFUIif3njzUJ2dRUpzaOj6RE
   bucketName: shiliao
-  previewUrl: http://47.94.216.226:9000/login
+  previewUrl: http://47.94.216.226:9000
 
