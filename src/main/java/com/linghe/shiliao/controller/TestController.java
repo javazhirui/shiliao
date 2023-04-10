@@ -77,7 +77,7 @@ public class TestController {
 
     @ApiOperation("minIO上传文件测试")
     @PostMapping("/uploadFileTest")
-    public R<String> uploadFile(MultipartFile file, OssFile ossFile) throws Exception {
+    public R<String> uploadFile(MultipartFile file, @RequestBody OssFile ossFile) throws Exception {
         iFileService.uploadFile(file, ossFile);
         return null;
     }
