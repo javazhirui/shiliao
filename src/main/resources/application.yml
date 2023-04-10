@@ -147,8 +147,8 @@ jwtDeadTime: 30000
 minio:
   #外网访问服务地址
   clientView: http://47.94.216.226:9000
-
   endpoint: http://127.0.0.1:9000
+
   #minio账号
   accessKey: ORKNi671CrxQFooR
   #minio密码
