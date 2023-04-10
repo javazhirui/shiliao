@@ -146,10 +146,10 @@ jwtDeadTime: 30000
 #  previewUrl: http://47.94.216.226:9000
 minio:
   #外网访问服务地址
-  endpoint: http://47.94.216.226:9000
+  endpoint: http://127.0.0.1:9001
   #minio账号
-  accessKey: yQtSg8dkioa6my8N
+  accessKey: ORKNi671CrxQFooR
   #minio密码
-  secretKey: 4AyGZ9rxiFUIif3njzUJ2dRUpzaOj6RE
+  secretKey: 61JeG1ieunGnrCfG7YxNBBP6TG55c6EL
   bucketName: shiliao
 
