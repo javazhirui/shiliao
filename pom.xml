@@ -194,17 +194,25 @@
             <artifactId>poi-ooxml</artifactId>
             <version>4.0.0</version>
         </dependency>
+
+        <!--        <dependency>
+                    <groupId>io.minio</groupId>
+                    <artifactId>minio</artifactId>
+                    <version>8.5.1</version>
+                    &lt;!&ndash;解决内置okhttp3版本冲突&ndash;&gt;
+                    <exclusions>
+                        <exclusion>
+                            <artifactId>okhttp</artifactId>
+                            <groupId>com.squareup.okhttp3</groupId>
+                        </exclusion>
+                    </exclusions>
+                </dependency>-->
+
+        <!--minio版本勿动,参考上边-->
         <dependency>
             <groupId>io.minio</groupId>
             <artifactId>minio</artifactId>
-            <version>8.5.1</version>
-            <!--解决内置okhttp3版本冲突-->
-            <exclusions>
-                <exclusion>
-                    <artifactId>okhttp</artifactId>
-                    <groupId>com.squareup.okhttp3</groupId>
-                </exclusion>
-            </exclusions>
+            <version>7.1.0</version>
         </dependency>
 
 
