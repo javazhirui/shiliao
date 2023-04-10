@@ -2,14 +2,14 @@ package com.linghe.shiliao.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.linghe.shiliao.common.R;
-import com.linghe.shiliao.entity.OssFile;
 import com.linghe.shiliao.entity.UserMessage;
 import com.linghe.shiliao.mapper.UserMessageMapper;
-import com.linghe.shiliao.service.IFileService;
+import com.linghe.shiliao.utils.MinioUtils;
 import com.linghe.shiliao.utils.WordUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,9 +25,6 @@ public class TestController {
 
     @Autowired
     private UserMessageMapper userMessageMapper;
-
-    @Autowired
-    private IFileService iFileService;
 
     @ApiOperation("freemarker导出word测试")
     @GetMapping("/getWordTest")
@@ -75,10 +72,18 @@ public class TestController {
         return "测试";
     }
 
+    @Autowired
+    private MinioUtils minioUtils;
+    @Value("${minio.endpoint}")
+    private String address;
+    @Value("${minio.bucketName}")
+    private String bucketName;
+
+
     @ApiOperation("minIO上传文件测试")
     @PostMapping("/uploadFileTest")
-    public R<String> uploadFile(MultipartFile file, @RequestBody OssFile ossFile) throws Exception {
-        iFileService.uploadFile(file, ossFile);
-        return null;
+    public R<String> uploadFile(MultipartFile file) {
+        List<String> upload = minioUtils.upload(new MultipartFile[]{file});
+        return R.success(address + "/" + bucketName + "/" + upload.get(0));
     }
 }
