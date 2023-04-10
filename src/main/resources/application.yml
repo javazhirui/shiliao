@@ -1,17 +1,20 @@
 server:
   port: 11666
+
+
+spring:
   servlet:
     multipart:
       max-file-size: 200MB
       max-request-size: 200MB
-
-spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/shiliao?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
     username: root
-    password: zhemima666
+    password: root
+    #虚拟机
+    #    password: zhemima666
 
     # redis 配置
   redis:
@@ -21,8 +24,10 @@ spring:
     port: 6379
     # 数据库索引
     database: 0
-    # 密码
-    password: zhemima666
+
+    password: root
+    # 虚拟机密码
+#    password: zhemima666
     # 连接超时时间
     timeout: 10s
     lettuce:
@@ -82,7 +87,7 @@ xss:
   # 过滤开关
   enabled: true
   # 排除链接（多个用逗号分隔）
-  excludes: /test111/*
+  excludes: /test111/*,/test111/uploadFileTest
   # 匹配链接
   urlPatterns:
 
@@ -105,20 +110,20 @@ freemarker:
 
 shiliaoFilePath:
   #验证码地址
-  #  codeImgPath: D:/ShiLiao/CodeImg/
-  codeImgPath: /usr/local/app/shiliao/CodeImg/
+  codeImgPath: D:/ShiLiao/CodeImg/
+#  codeImgPath: /usr/local/app/shiliao/CodeImg/
   #用户信息导出地址
-  #  userMessageExcelPath: D:/ShiLiao/userMessageExcel/
-  userMessageExcelPath: /usr/local/app/shiliao/userMessageExcel/
+  userMessageExcelPath: D:/ShiLiao/userMessageExcel/
+#  userMessageExcelPath: /usr/local/app/shiliao/userMessageExcel/
   #病历信息excel导出地址
-  #  casesMessageExcelPath: D:/ShiLiao/casesMessageExcel/
-  casesMessageExcelPath: /usr/local/app/shiliao/casesMessageExcel/
+  casesMessageExcelPath: D:/ShiLiao/casesMessageExcel/
+#  casesMessageExcelPath: /usr/local/app/shiliao/casesMessageExcel/
   #病历信息word导出地址
-  #  casesMessageWordPath: D:/ShiLiao/casesMessageWord/
-  casesMessageWordPath: /usr/local/app/shiliao/casesMessageWord/
+  casesMessageWordPath: D:/ShiLiao/casesMessageWord/
+#  casesMessageWordPath: /usr/local/app/shiliao/casesMessageWord/
   #食用疗程影像及诊断图片上传地址
-  #  casesUrlPath: D:/ShiLiao/casesVideo_casesImg/
-  casesUrlPath: /usr/local/app/shiliao/casesVideo_casesImg/
+  casesUrlPath: D:/ShiLiao/casesVideo_casesImg/
+#  casesUrlPath: /usr/local/app/shiliao/casesVideo_casesImg/
 
 
 #redis缓存时间
@@ -148,8 +153,8 @@ minio:
   #外网访问服务地址
   endpoint: http://47.94.216.226:9000
   #minio账号
-  accessKey: admin
+  accessKey: pbxkPAFL0A8WeSHV
   #minio密码
-  secretKey: zhemima666
+  secretKey: CHnbYbgVCki4FMHUjniRuprsUV2Cehah
   bucketName: shiliao
 
