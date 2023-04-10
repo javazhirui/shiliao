@@ -1,35 +1,88 @@
 package com.linghe.shiliao.config;
 
-import lombok.Data;
+import io.minio.MinioClient;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 /**
- * minio准备
+ * Minio 配置信息
+ *
+ * @author tfSun
  */
-
-@Data
-@Component
+@Configuration
 @ConfigurationProperties(prefix = "minio")
 public class MinioConfig {
+    /**
+     * 外网访问服务地址
+     */
+    private String url;
 
-    private final static String HTTP = "http://";
-
-    //endPoint是一个URL，域名，IPv4或者IPv6地址
-    private String endpoint;
-
-    //TCP/IP端口号
-    private int port;
-
-    //accessKey类似于用户ID，用于唯一标识你的账户
+    /**
+     * 用户名
+     */
     private String accessKey;
 
-    //secretKey是你账户的密码
+    /**
+     * 密码
+     */
     private String secretKey;
 
-    //如果是true，则用的是https而不是http,默认值是true
-    private Boolean secure;
-
-    //默认存储桶
+    /**
+     * 桶名称
+     */
     private String bucketName;
+
+    /**
+     * 外网访问服务地址
+     */
+    private String previewUrl;
+
+    @Bean
+    public MinioClient minioClient() {
+        return MinioClient.builder().endpoint(url)
+                .credentials(accessKey, secretKey)
+                .build();
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getAccessKey() {
+        return accessKey;
+    }
+
+    public void setAccessKey(String accessKey) {
+        this.accessKey = accessKey;
+    }
+
+    public String getSecretKey() {
+        return secretKey;
+    }
+
+    public void setSecretKey(String secretKey) {
+        this.secretKey = secretKey;
+    }
+
+    public String getBucketName() {
+        return bucketName;
+    }
+
+    public void setBucketName(String bucketName) {
+        this.bucketName = bucketName;
+    }
+
+    public String getPreviewUrl() {
+        return previewUrl;
+    }
+
+    public void setPreviewUrl(String previewUrl) {
+        this.previewUrl = previewUrl;
+    }
 }
+

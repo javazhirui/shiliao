@@ -130,11 +130,11 @@ jwtDeadTime: 3000
 
 # Miniio配置
 minio:
+  #外网访问服务地址
+  url:
   endpoint: localhost
-  port: 9000
   accessKey: admin
   secretKey: zhemima666
-  secure: false
-  bucketName1: shiliao
-
+  bucketName: shiliao
+  previewUrl:
 

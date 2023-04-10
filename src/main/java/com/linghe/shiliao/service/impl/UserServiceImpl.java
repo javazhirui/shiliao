@@ -7,28 +7,20 @@ import com.linghe.shiliao.entity.dto.LoginDto;
 import com.linghe.shiliao.entity.dto.UserMessageDto;
 import com.linghe.shiliao.mapper.CodesMapper;
 import com.linghe.shiliao.mapper.UserMessageMapper;
-import com.linghe.shiliao.service.FileService;
 import com.linghe.shiliao.service.UserService;
 import com.linghe.shiliao.utils.JwtUtils;
 import com.linghe.shiliao.utils.Md5Utils;
 import com.linghe.shiliao.utils.RedisCache;
 import com.linghe.shiliao.utils.VerifyCodeUtils;
-import io.minio.PutObjectArgs;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -37,15 +29,10 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserMessageMapper userMessageMapper;
 
-    @Autowired
-    private CodesMapper codesMapper;
-
     //操作Redis工具类
     @Autowired
     private RedisCache redisCache;
 
-    @Autowired
-    private FileService fileService;
 
     //验证码生成路径
     @Value("${shiliaoFilePath.codeImgPath}")
@@ -294,9 +281,7 @@ public class UserServiceImpl implements UserService {
         VerifyCodeUtils.outputImage(600, 150, os, code);
         os.close();
 
-        File file2 = new File(CodeImgPath);
-
-        return fileService.upload(file2);
+        return R.success("验证码已生成");
     }
 
 
