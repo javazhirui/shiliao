@@ -26,9 +26,8 @@ public class MinioClientUtils {
 
 
     /**
-     * @Description 创建桶
-     *
      * @param bucketName 桶名称
+     * @Description 创建桶
      */
 
     public static void makeBucket(String bucketName) throws Exception {
@@ -47,9 +46,8 @@ public class MinioClientUtils {
     }
 
     /**
-     * @Description 根据bucketName获取信息
-     *
      * @param bucketName bucket名称
+     * @Description 根据bucketName获取信息
      */
 
     public static Optional<Bucket> getBucket(String bucketName) throws Exception {
@@ -57,9 +55,8 @@ public class MinioClientUtils {
     }
 
     /**
-     * @Description 根据bucketName删除信息
-     *
      * @param bucketName bucket名称
+     * @Description 根据bucketName删除信息
      */
 
     public static void removeBucket(String bucketName) throws Exception {
@@ -67,34 +64,31 @@ public class MinioClientUtils {
     }
 
     /**
-     * @Description 获取文件外链
-     *
      * @param bucketName bucket名称
      * @param objectName 文件名称
      * @return url
+     * @Description 获取文件外链
      */
     public static String getObjectURL(String bucketName, String objectName) throws Exception {
         return getObjectURL(bucketName, objectName, 7);
     }
 
     /**
-     * @Description 获取文件外链
-     *
      * @param bucketName bucket名称
      * @param objectName 文件名称
      * @param expires    过期时间 <=7
      * @return url
+     * @Description 获取文件外链
      */
     public static String getObjectURL(String bucketName, String objectName, Integer expires) throws Exception {
         return minioClient.getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder().bucket(bucketName).object(objectName).expiry(expires).build());
     }
 
     /**
-     * @Description 获取文件
-     *
      * @param bucketName bucket名称
      * @param objectName 文件名称
      * @return 二进制流
+     * @Description 获取文件
      */
 
     public static InputStream getObject(String bucketName, String objectName) throws Exception {
@@ -102,11 +96,10 @@ public class MinioClientUtils {
     }
 
     /**
-     * @Description 获取文件
-     *
      * @param bucketName bucket名称
      * @param objectName 文件名称
      * @return 二进制流
+     * @Description 获取文件
      */
 
     public static InputStream getObject(String bucketName, String objectName, long offset, Long length) throws Exception {
@@ -115,23 +108,21 @@ public class MinioClientUtils {
 
 
     /**
-     * @Description 获取文件访问地址(有效期)
-     *
      * @param bucketName bucket名称
      * @param objectName 文件名称
      * @return url
+     * @Description 获取文件访问地址(有效期)
      */
     public static String getPresignedObjectUrl(String bucketName, String objectName) throws Exception {
         return getPresignedObjectUrl(bucketName, objectName, null);
     }
 
     /**
-     * @Description 获取文件访问地址(有效期)
-     *
      * @param bucketName bucket名称
      * @param objectName 文件名称
      * @param expires    过期时间 <=7
      * @return url
+     * @Description 获取文件访问地址(有效期)
      */
     public static String getPresignedObjectUrl(String bucketName, String objectName, Integer expires) throws Exception {
         return minioClient.getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder().bucket(bucketName).object(objectName).build());
@@ -139,11 +130,10 @@ public class MinioClientUtils {
 
 
     /**
-     * @Description 删除文件
-     *
      * @param bucketName bucket名称
      * @param objectName 文件名称
      * @throws Exception https://docs.minio.io/cn/java-client-api-reference.html#removeObject
+     * @Description 删除文件
      */
     public static void removeObject(String bucketName, String objectName) throws Exception {
         minioClient.removeObject(RemoveObjectArgs.builder().bucket(bucketName).object(objectName).build());
@@ -151,7 +141,7 @@ public class MinioClientUtils {
 
 
     public static String putObject(String bucketName, String objectName, MultipartFile file) throws Exception {
-        if (objectName== null || "".equals(objectName)) {
+        if (objectName == null || "".equals(objectName)) {
             objectName = FileUploadUtils.extractFilename(file);
         }
         PutObjectArgs args = PutObjectArgs.builder()
@@ -168,16 +158,14 @@ public class MinioClientUtils {
     /**
      * 编码文件名
      */
-    public static final String extractFilename(MultipartFile file)
-    {
+    public static final String extractFilename(MultipartFile file) {
         String fileName = file.getOriginalFilename();
         String extension = FileUploadUtils.getExtension(file);
         fileName = FileUploadUtils.datePath() + "/" + IdUtils.fastUUID() + "." + extension;
         return fileName;
     }
 
-    public static final String extractFilename(File file)
-    {
+    public static final String extractFilename(File file) {
         String fileName = file.getName();
         String extension = FileUploadUtils.getExtension(file);
         fileName = FileUploadUtils.datePath() + "/" + IdUtils.fastUUID() + "." + extension;
@@ -185,7 +173,7 @@ public class MinioClientUtils {
     }
 
     public static String putObject(String bucketName, String objectName, File file) throws Exception {
-        if (objectName== null || "".equals(objectName)) {
+        if (objectName == null || "".equals(objectName)) {
             objectName = FileUploadUtils.extractFilename(file);
         }
         InputStream inputStream = new FileInputStream(file);

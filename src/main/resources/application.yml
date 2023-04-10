@@ -101,19 +101,19 @@ freemarker:
 
 shiliaoFilePath:
   #验证码地址
-#  codeImgPath: D:/ShiLiao/CodeImg/
+  #  codeImgPath: D:/ShiLiao/CodeImg/
   codeImgPath: /usr/local/app/shiliao/CodeImg/
   #用户信息导出地址
-#  userMessageExcelPath: D:/ShiLiao/userMessageExcel/
+  #  userMessageExcelPath: D:/ShiLiao/userMessageExcel/
   userMessageExcelPath: /usr/local/app/shiliao/userMessageExcel/
   #病历信息excel导出地址
-#  casesMessageExcelPath: D:/ShiLiao/casesMessageExcel/
+  #  casesMessageExcelPath: D:/ShiLiao/casesMessageExcel/
   casesMessageExcelPath: /usr/local/app/shiliao/casesMessageExcel/
   #病历信息word导出地址
-#  casesMessageWordPath: D:/ShiLiao/casesMessageWord/
+  #  casesMessageWordPath: D:/ShiLiao/casesMessageWord/
   casesMessageWordPath: /usr/local/app/shiliao/casesMessageWord/
   #食用疗程影像及诊断图片上传地址
-#  casesUrlPath: D:/ShiLiao/casesVideo_casesImg/
+  #  casesUrlPath: D:/ShiLiao/casesVideo_casesImg/
   casesUrlPath: /usr/local/app/shiliao/casesVideo_casesImg/
 
 
@@ -131,10 +131,12 @@ jwtDeadTime: 3000
 # Miniio配置
 minio:
   #外网访问服务地址
-  url:
+  url: http://47.94.216.226:9000/login
   endpoint: localhost
-  accessKey: admin
-  secretKey: zhemima666
+  #  accessKey: admin
+  #  secretKey: zhemima666
+  accessKey: yQtSg8dkioa6my8N
+  secretKey: 4AyGZ9rxiFUIif3njzUJ2dRUpzaOj6RE
   bucketName: shiliao
-  previewUrl:
+  previewUrl: http://47.94.216.226:9000/login
 

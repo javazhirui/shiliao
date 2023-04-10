@@ -7,8 +7,6 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * Minio 配置信息
- *
- * @author tfSun
  */
 @Configuration
 @ConfigurationProperties(prefix = "minio")

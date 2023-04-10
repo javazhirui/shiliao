@@ -13,14 +13,12 @@ public class FileUploadUtils {
     /**
      * 日期路径 即年/月/日 如2018/08/08
      */
-    public static final String datePath()
-    {
+    public static final String datePath() {
         Date now = new Date();
         return DateFormatUtils.format(now, "yyyy/MM/dd");
     }
 
-    public static final String extractFilename(File file)
-    {
+    public static final String extractFilename(File file) {
         String fileName = file.getName();
         String extension = FileUploadUtils.getExtension(file);
         fileName = FileUploadUtils.datePath() + "/" + IdUtils.fastUUID() + "." + extension;
@@ -30,19 +28,16 @@ public class FileUploadUtils {
     /**
      * 编码文件名
      */
-    public static final String extractFilename(MultipartFile file)
-    {
+    public static final String extractFilename(MultipartFile file) {
         String fileName = file.getOriginalFilename();
         String extension = getExtension(file);
         fileName = FileUploadUtils.datePath() + "/" + IdUtils.fastUUID() + "." + extension;
         return fileName;
     }
 
-    public static final String getExtension(File file)
-    {
+    public static final String getExtension(File file) {
         String extension = FilenameUtils.getExtension(file.getName());
-        if (StringUtils.isEmpty(extension))
-        {
+        if (StringUtils.isEmpty(extension)) {
             extension = MimeTypeUtils.getExtension(FileUploadUtils.getContentType(file));
         }
         return extension;
@@ -68,11 +63,9 @@ public class FileUploadUtils {
      * @param file 表单文件
      * @return 后缀名
      */
-    public static final String getExtension(MultipartFile file)
-    {
+    public static final String getExtension(MultipartFile file) {
         String extension = FilenameUtils.getExtension(file.getOriginalFilename());
-        if (StringUtils.isEmpty(extension))
-        {
+        if (StringUtils.isEmpty(extension)) {
             extension = MimeTypeUtils.getExtension(file.getContentType());
         }
         return extension;
