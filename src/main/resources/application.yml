@@ -148,8 +148,8 @@ minio:
   #外网访问服务地址
   endpoint: http://47.94.216.226:9000
   #minio账号
-  accessKey: ORKNi671CrxQFooR
+  accessKey: admin
   #minio密码
-  secretKey: 61JeG1ieunGnrCfG7YxNBBP6TG55c6EL
+  secretKey: zhemima666
   bucketName: shiliao
 
