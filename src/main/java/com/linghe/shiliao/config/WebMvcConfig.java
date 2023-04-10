@@ -59,6 +59,7 @@ class WebMvcConfig implements WebMvcConfigurer {
                         "/**/getPhoneCode",
 
                         //测试接口
+                        "/test111/**",
                         "/**/getWordTest",
                         "/**/getExcelTest",
                         "/**/uploadFileTest",
