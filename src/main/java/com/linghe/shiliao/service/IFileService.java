@@ -1,5 +1,6 @@
 package com.linghe.shiliao.service;
 
+import com.linghe.shiliao.common.R;
 import com.linghe.shiliao.entity.OssFile;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,6 +16,6 @@ public interface IFileService {
      * @return 访问地址
      * @throws Exception
      */
-    OssFile uploadFile(MultipartFile file, OssFile ossFile) throws Exception;
+    R<OssFile> uploadFile(MultipartFile file, OssFile ossFile) throws Exception;
 
 }

@@ -1,5 +1,6 @@
 package com.linghe.shiliao.service.impl;
 
+import com.linghe.shiliao.common.R;
 import com.linghe.shiliao.config.MinioConfig;
 import com.linghe.shiliao.entity.OssFile;
 import com.linghe.shiliao.service.IFileService;
@@ -29,7 +30,7 @@ public class MinioFileServiceImpl implements IFileService {
      * @return 访问地址
      */
     @Override
-    public OssFile uploadFile(MultipartFile file, OssFile ossFile) throws Exception {
+    public R<OssFile> uploadFile(MultipartFile file, OssFile ossFile) throws Exception {
         String objectName = FileUploadUtils.extractFilename(file);
         String bucketName = minioConfig.getBucketName();
         String url = MinioClientUtils.putObject(bucketName, objectName, file);
@@ -37,7 +38,7 @@ public class MinioFileServiceImpl implements IFileService {
         valueFile.setUrl(url);
         valueFile.setFileKey(objectName);
         valueFile.setFileDir(bucketName);
-        return valueFile;
+        return R.success(valueFile);
     }
 
 

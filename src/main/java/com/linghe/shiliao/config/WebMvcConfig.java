@@ -53,11 +53,15 @@ class WebMvcConfig implements WebMvcConfigurer {
                         "/**/login",
                         "/**/register",
                         "/file/**",
-                        "/test111/**",
                         "/**/getEmailCode",
                         "/**/getCode",
                         "/**/getLoginStatus",
                         "/**/getPhoneCode",
+
+                        //测试接口
+                        "/**/getWordTest",
+                        "/**/getExcelTest",
+                        "/**/uploadFileTest",
 
                         //放过swagger,酌情打开或注释
                         "/swagger-ui/**",
