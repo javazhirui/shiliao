@@ -1,6 +1,7 @@
 package com.linghe.shiliao.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.linghe.shiliao.common.R;
 import com.linghe.shiliao.entity.UserMessage;
 import com.linghe.shiliao.mapper.UserMessageMapper;
 import com.linghe.shiliao.utils.WordUtil;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -69,5 +71,11 @@ public class TestController {
         WordUtil wordUtil = new WordUtil();
         wordUtil.createWord(dataMap, "用户信息模板.xml", fileName);
         return "测试";
+    }
+
+    @ApiOperation("minIO上传文件测试")
+    public R<String> minIO(MultipartFile file) {
+
+        return null;
     }
 }

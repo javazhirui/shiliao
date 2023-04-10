@@ -115,6 +115,7 @@ public class CasesController {
         return casesService.getByUserId(request);
     }
 
+
     @ApiOperation("根据病例id删除(隐藏)病历信息")
     @PostMapping("/delCasesById")
     public R<String> delCasesById(@RequestBody Cases casesDto) {

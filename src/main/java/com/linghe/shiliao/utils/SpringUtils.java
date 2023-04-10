@@ -1,5 +1,6 @@
 package com.linghe.shiliao.utils;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.beans.BeansException;
@@ -139,7 +140,7 @@ public final class SpringUtils implements BeanFactoryPostProcessor, ApplicationC
     public static String getActiveProfile()
     {
         final String[] activeProfiles = getActiveProfiles();
-        return StringUtils.isNotEmpty(activeProfiles) ? activeProfiles[0] : null;
+        return ObjectUtils.isNotEmpty(activeProfiles) && activeProfiles.length != 0 ? activeProfiles[0] : null;
     }
 }
 

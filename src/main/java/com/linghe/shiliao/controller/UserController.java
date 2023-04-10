@@ -79,14 +79,14 @@ public class UserController {
      *
      * @param uuid //前端页面返回唯一的uuId
      * @return //返回验证码输出字节流
-     * @throws IOException
+     * @throws IOException //操作文件io错误
      */
 //    @RuleAop(ruleNames = {"zilongcs"})
     @ApiOperation("获取图片验证码")
     @GetMapping("/getCode")
     public R<String> getCode(String uuid) throws IOException {
-//        return userService.getCode(uuid);
-        return userService.getCode1(uuid); //测试minio
+        return userService.getCode(uuid);
+//        return userService.getCode1(uuid); //测试minio
     }
 
     /**
