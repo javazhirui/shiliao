@@ -74,8 +74,10 @@ public class TestController {
 
     @Autowired
     private MinioUtils minioUtils;
-    @Value("${minio.endpoint}")
-    private String address;
+
+    @Value("${minio.clientView}")
+    private String clientView;
+
     @Value("${minio.bucketName}")
     private String bucketName;
 
@@ -84,6 +86,6 @@ public class TestController {
     @PostMapping("/uploadFileTest")
     public R<String> uploadFile(MultipartFile file) {
         List<String> upload = minioUtils.upload(new MultipartFile[]{file});
-        return R.success(address + "/" + bucketName + "/" + upload.get(0));
+        return R.success(clientView + "/" + bucketName + "/" + upload.get(0));
     }
 }
