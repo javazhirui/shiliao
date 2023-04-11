@@ -111,7 +111,7 @@ public class TestController {
      * @param fileName 文件名
      * @param response 返回文件下载信息
      */
-    @GetMapping("/download")
+    @GetMapping("/downloadFileTest")
     public void download(@RequestParam("fileName") String fileName, HttpServletResponse response) {
         try {
             InputStream fileInputStream = minIoUtils2.getObject(bucketName, fileName);
