@@ -55,6 +55,7 @@ class WebMvcConfig implements WebMvcConfigurer {
                         "/file/**",
                         "/**/getEmailCode",
                         "/**/getCode",
+                        "/**/getCode64",
                         "/**/getLoginStatus",
                         "/**/getPhoneCode",
 

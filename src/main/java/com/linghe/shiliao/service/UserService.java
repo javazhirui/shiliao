@@ -6,6 +6,7 @@ import com.linghe.shiliao.entity.dto.LoginDto;
 import com.linghe.shiliao.entity.dto.UserMessageDto;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public interface UserService {
@@ -43,4 +44,6 @@ public interface UserService {
     R<String> forgetPassword(UserMessageDto userMessageDto);
 
     R<String> getCode1(String uuid) throws IOException;
+
+    R<String> getCode64(String uuid) throws IOException;
 }

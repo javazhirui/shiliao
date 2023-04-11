@@ -82,11 +82,17 @@ public class UserController {
      * @throws IOException //操作文件io错误
      */
 //    @RuleAop(ruleNames = {"zilongcs"})
-    @ApiOperation("获取图片验证码")
+    @ApiOperation("获取图片验证码,图片存本地")
     @GetMapping("/getCode")
     public R<String> getCode(String uuid) throws IOException {
         return userService.getCode(uuid);
 //        return userService.getCode1(uuid); //测试minio
+    }
+
+    @ApiOperation("获取图片验证码,回传图片流base64")
+    @GetMapping("/getCode64")
+    public R<String> getCode64(String uuid) throws IOException {
+        return userService.getCode64(uuid);
     }
 
     /**
