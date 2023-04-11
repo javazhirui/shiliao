@@ -167,11 +167,11 @@ public class CasesController {
     /**
      * 食用疗程影像上传
      *
-     * @param file
-     * @return
+     * @param file 用户上传文件
+     * @return 返回访问路径
      */
     @ApiOperation("用户文件通用上传接口")
-    @PostMapping("/getCaseUrl")
+    @PostMapping("/uploadUserFile")
     public R<String> uploadUserFile(@RequestParam(value = "userFile", required = false) MultipartFile file, UserMessageDto userMessageDto) {
         List<String> upload = minioUtils1.upload(new MultipartFile[]{file}, userMessageDto);
         String fileUrl = address + "/" + bucketName + "/" + upload.get(0);
