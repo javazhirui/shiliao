@@ -5,25 +5,19 @@ import com.linghe.shiliao.common.R;
 import com.linghe.shiliao.entity.UserMessage;
 import com.linghe.shiliao.entity.dto.LoginDto;
 import com.linghe.shiliao.entity.dto.UserMessageDto;
-import com.linghe.shiliao.mapper.CodesMapper;
 import com.linghe.shiliao.mapper.UserMessageMapper;
 import com.linghe.shiliao.service.UserService;
-import com.linghe.shiliao.utils.JwtUtils;
-import com.linghe.shiliao.utils.Md5Utils;
-import com.linghe.shiliao.utils.RedisCache;
-import com.linghe.shiliao.utils.VerifyCodeUtils;
+import com.linghe.shiliao.utils.*;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.FastByteArrayOutputStream;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -32,12 +26,10 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserMessageMapper userMessageMapper;
 
-    @Autowired
-    private CodesMapper codesMapper;
-
     //操作Redis工具类
     @Autowired
     private RedisCache redisCache;
+
 
     //验证码生成路径
     @Value("${shiliaoFilePath.codeImgPath}")
@@ -255,4 +247,69 @@ public class UserServiceImpl implements UserService {
 
         return R.success("密码修改成功");
     }
+
+    @Override
+    public R<String> getCode1(String uuid) throws IOException {
+        if (StringUtils.isBlank(uuid)) {
+            return R.error("页面uuid不可为空");
+        }
+        long thisTime = System.currentTimeMillis();
+        Long getTime = redisCache.getCacheObject(uuid + "time");
+        if (!ObjectUtils.isEmpty(getTime)) {
+            if (thisTime - getTime < 1000) {
+                return R.error("验证码获取太过频繁");
+            }
+        }
+
+        String code = VerifyCodeUtils.generateVerifyCode(6);
+        String codeRedis = Md5Utils.hash(code);
+        //code缓存到Redis
+        Long l = System.currentTimeMillis();
+        redisCache.setCacheObject(uuid + "time", l, Integer.parseInt(codeTime), TimeUnit.SECONDS);
+        redisCache.setCacheObject(uuid, codeRedis, Integer.parseInt(codeTime), TimeUnit.SECONDS);
+
+
+        String CodeImgPath = codeImgPath + uuid + ".jpg";
+        File file = new File(CodeImgPath);
+        if (!file.getParentFile().exists()) { // 此时文件有父目录
+            file.getParentFile().mkdirs(); // 创建父目录
+        }
+        //构造输出流
+        OutputStream os = new FileOutputStream(file);
+        //生成验证码图片  参数(验证码长,高,字节输出流,验证码)
+        VerifyCodeUtils.outputImage(600, 150, os, code);
+        os.close();
+
+        return R.success("验证码已生成");
+    }
+
+    @Override
+    public R<String> getCode64(String uuid) throws IOException {
+        if (StringUtils.isBlank(uuid)) {
+            return R.error("页面uuid不可为空");
+        }
+        long thisTime = System.currentTimeMillis();
+        Long getTime = redisCache.getCacheObject(uuid + "time");
+        if (!ObjectUtils.isEmpty(getTime)) {
+            if (thisTime - getTime < 1000) {
+                return R.error("验证码获取太过频繁");
+            }
+        }
+
+        String code = VerifyCodeUtils.generateVerifyCode(6);
+        String codeRedis = Md5Utils.hash(code);
+        //code缓存到Redis
+        Long l = System.currentTimeMillis();
+        redisCache.setCacheObject(uuid + "time", l, Integer.parseInt(codeTime), TimeUnit.SECONDS);
+        redisCache.setCacheObject(uuid, codeRedis, Integer.parseInt(codeTime), TimeUnit.SECONDS);
+
+        //构造输出流
+        FastByteArrayOutputStream os = new FastByteArrayOutputStream();
+        //生成验证码图片  参数(验证码长,高,字节输出流,验证码)
+        VerifyCodeUtils.outputImage(600, 150, os, code);
+
+        return R.success("验证码在map里").add("img", Base64.encode(os.toByteArray()));
+    }
+
+
 }

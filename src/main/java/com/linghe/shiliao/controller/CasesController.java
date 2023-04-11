@@ -6,13 +6,20 @@ import com.linghe.shiliao.entity.Cases;
 import com.linghe.shiliao.entity.dto.CasesDto;
 import com.linghe.shiliao.entity.dto.UserMessageDto;
 import com.linghe.shiliao.service.CasesService;
+import com.linghe.shiliao.utils.MinIoUtils1;
+import com.linghe.shiliao.utils.MinIoUtils2;
 import com.linghe.shiliao.utils.Page;
+import io.minio.MinioClient;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.compress.utils.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -30,6 +37,24 @@ public class CasesController {
 
     @Autowired
     private CasesService casesService;
+
+    @Autowired
+    private MinIoUtils1 minioUtils1;
+
+    @Autowired
+    private MinIoUtils2 minIoUtils2;
+
+    @Autowired
+    private MinioClient minioClient;
+
+    @Value("${minio.endpoint}")
+    private String address;
+
+    @Value("${minio.bucketName}")
+    private String bucketName;
+
+    @Value("${shangChuanYuLanTime}")
+    private String shangChuanYuLanTime;
 
     /**
      * @param userMessageDto
@@ -115,6 +140,7 @@ public class CasesController {
         return casesService.getByUserId(request);
     }
 
+
     @ApiOperation("根据病例id删除(隐藏)病历信息")
     @PostMapping("/delCasesById")
     public R<String> delCasesById(@RequestBody Cases casesDto) {
@@ -123,6 +149,7 @@ public class CasesController {
 
     /**
      * 食用疗程影像上传
+     *
      * @param file
      * @return
      */
@@ -146,16 +173,37 @@ public class CasesController {
     }
 
     /**
-     * 通过客户登录id查询该客户所有的病例信息
-     * @param userMessageDto
-     * @return
+     * 用户文件通用上传
+     *
+     * @param file 用户上传文件
+     * @return 返回访问路径
      */
-    @ApiOperation("客户登录查询病例信息")
-    @PostMapping("/getCasesList")
-    public R<List<Cases>> getCasesList(@RequestBody UserMessageDto userMessageDto){
-        return casesService.getCaseList(userMessageDto.getUserId());
+    @ApiOperation("用户文件通用上传接口")
+    @PostMapping("/uploadUserFile")
+    public R<String> uploadUserFile(@RequestParam MultipartFile file, UserMessageDto userMessageDto) {
+        List<String> upload = minioUtils1.upload(new MultipartFile[]{file}, userMessageDto);
+        String fileUrl = upload.get(0);
+        return R.success(fileUrl);
     }
 
+    /**
+     * 文件下载
+     *
+     * @param fileName 文件名
+     * @param response 返回文件下载信息
+     */
+    @GetMapping("/download")
+    public void download(@RequestParam String fileName, HttpServletResponse response) {
+        try {
+            InputStream fileInputStream = minIoUtils2.getObject(bucketName, fileName);
+            response.setHeader("Content-Disposition", "attachment;filename=" + fileName);
+            response.setContentType("application/force-download");
+            response.setCharacterEncoding("UTF-8");
+            IOUtils.copy(fileInputStream, response.getOutputStream());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }
 
