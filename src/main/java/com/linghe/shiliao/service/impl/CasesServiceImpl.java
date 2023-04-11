@@ -73,6 +73,9 @@ public class CasesServiceImpl extends ServiceImpl<CasesMapper, Cases> implements
     @Override
     public Page<CasesDto> getCaseList(Integer status, String phone, String name, String health, Integer currentPage,
                                       Integer pageSize) {
+        if (null == status) {
+            status = 0;
+        }
         Integer startSize = null;
         if (null != currentPage && null != pageSize) {
             startSize = (currentPage - 1) * pageSize;

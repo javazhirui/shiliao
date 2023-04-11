@@ -6,9 +6,11 @@ import com.linghe.shiliao.entity.Cases;
 import com.linghe.shiliao.entity.dto.CasesDto;
 import com.linghe.shiliao.entity.dto.UserMessageDto;
 import com.linghe.shiliao.service.CasesService;
+import com.linghe.shiliao.utils.MinIoUtils1;
 import com.linghe.shiliao.utils.Page;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -30,6 +32,21 @@ public class CasesController {
 
     @Autowired
     private CasesService casesService;
+
+    @Autowired
+    private MinIoUtils1 minioUtils1;
+
+    @Value("${minio.endpoint}")
+    private String address;
+
+    @Value("${minio.bucketName}")
+    private String bucketName;
+
+    @Value("${shiliaoFilePath.casesMessageExcelPath}")
+    private String casesMessageExcel;
+
+    @Value("${shiliaoFilePath.casesMessageWordPath}")
+    private String casesMessageWord;
 
     /**
      * @param userMessageDto
@@ -145,6 +162,20 @@ public class CasesController {
     @PostMapping("/getCaseUrlImg")
     public R<String> getCaseUrlImg(@RequestParam(value = "casesUrlImgFile", required = false) MultipartFile file, UserMessageDto userMessageDto) {
         return casesService.uploadFile(file, userMessageDto);
+    }
+
+    /**
+     * 食用疗程影像上传
+     *
+     * @param file
+     * @return
+     */
+    @ApiOperation("用户文件通用上传接口")
+    @PostMapping("/getCaseUrl")
+    public R<String> uploadUserFile(@RequestParam(value = "userFile", required = false) MultipartFile file, UserMessageDto userMessageDto) {
+        List<String> upload = minioUtils1.upload(new MultipartFile[]{file}, userMessageDto);
+        String fileUrl = address + "/" + bucketName + "/" + upload.get(0);
+        return R.success(fileUrl);
     }
 
 

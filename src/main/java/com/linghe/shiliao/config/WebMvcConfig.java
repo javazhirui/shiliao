@@ -63,6 +63,7 @@ class WebMvcConfig implements WebMvcConfigurer {
                         "/**/getWordTest",
                         "/**/getExcelTest",
                         "/**/uploadFileTest",
+                        "/**/downloadFile",
 
                         //放过swagger,酌情打开或注释
                         "/swagger-ui/**",

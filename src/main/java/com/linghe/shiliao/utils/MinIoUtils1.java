@@ -1,6 +1,8 @@
 package com.linghe.shiliao.utils;
 
+import com.linghe.shiliao.common.CustomException;
 import com.linghe.shiliao.entity.ObjectItem;
+import com.linghe.shiliao.entity.dto.UserMessageDto;
 import io.minio.*;
 import io.minio.messages.DeleteError;
 import io.minio.messages.DeleteObject;
@@ -30,7 +32,7 @@ import java.util.stream.Collectors;
  * @version：1.0
  */
 @Component
-public class MinioUtils {
+public class MinIoUtils1 {
     @Autowired
     private MinioClient minioClient;
 
@@ -95,15 +97,19 @@ public class MinioUtils {
      * @param multipartFile
      * @return: java.lang.String
      */
-    public List<String> upload(MultipartFile[] multipartFile) {
+    public List<String> upload(MultipartFile[] multipartFile, UserMessageDto userMessageDto) {
         List<String> names = new ArrayList<>(multipartFile.length);
+        String name = userMessageDto.getName();
+        if (null == userMessageDto.getName()) {
+            name = "其他";
+        }
         for (MultipartFile file : multipartFile) {
             String fileName = file.getOriginalFilename();
             String[] split = fileName.split("\\.");
             if (split.length > 1) {
-                fileName = split[0] + "_" + System.currentTimeMillis() + "." + split[1];
+                fileName = name + "/" + file.getContentType() + "/" + split[0] + "_" + System.currentTimeMillis() + "." + split[1];
             } else {
-                fileName = fileName + System.currentTimeMillis();
+                fileName = name + "/" + file.getContentType() + "/" + fileName + System.currentTimeMillis();
             }
             InputStream in = null;
             try {
@@ -117,6 +123,7 @@ public class MinioUtils {
                 );
             } catch (Exception e) {
                 e.printStackTrace();
+                throw new CustomException(e.getMessage());
             } finally {
                 if (in != null) {
                     try {
