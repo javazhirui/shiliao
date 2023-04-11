@@ -107,6 +107,7 @@ freemarker:
     template-loader-path: classpath:/templates/
 
 
+shangChuanYuLanTime: 60
 
 shiliaoFilePath:
   #验证码地址

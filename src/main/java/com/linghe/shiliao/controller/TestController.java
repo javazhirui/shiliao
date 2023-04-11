@@ -5,7 +5,6 @@ import com.linghe.shiliao.common.R;
 import com.linghe.shiliao.entity.UserMessage;
 import com.linghe.shiliao.entity.dto.UserMessageDto;
 import com.linghe.shiliao.mapper.UserMessageMapper;
-import com.linghe.shiliao.utils.JwtUtils;
 import com.linghe.shiliao.utils.MinIoUtils1;
 import com.linghe.shiliao.utils.MinIoUtils2;
 import com.linghe.shiliao.utils.WordUtil;
@@ -14,11 +13,9 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.commons.compress.utils.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -91,7 +88,8 @@ public class TestController {
 
     /**
      * 文件上传测试
-//     * @param request 获取id存储对应备用
+     * //     * @param request 获取id存储对应备用
+     *
      * @param file 上传文件
      * @return 返回文件路径
      */
