@@ -312,6 +312,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public R<String> getCode64(String uuid) throws IOException {
+        log.info("测试进入");
         if (StringUtils.isBlank(uuid)) {
             return R.error("页面uuid不可为空");
         }

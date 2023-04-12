@@ -15,6 +15,10 @@ import springfox.documentation.oas.annotations.EnableOpenApi;
 public class ShiliaoApplication {
 
     public static void main(String[] args) {
+        String a = "";
+        for (int i = 0; i < 10000000; i++) {
+            a += "i";
+        }
         SpringApplication.run(ShiliaoApplication.class, args);
     }
 
