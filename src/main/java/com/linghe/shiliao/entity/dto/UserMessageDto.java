@@ -18,6 +18,9 @@ public class UserMessageDto extends UserMessage implements Serializable {
     //邮箱验证码
     private String emailCode;
 
+    //手机验证码--备用
+    private String phoneCode;
+
     //年龄范围
     private Integer minAge;
     private Integer maxAge;

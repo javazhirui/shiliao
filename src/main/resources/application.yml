@@ -134,6 +134,8 @@ shiliaoRedisTime:
   #邮箱验证码有效时长(秒)
   emailCodeTime: 3000
 
+  phoneCodeTime: 3000
+
 
 #jwt过期时间(秒)
 jwtDeadTime: 300000
