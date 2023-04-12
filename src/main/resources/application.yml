@@ -27,7 +27,7 @@ spring:
 
     password: root
     # 虚拟机密码
-#    password: zhemima666
+    #    password: zhemima666
     # 连接超时时间
     timeout: 10s
     lettuce:
@@ -112,16 +112,16 @@ shangChuanYuLanTime: 60
 shiliaoFilePath:
   #验证码地址
   codeImgPath: D:/ShiLiao/CodeImg/
-#  codeImgPath: /usr/local/app/shiliao/CodeImg/
+  #  codeImgPath: /usr/local/app/shiliao/CodeImg/
   #用户信息导出地址
   userMessageExcelPath: D:/ShiLiao/userMessageExcel/
-#  userMessageExcelPath: /usr/local/app/shiliao/userMessageExcel/
+  #  userMessageExcelPath: /usr/local/app/shiliao/userMessageExcel/
   #病历信息excel导出地址
   casesMessageExcelPath: D:/ShiLiao/casesMessageExcel/
-#  casesMessageExcelPath: /usr/local/app/shiliao/casesMessageExcel/
+  #  casesMessageExcelPath: /usr/local/app/shiliao/casesMessageExcel/
   #病历信息word导出地址
   casesMessageWordPath: D:/ShiLiao/casesMessageWord/
-#  casesMessageWordPath: /usr/local/app/shiliao/casesMessageWord/
+  #  casesMessageWordPath: /usr/local/app/shiliao/casesMessageWord/
   #食用疗程影像及诊断图片上传地址
   casesUrlPath: D:/ShiLiao/casesVideo_casesImg/
 #  casesUrlPath: /usr/local/app/shiliao/casesVideo_casesImg/

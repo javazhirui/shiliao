@@ -1,5 +1,5 @@
 package com.linghe.shiliao.utils;
- 
+
 import io.minio.*;
 import io.minio.http.Method;
 import io.minio.messages.Bucket;
@@ -8,32 +8,30 @@ import io.minio.messages.Item;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import sun.misc.BASE64Decoder;
- 
+
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.*;
- 
+
 /**
  * MinIO工具类
- *
  */
 @Slf4j
 @Component
 @RequiredArgsConstructor
 public class MinIoUtils2 {
- 
+
     private final MinioClient minioClient;
 
- 
+
     /******************************  Operate Bucket Start  ******************************/
- 
+
     /**
      * 启动SpringBoot容器的时候初始化Bucket
      * 如果没有Bucket则创建
@@ -46,7 +44,7 @@ public class MinIoUtils2 {
             minioClient.makeBucket(MakeBucketArgs.builder().bucket(bucketName).build());
         }
     }
- 
+
     /**
      * 判断Bucket是否存在，true：存在，false：不存在
      *
@@ -57,7 +55,7 @@ public class MinIoUtils2 {
     public boolean bucketExists(String bucketName) {
         return minioClient.bucketExists(BucketExistsArgs.builder().bucket(bucketName).build());
     }
- 
+
     /**
      * 获得Bucket的策略
      *
@@ -71,7 +69,7 @@ public class MinIoUtils2 {
                 .bucket(bucketName)
                 .build());
     }
- 
+
     /**
      * 获得所有Bucket列表
      *
@@ -81,7 +79,7 @@ public class MinIoUtils2 {
     public List<Bucket> getAllBuckets() {
         return minioClient.listBuckets();
     }
- 
+
     /**
      * 根据bucketName获取其相关信息
      *
@@ -92,7 +90,7 @@ public class MinIoUtils2 {
     public Optional<Bucket> getBucket(String bucketName) {
         return getAllBuckets().stream().filter(b -> b.name().equals(bucketName)).findFirst();
     }
- 
+
     /**
      * 根据bucketName删除Bucket，true：删除成功； false：删除失败，文件或已不存在
      *
@@ -103,12 +101,12 @@ public class MinIoUtils2 {
     public void removeBucket(String bucketName) {
         minioClient.removeBucket(RemoveBucketArgs.builder().bucket(bucketName).build());
     }
- 
+
     /******************************  Operate Bucket End  ******************************/
- 
- 
+
+
     /******************************  Operate Files Start  ******************************/
- 
+
     /**
      * 判断文件是否存在
      *
@@ -126,7 +124,7 @@ public class MinIoUtils2 {
         }
         return exist;
     }
- 
+
     /**
      * 判断文件夹是否存在
      *
@@ -151,7 +149,7 @@ public class MinIoUtils2 {
         }
         return exist;
     }
- 
+
     /**
      * 根据文件前置查询文件
      *
@@ -175,7 +173,7 @@ public class MinIoUtils2 {
         }
         return list;
     }
- 
+
     /**
      * 获取文件流
      *
@@ -191,7 +189,7 @@ public class MinIoUtils2 {
                         .object(objectName)
                         .build());
     }
- 
+
     /**
      * 断点下载
      *
@@ -211,7 +209,7 @@ public class MinIoUtils2 {
                         .length(length)
                         .build());
     }
- 
+
     /**
      * 获取路径下文件列表
      *
@@ -228,7 +226,7 @@ public class MinIoUtils2 {
                         .recursive(recursive)
                         .build());
     }
- 
+
     /**
      * 使用MultipartFile进行文件上传
      *
@@ -249,9 +247,10 @@ public class MinIoUtils2 {
                         .stream(inputStream, inputStream.available(), -1)
                         .build());
     }
- 
+
     /**
      * 图片上传
+     *
      * @param bucketName
      * @param imageBase64
      * @param imageName
@@ -264,11 +263,11 @@ public class MinIoUtils2 {
             String year = String.valueOf(new Date().getYear());
             String month = String.valueOf(new Date().getMonth());
             return uploadFile(bucketName, year + "/" + month + "/" + newName, in);
- 
+
         }
         return null;
     }
- 
+
     public static InputStream base64ToInputStream(String base64) {
         ByteArrayInputStream stream = null;
         try {
@@ -279,8 +278,8 @@ public class MinIoUtils2 {
         }
         return stream;
     }
- 
- 
+
+
     /**
      * 上传本地文件
      *
@@ -298,7 +297,7 @@ public class MinIoUtils2 {
                         .filename(fileName)
                         .build());
     }
- 
+
     /**
      * 通过流上传文件
      *
@@ -316,7 +315,7 @@ public class MinIoUtils2 {
                         .stream(inputStream, inputStream.available(), -1)
                         .build());
     }
- 
+
     /**
      * 创建文件夹或目录
      *
@@ -333,7 +332,7 @@ public class MinIoUtils2 {
                         .stream(new ByteArrayInputStream(new byte[]{}), 0, -1)
                         .build());
     }
- 
+
     /**
      * 获取文件信息, 如果抛出异常则说明文件不存在
      *
@@ -349,7 +348,7 @@ public class MinIoUtils2 {
                         .object(objectName)
                         .build()).toString();
     }
- 
+
     /**
      * 拷贝文件
      *
@@ -367,7 +366,7 @@ public class MinIoUtils2 {
                         .object(srcObjectName)
                         .build());
     }
- 
+
     /**
      * 删除文件
      *
@@ -382,7 +381,7 @@ public class MinIoUtils2 {
                         .object(objectName)
                         .build());
     }
- 
+
     /**
      * 批量删除文件
      *
@@ -401,7 +400,7 @@ public class MinIoUtils2 {
             }
         });
     }
- 
+
     /**
      * 获取文件外链
      *
@@ -415,7 +414,7 @@ public class MinIoUtils2 {
         GetPresignedObjectUrlArgs args = GetPresignedObjectUrlArgs.builder().expiry(expires).bucket(bucketName).object(objectName).build();
         return minioClient.getPresignedObjectUrl(args);
     }
- 
+
     /**
      * 获得文件外链
      *
@@ -431,7 +430,7 @@ public class MinIoUtils2 {
                 .method(Method.GET).build();
         return minioClient.getPresignedObjectUrl(args);
     }
- 
+
     /**
      * 将URLDecoder编码转成UTF8
      *
