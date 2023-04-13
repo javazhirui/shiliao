@@ -46,9 +46,10 @@ class ShiliaoApplicationTests {
         lqw.select(
                 UserMessage.class, columns -> !columns.getColumn().equals("password")
                         && !columns.getColumn().equals("user_name")
+//                        && !columns.getColumn().equals("name")
                         && !columns.getColumn().equals("rule_id")
 //                      经测试,查询过滤不掉id属性
-//                      && !columns.getColumn().equals("user_id")
+                        && !columns.getColumn().equals("user_id")
         );
         log.info(userMessageService.list(lqw).toString());
     }
@@ -56,7 +57,8 @@ class ShiliaoApplicationTests {
     @Test
     void test002() {
         LambdaQueryWrapper<UserMessage> lqw = new LambdaQueryWrapper<>();
-        lqw.select(UserMessage::getName);
+        lqw.select(UserMessage::getName, UserMessage::getUserName);
+        lqw.orderByDesc(UserMessage::getName);
         log.info(userMessageService.list(lqw).toString());
     }
 }

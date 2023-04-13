@@ -17,7 +17,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.FastByteArrayOutputStream;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -38,6 +41,9 @@ public class UserServiceImpl implements UserService {
     //图片验证码有效时长(秒)
     @Value("${shiliaoRedisTime.codeTime}")
     private String codeTime;
+
+    @Value("${shiliaoRedisTime.phoneCodeTime}")
+    private String phoneCodeTime;
 
     @Value("${jwtDeadTime}")
     private String jwtDeadTime;
@@ -144,6 +150,11 @@ public class UserServiceImpl implements UserService {
         if (userMessageDto.getEmail().isEmpty()) {
             return R.error("邮箱为空");
         }
+
+        if (StringUtils.isBlank(userMessageDto.getCode())) {
+            return R.error("验证码为空,请检查");
+        }
+
         //查询构造器
         LambdaQueryWrapper<UserMessage> lqw = new LambdaQueryWrapper<>();
         //查询email
@@ -157,10 +168,13 @@ public class UserServiceImpl implements UserService {
         lqw1.eq(UserMessage::getUserName, userMessageDto.getUserName());
         UserMessage userMessage1 = userMessageMapper.selectOne(lqw1);
         if (!ObjectUtils.isEmpty(userMessage1)) {
-            return R.error("账号已存在");
+            return R.error("用户名(邮箱)已存在");
         }
-        if (StringUtils.isBlank(userMessageDto.getCode())) {
-            return R.error("验证码为空,请检查");
+        LambdaQueryWrapper<UserMessage> lqw2 = new LambdaQueryWrapper<>();
+        lqw2.eq(UserMessage::getPhone, userMessageDto.getUserName());
+        UserMessage userMessage2 = userMessageMapper.selectOne(lqw2);
+        if (!ObjectUtils.isEmpty(userMessage2)) {
+            return R.error("用户名(手机号)已存在");
         }
         //根据页面唯一uuId获取缓存code(md5加密后)
         String codeRedis = redisCache.getCacheObject(userMessageDto.getUuid());
@@ -170,17 +184,27 @@ public class UserServiceImpl implements UserService {
         if (!StringUtils.equals(code, codeRedis)) {
             return R.error("验证码输入有误,请重新输入");
         }
-        if (userMessageDto.getEmailCode().isEmpty()) {
+
+        //开启手机验证码功能
+/*        String phoneCode = userMessageDto.getPhoneCode();
+        if (phoneCode.isEmpty()) {
+            return R.error("手机验证码为空,请检查");
+        }
+        phoneCode = Md5Utils.hash(phoneCode);
+        String phoneCodeRedis = redisCache.getCacheObject(userMessageDto.getPhoneCode() + "_" + userMessageDto.getUuid());
+        if (!StringUtils.equals(phoneCode,phoneCodeRedis)) {
+            return R.error("手机验证码输入有误");
+        }*/
+
+
+        String emailCode = userMessageDto.getEmailCode();
+        if (emailCode.isEmpty()) {
             return R.error("邮箱验证码为空,请检查");
         }
-        String emailCode = userMessageDto.getEmailCode();
-
         emailCode = Md5Utils.hash(emailCode);
         //获取缓存的邮箱验证码(md5加密后的)
-
         String emailCodeRedis = redisCache.getCacheObject(userMessageDto.getEmail() + "_" + userMessageDto.getUuid());
-
-        if (!StringUtils.equals(emailCode, emailCodeRedis)) {
+        if (!StringUtils.equals(Md5Utils.hash(emailCode), emailCodeRedis)) {
             return R.error("邮箱验证码输入有误");
         }
         if (userMessageDto.getPassword().isEmpty()) {
@@ -192,6 +216,7 @@ public class UserServiceImpl implements UserService {
         //将userMessageDto中数据拷贝到user
         BeanUtils.copyProperties(userMessageDto, user);
         userMessageMapper.insert(user);
+
         return R.success("注册成功");
     }
 
@@ -309,6 +334,20 @@ public class UserServiceImpl implements UserService {
         VerifyCodeUtils.outputImage(600, 150, os, code);
 
         return R.success("验证码在map里").add("img", Base64.encode(os.toByteArray()));
+    }
+
+    @Override
+    public R<String> getPhoneCode(String uuid, String phone) {
+        String s = VerifyCodeUtils.generateVerifyCode(6);
+        try {
+            SMSUtils.sendMessage("阿里云短信测试", "SMS_154950909", phone, s);
+        } catch (Exception e) {
+            log.info(e.getMessage());
+            R.error("获取验证码意外失败");
+        }
+        redisCache.setCacheObject(phone + "_" + uuid, Md5Utils.hash(s), Integer.parseInt(phoneCodeTime), TimeUnit.SECONDS);
+        redisCache.setCacheObject(phone + "_" + uuid + "time", System.currentTimeMillis(), Integer.parseInt(phoneCodeTime), TimeUnit.SECONDS);
+        return R.success("短信验证码发送成功");
     }
 
 

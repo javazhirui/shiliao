@@ -6,7 +6,6 @@ import com.linghe.shiliao.entity.dto.LoginDto;
 import com.linghe.shiliao.entity.dto.UserMessageDto;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public interface UserService {
@@ -45,5 +44,19 @@ public interface UserService {
 
     R<String> getCode1(String uuid) throws IOException;
 
+    /**
+     * 回传图片验证码图片流
+     * @param uuid
+     * @return
+     * @throws IOException
+     */
     R<String> getCode64(String uuid) throws IOException;
+
+    /**
+     * 发送手机验证码
+     * @param uuid
+     * @param phone
+     * @return
+     */
+    R<String> getPhoneCode(String uuid, String phone);
 }

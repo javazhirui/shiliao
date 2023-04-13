@@ -192,6 +192,7 @@ public class CasesServiceImpl extends ServiceImpl<CasesMapper, Cases> implements
             //根据userId查询对应病例,按时间降序
             LambdaQueryWrapper<Cases> lqw = new LambdaQueryWrapper<>();
             lqw.eq(Cases::getUserId, userMessage.getUserId());
+            lqw.orderByDesc(Cases::getUserId);
             lqw.orderByDesc(Cases::getCreateTime);
             List<Cases> cases = casesMapper.selectList(lqw);
             //将查询到的病例信息存入表格所属集合

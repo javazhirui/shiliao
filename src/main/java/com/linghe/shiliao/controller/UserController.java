@@ -10,7 +10,6 @@ import com.linghe.shiliao.service.UserMessageService;
 import com.linghe.shiliao.service.UserService;
 import com.linghe.shiliao.utils.JwtUtils;
 import com.linghe.shiliao.utils.RedisCache;
-import com.linghe.shiliao.utils.SMSUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +22,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -165,26 +163,14 @@ public class UserController {
     }
 
     /**
-     * 获取手机验证码
+     * 发送手机验证码
      *
      * @param phone
      * @return
      */
     @ApiOperation("获取手机验证码")
     @PostMapping("/getPhoneCode")
-    public R<String> getPhoneCode(String phone) {
-        Random random = new Random();
-        StringBuffer sb = new StringBuffer();
-        for (int j = 0; j < 6; j++) {
-            String s = String.valueOf(random.nextInt(9));
-            sb.append(s);
-        }
-        String s = String.valueOf(sb);
-        try {
-            SMSUtils.sendMessage("阿里云短信测试", "SMS_154950909", phone, s);
-        } catch (Exception e) {
-            R.error("获取验证码意外失败");
-        }
-        return R.success("短信验证码发送成功");
+    public R<String> getPhoneCode(String uuid, String phone) {
+        return userService.getPhoneCode(uuid, phone);
     }
 }

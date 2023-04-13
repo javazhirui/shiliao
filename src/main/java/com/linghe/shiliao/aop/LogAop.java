@@ -8,16 +8,12 @@ import java.lang.annotation.*;
 public @interface LogAop {
 
     /**
-     * 操作类型 增/删/改
-     *
-     * @return
+     * 操作类型 增/删/改/查/上传/下载
      */
     String logType();
 
     /**
      * 具体操作内容
-     *
-     * @return
      */
     String logMessage();
 
