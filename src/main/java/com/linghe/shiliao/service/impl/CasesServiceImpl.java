@@ -12,6 +12,7 @@ import com.linghe.shiliao.mapper.CasesMapper;
 import com.linghe.shiliao.mapper.UserMessageMapper;
 import com.linghe.shiliao.service.CasesService;
 import com.linghe.shiliao.task.LocalFileTask;
+import com.linghe.shiliao.text.FileSuffix;
 import com.linghe.shiliao.utils.JwtUtils;
 import com.linghe.shiliao.utils.Page;
 import com.linghe.shiliao.utils.WordUtil;
@@ -27,6 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * <p>

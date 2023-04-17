@@ -8,6 +8,7 @@ import com.linghe.shiliao.entity.dto.UserMessageDto;
 import com.linghe.shiliao.mapper.UserMessageMapper;
 import com.linghe.shiliao.service.UserService;
 import com.linghe.shiliao.utils.*;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -23,6 +24,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.concurrent.TimeUnit;
 
+@Slf4j
 @Service
 public class UserServiceImpl implements UserService {
 
