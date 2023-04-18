@@ -7,13 +7,16 @@ import com.linghe.shiliao.service.UserMessageService;
 import com.linghe.shiliao.utils.WordUtil;
 import com.xxl.tool.excel.ExcelTool;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.binary.Base64;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.crypto.KeyGenerator;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 @Slf4j
@@ -61,4 +64,7 @@ class ShiliaoApplicationTests {
         lqw.orderByDesc(UserMessage::getName);
         log.info(userMessageService.list(lqw).toString());
     }
+
+
+
 }
